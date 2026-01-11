@@ -1,0 +1,110 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ---------------------< com.sistemalp:facturacion >----------------------
+[INFO] Building facturacion 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.4.1:clean (default-clean) @ facturacion ---
+[INFO] Deleting C:\Prueba\facturacionHP\target
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ facturacion ---
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] Copying 0 resource from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.14.0:compile (default-compile) @ facturacion ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 67 source files with javac [debug parameters release 17] to target\classes
+[INFO] /C:/Prueba/facturacionHP/src/main/java/com/sistemalp/facturacion/Servicios/ClienteServicio.java: C:\Prueba\facturacionHP\src\main\java\com\sistemalp\facturacion\Servicios\ClienteServicio.java uses or overrides a deprecated API.
+[INFO] /C:/Prueba/facturacionHP/src/main/java/com/sistemalp/facturacion/Servicios/ClienteServicio.java: Recompile with -Xlint:deprecation for details.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ facturacion ---
+[INFO] skip non existing resourceDirectory C:\Prueba\facturacionHP\src\test\resources
+[INFO] 
+[INFO] --- compiler:3.14.0:testCompile (default-testCompile) @ facturacion ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 2 source files with javac [debug parameters release 17] to target\test-classes
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ facturacion ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running com.sistemalp.facturacion.xml.guia.GuiaRemisionTest
+XML GENERADO:
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<guiaRemision id="comprobante" version="1.0.0">
+    <infoTributaria>
+        <ambiente>1</ambiente>
+        <tipoEmision>1</tipoEmision>
+        <razonSocial>Distribuidora de Suministros Nacional S.A.</razonSocial>
+        <nombreComercial>Empresa Importadora y Exportadora de Piezas y Partes de Equipos de Oficina</nombreComercial>
+        <ruc>1792146739001</ruc>
+        <claveAcceso>2110201106179214673900100110020010000000011234567815</claveAcceso>
+        <codDoc>06</codDoc>
+        <estab>002</estab>
+        <ptoEmi>001</ptoEmi>
+        <secuencial>000000001</secuencial>
+        <dirMatriz>Enrique Guerrero Portilla OE1-34 AV. Galo Plaza Lasso</dirMatriz>
+    </infoTributaria>
+    <infoGuiaRemision>
+        <dirEstablecimiento>Sebastián Moreno S/N Francisco García</dirEstablecimiento>
+        <dirPartida>Av. Eloy Alfaro 34 y Av. Libertad Esq.</dirPartida>
+        <razonSocialTransportista>Transportes S.A.</razonSocialTransportista>
+        <tipoIdentificacionTransportista>04</tipoIdentificacionTransportista>
+        <rucTransportista>1796875790001</rucTransportista>
+        <rise>Contribuyente Regimen Simplificado RISE</rise>
+        <obligadoContabilidad>SI</obligadoContabilidad>
+        <contribuyenteEspecial>5368</contribuyenteEspecial>
+        <fechaIniTransporte>21/10/2011</fechaIniTransporte>
+        <fechaFinTransporte>22/10/2011</fechaFinTransporte>
+        <placa>MCL0827</placa>
+    </infoGuiaRemision>
+    <destinatarios>
+        <destinatario>
+            <identificacionDestinatario>1716849140001</identificacionDestinatario>
+            <razonSocialDestinatario>Alvarez Mina John Henry</razonSocialDestinatario>
+            <dirDestinatario>Av. Simón Bolívar S/N Intercambiador</dirDestinatario>
+            <motivoTraslado>Venta de Maquinaria de Impresión</motivoTraslado>
+            <docAduaneroUnico>0041324846887</docAduaneroUnico>
+            <codEstabDestino>001</codEstabDestino>
+            <ruta>Quito – Cayambe - Otavalo</ruta>
+            <codDocSustento>01</codDocSustento>
+            <numDocSustento>002-001-000000001</numDocSustento>
+            <numAutDocSustento>2110201116302517921467390011234567891</numAutDocSustento>
+            <fechaEmisionDocSustento>21/10/2011</fechaEmisionDocSustento>
+            <detalles>
+                <detalle>
+                    <codigoInterno>125BJC-01</codigoInterno>
+                    <codigoAdicional>1234D56789-A</codigoAdicional>
+                    <descripcion>CAMIONETA 4X4 DIESEL 3.7</descripcion>
+                    <cantidad>10.00</cantidad>
+                    <detallesAdicionales>
+                        <detAdicional nombre="Marca" valor="Chevrolet"/>
+                        <detAdicional nombre="Modelo" valor="2012"/>
+                        <detAdicional nombre="Chasis" valor="8LDETA03V20003289"/>
+                    </detallesAdicionales>
+                </detalle>
+            </detalles>
+        </destinatario>
+    </destinatarios>
+    <infoAdicional>
+        <campoAdicional nombre="TELEFONO">098568541</campoAdicional>
+        <campoAdicional nombre="E-MAIL">info@organizacion.com</campoAdicional>
+        <campoAdicional nombre="SUCURSAL 03">Guayaquil–12 de Octubre y Universo</campoAdicional>
+    </infoAdicional>
+</guiaRemision>
+
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.637 s -- in com.sistemalp.facturacion.xml.guia.GuiaRemisionTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  21.241 s
+[INFO] Finished at: 2025-11-30T16:09:12-05:00
+[INFO] ------------------------------------------------------------------------
