@@ -1,0 +1,157 @@
+<div class="container my-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold mb-1">Facturación</h2>
+            <p class="text-muted">Gestiona tus ventas y comprobantes</p>
+        </div>
+        <button class="btn btn-primary" (click)="toggleForm()">
+            <i class="bi" [ngClass]="mostrarFormulario ? 'bi-x-lg' : 'bi-plus-lg'"></i>
+            {{ mostrarFormulario ? 'Cancelar' : 'Nueva Factura' }}
+        </button>
+    </div>
+
+    <!-- FORMULARIO -->
+    <div *ngIf="mostrarFormulario" class="card shadow-sm mb-4 border-0">
+        <div class="card-header bg-white py-3">
+            <h5 class="mb-0 fw-bold text-primary">Nueva Factura</h5>
+        </div>
+        <div class="card-body">
+            <form [formGroup]="form" (ngSubmit)="guardar()">
+
+                <!-- CABECERA -->
+                <div class="row g-3 mb-4">
+                    <div class="col-md-6">
+                        <label class="form-label">Cliente</label>
+                        <select class="form-select" formControlName="clienteId">
+                            <option [ngValue]="null">Seleccione un cliente...</option>
+                            <option *ngFor="let c of clientes" [ngValue]="c.clienteId">
+                                {{ c.clienteNombre }}
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class="form-label">Secuencial</label>
+                        <input class="form-control" formControlName="secuencial">
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class="form-label">Fecha Emisión</label>
+                        <input type="date" class="form-control" formControlName="fechaEmision">
+                    </div>
+                </div>
+
+                <!-- DETALLES -->
+                <h6 class="border-bottom pb-2 mb-3">Detalles de la Factura</h6>
+                <div formArrayName="detalles">
+                    <div *ngFor="let d of detalles.controls; let i=index" [formGroupName]="i"
+                        class="row g-2 align-items-end mb-2">
+                        <div class="col-md-4">
+                            <label *ngIf="i===0" class="form-label small">Producto</label>
+                            <select class="form-select" formControlName="productoId">
+                                <option [ngValue]="null">Producto...</option>
+                                <option *ngFor="let p of productos" [ngValue]="p.productoId">
+                                    {{ p.productoNombre }}
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-2">
+                            <label *ngIf="i===0" class="form-label small">Cantidad</label>
+                            <input type="number" class="form-control" formControlName="cantidad">
+                        </div>
+
+                        <div class="col-md-2">
+                            <label *ngIf="i===0" class="form-label small">Precio Unit.</label>
+                            <input type="number" class="form-control bg-light" formControlName="precioUnitario"
+                                readonly>
+                        </div>
+
+                        <div class="col-md-2">
+                            <label *ngIf="i===0" class="form-label small">Subtotal</label>
+                            <input type="number" class="form-control bg-light" formControlName="subtotal" readonly>
+                        </div>
+
+                        <div class="col-md-2 text-end">
+                            <button type="button" class="btn btn-outline-danger" (click)="eliminarDetalle(i)">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="button" class="btn btn-sm btn-outline-secondary mt-2" (click)="agregarDetalle()">
+                    <i class="bi bi-plus"></i> Agregar Producto
+                </button>
+
+                <!-- PAGOS -->
+                <h6 class="border-bottom pb-2 mb-3 mt-4">Formas de Pago</h6>
+                <div formArrayName="pagos">
+                    <div *ngFor="let p of pagos.controls; let i=index" [formGroupName]="i" class="row g-2 mb-2">
+                        <div class="col-md-6">
+                            <select class="form-select" formControlName="formaPagoId">
+                                <option *ngFor="let fp of formasPago" [ngValue]="fp.id">
+                                    {{ fp.descripcion }}
+                                </option>
+                                <!-- Fallback if formasPago is empty or different structure, usually it has codigo/descripcion -->
+                                <option [ngValue]="1">SIN UTILIZACION DEL SISTEMA FINANCIERO</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-4 text-end">
+                    <button type="submit" class="btn btn-success btn-lg">
+                        <i class="bi bi-check-circle"></i> Emitir Factura
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    <!-- LISTADO HISTORICO -->
+    <div class="card border-0 shadow-sm">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="bg-light">
+                    <tr>
+                        <th class="ps-4">No. Factura</th>
+                        <th>Cliente</th>
+                        <th>Fecha</th>
+                        <th>Total</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let f of facturas">
+                        <td class="ps-4 fw-bold">{{ f.secuencial }}</td>
+                        <td>{{ f.cliente?.clienteNombre }}</td>
+                        <td>{{ f.fechaEmision | date:'shortDate' }}</td>
+                        <td class="fw-bold text-success">{{ f.totalFactura | currency:'USD' }}</td>
+                        <td>
+                            <span class="badge" [ngClass]="{
+                  'bg-success': f.estado === 3,
+                  'bg-warning': f.estado === 2,
+                  'bg-secondary': f.estado === 1
+                }">
+                                {{ f.estado === 1 ? 'Registrada' : (f.estado === 2 ? 'Enviada' : 'Autorizada') }}
+                            </span>
+                        </td>
+                        <td>
+                            <button class="btn btn-sm btn-outline-primary">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr *ngIf="facturas.length === 0">
+                        <td colspan="6" class="text-center py-4 text-muted">
+                            No hay facturas registradas.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

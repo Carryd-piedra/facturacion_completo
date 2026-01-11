@@ -1,0 +1,117 @@
+<div class="container my-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold mb-1">Clientes</h2>
+            <p class="text-muted">Administra tu base de clientes</p>
+        </div>
+        <button class="btn btn-primary shadow-sm" (click)="toggleForm()">
+            <i class="bi" [ngClass]="mostrarFormulario ? 'bi-x-lg' : 'bi-person-plus-fill'"></i>
+            {{ mostrarFormulario ? 'Cancelar' : 'Nuevo Cliente' }}
+        </button>
+    </div>
+
+    <!-- FORMULARIO -->
+    <div *ngIf="mostrarFormulario" class="card shadow-sm mb-4 border-0">
+        <div class="card-header bg-white py-3">
+            <h5 class="mb-0 fw-bold text-primary">Información del Cliente</h5>
+        </div>
+        <div class="card-body">
+            <form [formGroup]="form" (ngSubmit)="guardar()">
+                <div class="row g-3">
+
+                    <div class="col-md-6">
+                        <label class="form-label">Nombre *</label>
+                        <input class="form-control" formControlName="clienteNombre">
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Apellido *</label>
+                        <input class="form-control" formControlName="clienteAplellido">
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Tipo Documento *</label>
+                        <select class="form-select" formControlName="tipoDocumentoId">
+                            <option [ngValue]="null">Seleccione...</option>
+                            <option *ngFor="let td of tiposDocumento" [ngValue]="td.tipoDocumentoId">
+                                {{ td.tipoDocumentoNombre }}
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Número Documento *</label>
+                        <input class="form-control" formControlName="numeroDocumento">
+                    </div>
+
+                    <div class="col-12">
+                        <label class="form-label">Dirección</label>
+                        <input class="form-control" formControlName="clienteDirecion">
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Teléfono</label>
+                        <input class="form-control" formControlName="clienteTelefono" placeholder="10 dígitos">
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Correo Electrónico</label>
+                        <input type="email" class="form-control" formControlName="clienteMail">
+                    </div>
+
+                </div>
+
+                <div class="mt-4 text-end">
+                    <button type="submit" class="btn btn-success px-4 shadow-sm">
+                        <i class="bi bi-check-circle-fill me-2"></i>
+                        {{ editando ? 'Actualizar Cliente' : 'Guardar Cliente' }}
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    <!-- LISTADO -->
+    <div class="card border-0 shadow-sm">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="bg-light">
+                    <tr>
+                        <th class="ps-4">Nombre Completo</th>
+                        <th>Teléfono</th>
+                        <th>Correo</th>
+                        <th>Dirección</th>
+                        <th class="text-end pe-4">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let c of clientes">
+                        <td class="ps-4 fw-bold">{{ c.clienteNombre }} {{ c.clienteAplellido }}</td>
+                        <td>{{ c.clienteTelefono }}</td>
+                        <td>{{ c.clienteMail }}</td>
+                        <td><small>{{ c.clienteDirecion }}</small></td>
+                        <td class="text-end pe-4">
+                            <div class="d-flex gap-2 justify-content-end">
+                                <button class="btn-action btn-action-edit" (click)="editar(c)" title="Editar">
+                                    <i class="bi bi-pencil-fill"></i>
+                                </button>
+                                <button class="btn-action btn-action-delete" (click)="eliminar(c.clienteId)"
+                                    title="Eliminar">
+                                    <i class="bi bi-trash-fill"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr *ngIf="clientes.length === 0">
+                        <td colspan="5" class="text-center py-4 text-muted">
+                            No hay clientes registrados.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>

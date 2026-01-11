@@ -1,0 +1,52 @@
+.stat-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.stat-icon-wrapper {
+    width: 48px;
+    height: 48px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+.bg-warning .stat-icon-wrapper {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+.card {
+    border-radius: 16px;
+}
+
+.table thead th {
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    color: #6b7280;
+    letter-spacing: 0.05em;
+    border-top: none;
+}
+
+.btn-outline-primary,
+.btn-outline-secondary,
+.btn-outline-success {
+    border-width: 2px;
+    font-weight: 600;
+    border-radius: 12px;
+}
+
+.btn-outline-primary:hover,
+.btn-outline-secondary:hover,
+.btn-outline-success:hover {
+    transform: scale(1.02);
+}

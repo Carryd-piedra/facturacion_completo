@@ -1,0 +1,126 @@
+<div class="container my-5">
+
+    <div class="mb-5">
+        <h2 class="fw-bold mb-1">Panel de Control</h2>
+        <p class="text-muted">Resumen general de tu negocio</p>
+    </div>
+
+    <!-- STATS CARDS -->
+    <div class="row g-4 mb-5">
+
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm stat-card h-100 bg-primary text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="stat-icon-wrapper">
+                            <i class="bi bi-people-fill"></i>
+                        </div>
+                    </div>
+                    <h3 class="fw-bold mb-0 text-white">{{ stats.totalClientes }}</h3>
+                    <p class="text-white-50 mb-0">Total Clientes</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm stat-card h-100 bg-success text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="stat-icon-wrapper">
+                            <i class="bi bi-box-seam-fill"></i>
+                        </div>
+                    </div>
+                    <h3 class="fw-bold mb-0 text-white">{{ stats.totalProductos }}</h3>
+                    <p class="text-white-50 mb-0">Productos</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm stat-card h-100 bg-info text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="stat-icon-wrapper">
+                            <i class="bi bi-file-earmark-text-fill"></i>
+                        </div>
+                    </div>
+                    <h3 class="fw-bold mb-0 text-white">{{ stats.totalFacturas }}</h3>
+                    <p class="text-white-50 mb-0">Facturas Emitidas</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm stat-card h-100 bg-warning text-dark">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="stat-icon-wrapper text-dark">
+                            <i class="bi bi-currency-dollar"></i>
+                        </div>
+                    </div>
+                    <h3 class="fw-bold mb-0 text-dark">{{ stats.totalVentas | currency }}</h3>
+                    <p class="text-dark-50 mb-0">Ventas Totales</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- RECENT ACTIVITY -->
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-header bg-white py-3 border-0">
+                    <h5 class="mb-0 fw-bold">Facturas Recientes</h5>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="bg-light">
+                            <tr>
+                                <th class="ps-4">Secuencial</th>
+                                <th>Cliente</th>
+                                <th>Fecha</th>
+                                <th class="text-end pe-4">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let f of recentInvoices">
+                                <td class="ps-4 fw-bold">#{{ f.secuencial }}</td>
+                                <td>{{ f.cliente?.clienteNombre }} {{ f.cliente?.clienteAplellido }}</td>
+                                <td>{{ f.fechaEmision | date:'shortDate' }}</td>
+                                <td class="text-end pe-4 text-primary fw-bold">{{ f.totalFactura | currency }}</td>
+                            </tr>
+                            <tr *ngIf="recentInvoices.length === 0">
+                                <td colspan="4" class="text-center py-4 text-muted">
+                                    No hay facturas recientes.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-header bg-white py-3 border-0">
+                    <h5 class="mb-0 fw-bold">Acciones Rápidas</h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-3">
+                        <a href="/privado/facturacion" class="btn btn-outline-primary py-3">
+                            <i class="bi bi-plus-circle me-2"></i> Nueva Factura
+                        </a>
+                        <a href="/privado/cliente" class="btn btn-outline-secondary py-3">
+                            <i class="bi bi-person-plus me-2"></i> Nuevo Cliente
+                        </a>
+                        <a href="/privado/producto" class="btn btn-outline-success py-3">
+                            <i class="bi bi-plus-square me-2"></i> Nuevo Producto
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

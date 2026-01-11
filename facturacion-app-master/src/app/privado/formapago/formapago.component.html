@@ -1,0 +1,75 @@
+<div class="container my-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold mb-1">Formas de Pago</h2>
+            <p class="text-muted">Gestiona los métodos de pago para la facturación</p>
+        </div>
+        <button class="btn btn-primary-custom shadow-sm" (click)="toggleForm()">
+            <i class="bi" [ngClass]="mostrarFormulario ? 'bi-x-lg' : 'bi-plus-circle-fill'"></i>
+            {{ mostrarFormulario ? 'Cancelar' : 'Nueva Forma de Pago' }}
+        </button>
+    </div>
+
+    <!-- FORMULARIO -->
+    <div *ngIf="mostrarFormulario" class="card shadow-sm mb-4 border-0">
+        <div class="card-header bg-white py-3">
+            <h5 class="mb-0 fw-bold text-primary">{{ editando ? 'Editar' : 'Nueva' }} Forma de Pago</h5>
+        </div>
+        <div class="card-body">
+            <form [formGroup]="form" (ngSubmit)="guardar()">
+                <div class="row g-3">
+                    <div class="col-md-8">
+                        <label class="form-label">Nombre *</label>
+                        <input class="form-control" formControlName="nombre" placeholder="Ej: Tarjeta de Crédito">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Código SRI *</label>
+                        <input class="form-control" formControlName="codigoSri" placeholder="Ej: 19">
+                    </div>
+                </div>
+                <div class="mt-4 text-end">
+                    <button type="submit" class="btn btn-success-custom px-4" [disabled]="form.invalid">
+                        <i class="bi bi-check-circle-fill me-2"></i>
+                        {{ editando ? 'Actualizar' : 'Guardar' }}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- LISTADO -->
+    <div class="card border-0 shadow-sm">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="bg-light">
+                    <tr>
+                        <th class="ps-4">Código SRI</th>
+                        <th>Nombre</th>
+                        <th class="text-end pe-4">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let fp of formasPago">
+                        <td class="ps-4 fw-bold text-primary">{{ fp.codigoSri }}</td>
+                        <td>{{ fp.nombre }}</td>
+                        <td class="text-end pe-4">
+                            <div class="d-flex gap-2 justify-content-end">
+                                <button class="btn-action btn-action-edit" (click)="editar(fp)">
+                                    <i class="bi bi-pencil-fill"></i>
+                                </button>
+                                <button class="btn-action btn-action-delete" (click)="eliminar(fp.formaPagoId)">
+                                    <i class="bi bi-trash-fill"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr *ngIf="formasPago.length === 0">
+                        <td colspan="3" class="text-center py-4 text-muted">
+                            No hay formas de pago registradas.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

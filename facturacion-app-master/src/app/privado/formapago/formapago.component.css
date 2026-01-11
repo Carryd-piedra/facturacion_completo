@@ -1,0 +1,61 @@
+/* Action Buttons */
+.btn-action {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    border: none;
+    cursor: pointer;
+    background: transparent;
+}
+
+.btn-action-edit {
+    color: #3b82f6;
+    background-color: rgba(59, 130, 246, 0.1);
+}
+
+.btn-action-edit:hover {
+    background-color: #3b82f6;
+    color: white;
+    transform: scale(1.1);
+    box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.3);
+}
+
+.btn-action-delete {
+    color: #ef4444;
+    background-color: rgba(239, 68, 68, 0.1);
+}
+
+.btn-action-delete:hover {
+    background-color: #ef4444;
+    color: white;
+    transform: scale(1.1);
+    box-shadow: 0 4px 6px -1px rgba(239, 68, 68, 0.3);
+}
+
+.btn-action i {
+    font-size: 1rem;
+}
+
+/* Card and Spacing refinements */
+.card {
+    border-radius: 12px;
+}
+
+.table thead th {
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    color: #4b5563;
+    border-top: none;
+    letter-spacing: 0.025em;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: #3182ce;
+    box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
+}

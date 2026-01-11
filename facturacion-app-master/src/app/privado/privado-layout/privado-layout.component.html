@@ -1,0 +1,27 @@
+<div class="d-flex">
+
+  <!-- Sidebar -->
+  <aside class="bg-dark text-light p-3" style="width: 250px; min-height: 100vh;">
+    <h5 class="fw-bold mb-4">Panel</h5>
+
+    <ul class="nav flex-column gap-2">
+      <li><a routerLink="/dashboard" class="nav-link text-light">Dashboard</a></li>
+      <li><a routerLink="/documentos" class="nav-link text-light">Tipos de documentos</a></li>
+      <li><a routerLink="/productos-admin" class="nav-link text-light">Productos</a></li>
+      <li><a routerLink="/clientes" class="nav-link text-light">Clientes</a></li>
+      <li><a routerLink="/formas-pago" class="nav-link text-light">Formas de pago</a></li>
+      <li><a routerLink="/facturas" class="nav-link text-light">Facturación</a></li>
+      <li class="mt-3">
+        <button class="btn btn-outline-danger btn-sm w-100" (click)="logout()">
+          Cerrar sesión
+        </button>
+      </li>
+    </ul>
+  </aside>
+
+  <!-- Contenido -->
+  <main class="flex-fill p-4">
+    <router-outlet></router-outlet>
+  </main>
+
+</div>

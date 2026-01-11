@@ -1,0 +1,202 @@
+/* Global Styles for Component */
+:host {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  color: #2c3e50;
+  display: block;
+  background-color: #f8f9fa;
+  min-height: 100vh;
+}
+
+/* Titles */
+h2 {
+  font-weight: 700;
+  color: #2c3e50;
+  letter-spacing: -0.5px;
+}
+
+/* Modern Cards */
+.modern-card {
+  border: none;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  background: white;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  overflow: hidden;
+}
+
+.modern-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+.card-header-custom {
+  background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
+  color: white;
+  padding: 1.25rem 1.5rem;
+  font-weight: 600;
+  font-size: 1.1rem;
+  border-bottom: none;
+}
+
+/* Form Styling */
+.form-label {
+  font-weight: 500;
+  color: #4b5563;
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+}
+
+.form-control {
+  border: 2px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+}
+
+.form-control:focus {
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+}
+
+/* Custom Buttons */
+.btn-custom {
+  padding: 0.75rem 1.5rem;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.2s;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-primary-custom {
+  background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
+  color: white;
+  box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.2);
+}
+
+.btn-primary-custom:hover {
+  filter: brightness(110%);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 8px -1px rgba(79, 70, 229, 0.3);
+}
+
+.btn-outline-custom {
+  background: transparent;
+  border: 2px solid #e5e7eb;
+  color: #6b7280;
+}
+
+.btn-outline-custom:hover {
+  background: #f3f4f6;
+  border-color: #d1d5db;
+  color: #374151;
+}
+
+/* Product Cards */
+.product-card {
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  background: white;
+  border-radius: 16px;
+}
+
+.product-price {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #059669;
+}
+
+.stock-badge {
+  padding: 0.35em 0.8em;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.stock-ok {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
+.stock-low {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+/* Search Bar */
+.search-container {
+  position: relative;
+}
+
+.search-input {
+  padding-left: 3rem;
+  border-radius: 50px;
+  border: 1px solid #e5e7eb;
+  background: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.search-icon {
+  position: absolute;
+  left: 1.2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9ca3af;
+  pointer-events: none;
+}
+
+/* Pagination */
+.pagination-custom .page-link {
+  border: none;
+  color: #6b7280;
+  margin: 0 0.25rem;
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+.pagination-custom .page-item.active .page-link {
+  background-color: #4f46e5;
+  color: white;
+  box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.3);
+}
+
+/* Action Buttons */
+.btn-action {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  border: none;
+  cursor: pointer;
+  background: transparent;
+}
+
+.btn-action-edit {
+  color: #3b82f6;
+  background-color: rgba(59, 130, 246, 0.1);
+}
+
+.btn-action-edit:hover {
+  background-color: #3b82f6;
+  color: white;
+  transform: scale(1.1);
+  box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.3);
+}
+
+.btn-action-delete {
+  color: #ef4444;
+  background-color: rgba(239, 68, 68, 0.1);
+}
+
+.btn-action-delete:hover {
+  background-color: #ef4444;
+  color: white;
+  transform: scale(1.1);
+  box-shadow: 0 4px 6px -1px rgba(239, 68, 68, 0.3);
+}
