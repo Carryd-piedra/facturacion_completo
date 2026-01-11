@@ -5,8 +5,8 @@
             <h2 class="fw-bold mb-1">Clientes</h2>
             <p class="text-muted">Administra tu base de clientes</p>
         </div>
-        <button class="btn btn-primary shadow-sm" (click)="toggleForm()">
-            <i class="bi" [ngClass]="mostrarFormulario ? 'bi-x-lg' : 'bi-person-plus-fill'"></i>
+        <button class="btn btn-primary-custom shadow-sm" (click)="toggleForm()">
+            <i class="bi" [ngClass]="mostrarFormulario ? 'bi-x-circle' : 'bi-plus-circle'"></i>
             {{ mostrarFormulario ? 'Cancelar' : 'Nuevo Cliente' }}
         </button>
     </div>
@@ -22,12 +22,13 @@
 
                     <div class="col-md-6">
                         <label class="form-label">Nombre *</label>
-                        <input class="form-control" formControlName="clienteNombre">
+                        <input class="form-control" formControlName="clienteNombre" (input)="validarSoloLetras($event)">
                     </div>
 
                     <div class="col-md-6">
                         <label class="form-label">Apellido *</label>
-                        <input class="form-control" formControlName="clienteAplellido">
+                        <input class="form-control" formControlName="clienteAplellido"
+                            (input)="validarSoloLetras($event)">
                     </div>
 
                     <div class="col-md-6">
@@ -42,7 +43,8 @@
 
                     <div class="col-md-6">
                         <label class="form-label">Número Documento *</label>
-                        <input class="form-control" formControlName="numeroDocumento">
+                        <input class="form-control" formControlName="numeroDocumento"
+                            (input)="validarSoloNumeros($event)">
                     </div>
 
                     <div class="col-12">
@@ -52,7 +54,8 @@
 
                     <div class="col-md-6">
                         <label class="form-label">Teléfono</label>
-                        <input class="form-control" formControlName="clienteTelefono" placeholder="10 dígitos">
+                        <input class="form-control" formControlName="clienteTelefono" placeholder="10 dígitos"
+                            (input)="validarSoloNumeros($event)">
                     </div>
 
                     <div class="col-md-6">
@@ -63,8 +66,8 @@
                 </div>
 
                 <div class="mt-4 text-end">
-                    <button type="submit" class="btn btn-success px-4 shadow-sm">
-                        <i class="bi bi-check-circle-fill me-2"></i>
+                    <button type="submit" class="btn btn-primary-custom px-4 shadow-sm" [disabled]="form.invalid">
+                        <i class="bi bi-check2-circle me-2"></i>
                         {{ editando ? 'Actualizar Cliente' : 'Guardar Cliente' }}
                     </button>
                 </div>
@@ -95,11 +98,11 @@
                         <td class="text-end pe-4">
                             <div class="d-flex gap-2 justify-content-end">
                                 <button class="btn-action btn-action-edit" (click)="editar(c)" title="Editar">
-                                    <i class="bi bi-pencil-fill"></i>
+                                    <i class="bi bi-pencil-square"></i>
                                 </button>
                                 <button class="btn-action btn-action-delete" (click)="eliminar(c.clienteId)"
                                     title="Eliminar">
-                                    <i class="bi bi-trash-fill"></i>
+                                    <i class="bi bi-trash3"></i>
                                 </button>
                             </div>
                         </td>

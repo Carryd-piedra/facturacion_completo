@@ -176,4 +176,25 @@ export class ProductoComponent implements OnInit {
     this.productoId = undefined;
     this.form.reset({ productoEstado: 1, productoTasa: 12 });
   }
+
+  // VALIDATORS REAL-TIME
+  validarSoloNumeros(event: any) {
+    const input = event.target as HTMLInputElement;
+    input.value = input.value.replace(/[^0-9]/g, '');
+    this.form.get(input.getAttribute('formControlName')!)?.setValue(input.value);
+  }
+
+  validarSoloDecimales(event: any) {
+    const input = event.target as HTMLInputElement;
+    // Permite números y un solo punto decimal
+    input.value = input.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');
+    this.form.get(input.getAttribute('formControlName')!)?.setValue(input.value);
+  }
+
+  validarAlfanumerico(event: any) {
+    const input = event.target as HTMLInputElement;
+    // Permite letras, números, espacios y guiones
+    input.value = input.value.replace(/[^a-zA-Z0-9\s-]/g, '');
+    this.form.get(input.getAttribute('formControlName')!)?.setValue(input.value);
+  }
 }

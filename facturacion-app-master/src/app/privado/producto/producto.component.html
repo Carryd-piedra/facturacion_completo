@@ -23,49 +23,54 @@
             <div class="row g-3">
 
               <div class="col-12">
-                <label class="form-label">Nombre del Producto</label>
+                <label class="form-label">Nombre del Producto *</label>
                 <input class="form-control" formControlName="productoNombre" placeholder="Ej. Monitor HP 24''">
               </div>
 
               <div class="col-6">
-                <label class="form-label">Serial</label>
-                <input class="form-control" formControlName="productoSerial" placeholder="XYZ-123">
+                <label class="form-label">Serial *</label>
+                <input class="form-control" formControlName="productoSerial" placeholder="XYZ-123"
+                  (input)="validarAlfanumerico($event)">
               </div>
 
               <div class="col-6">
-                <label class="form-label">Categoría</label>
-                <input class="form-control" formControlName="productoCategoria" placeholder="Electrónica">
+                <label class="form-label">Categoría *</label>
+                <input class="form-control" formControlName="productoCategoria" placeholder="Electrónica"
+                  (input)="validarAlfanumerico($event)">
               </div>
 
               <div class="col-6">
-                <label class="form-label">Precio</label>
+                <label class="form-label">Precio *</label>
                 <div class="input-group">
                   <span class="input-group-text bg-white border-end-0 text-muted">$</span>
-                  <input type="number" class="form-control border-start-0 ps-1" formControlName="productoPrecio">
+                  <input type="text" class="form-control border-start-0 ps-1" formControlName="productoPrecio"
+                    (input)="validarSoloDecimales($event)">
                 </div>
               </div>
 
               <div class="col-6">
-                <label class="form-label">Stock</label>
-                <input type="number" class="form-control" formControlName="productoStock">
+                <label class="form-label">Stock *</label>
+                <input type="text" class="form-control" formControlName="productoStock"
+                  (input)="validarSoloNumeros($event)">
               </div>
 
               <div class="col-12">
                 <label class="form-label">IVA (%)</label>
-                <input type="number" class="form-control" formControlName="productoTasa">
+                <input type="text" class="form-control" formControlName="productoTasa"
+                  (input)="validarSoloNumeros($event)">
               </div>
 
             </div>
 
             <div class="mt-4 d-grid gap-2">
-              <button class="btn btn-primary-custom justify-content-center" type="submit">
-                <i class="bi" [ngClass]="editando ? 'bi-arrow-clockwise' : 'bi-save'"></i>
+              <button class="btn btn-primary-custom justify-content-center" type="submit" [disabled]="form.invalid">
+                <i class="bi" [ngClass]="editando ? 'bi-check2-circle' : 'bi-check2-circle'"></i>
                 {{ editando ? 'Actualizar Producto' : 'Guardar Producto' }}
               </button>
 
               <button *ngIf="editando" class="btn btn-outline-custom justify-content-center" type="button"
                 (click)="cancelar()">
-                Cancelar Edición
+                <i class="bi bi-x-circle me-1"></i> Cancelar Edición
               </button>
             </div>
           </form>
@@ -94,10 +99,10 @@
               <span class="badge bg-light text-dark border">{{ p.productoCategoria }}</span>
               <div class="d-flex gap-1">
                 <button class="btn-action btn-action-edit" (click)="editar(p)" title="Editar">
-                  <i class="bi bi-pencil-fill"></i>
+                  <i class="bi bi-pencil-square"></i>
                 </button>
                 <button class="btn-action btn-action-delete" (click)="eliminar(p.productoId)" title="Eliminar">
-                  <i class="bi bi-trash-fill"></i>
+                  <i class="bi bi-trash3"></i>
                 </button>
               </div>
             </div>

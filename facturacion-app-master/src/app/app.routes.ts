@@ -39,6 +39,7 @@ export const routes: Routes = [
       { path: 'productos-admin', component: ProductoComponent },
       { path: 'clientes', component: ClienteComponent },
       { path: 'formas-pago', component: FormapagoComponent },
+      { path: 'empresas', loadComponent: () => import('./privado/empresa/empresa.component').then(m => m.EmpresaComponent) },
       { path: 'facturas', loadComponent: () => import('./privado/factura/factura.component').then(m => m.FacturaComponent) }
     ]
   },

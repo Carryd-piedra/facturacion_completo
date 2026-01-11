@@ -1,0 +1,132 @@
+<div class="container my-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold mb-1">Empresas</h2>
+            <p class="text-muted">Configura tus datos de emisor</p>
+        </div>
+        <button class="btn btn-primary-custom" (click)="toggleForm()">
+            <i class="bi" [ngClass]="mostrarFormulario ? 'bi-x-circle' : 'bi-plus-circle'"></i>
+            {{ mostrarFormulario ? 'Cancelar' : 'Nueva Empresa' }}
+        </button>
+    </div>
+
+    <!-- FORMULARIO -->
+    <div *ngIf="mostrarFormulario" class="card shadow-sm mb-4 border-0 modern-card">
+        <div class="card-header-custom">
+            <h5 class="mb-0">{{ editando ? 'Editar Empresa' : 'Nueva Empresa' }}</h5>
+        </div>
+        <div class="card-body p-4">
+            <form [formGroup]="form" (ngSubmit)="guardar()">
+                <div class="row g-3">
+
+                    <div class="col-md-6">
+                        <label class="form-label">Razón Social *</label>
+                        <input class="form-control" formControlName="razonSocial"
+                            placeholder="Nombre legal de la empresa">
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Nombre Comercial *</label>
+                        <input class="form-control" formControlName="nombreComercial" placeholder="Nombre comercial">
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">RUC *</label>
+                        <input class="form-control" formControlName="ruc" maxlength="13"
+                            (input)="validarSoloNumeros($event)" placeholder="13 dígitos">
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Obligado Contabilidad *</label>
+                        <select class="form-select" formControlName="obligadoContabilidad">
+                            <option value="NO">NO</option>
+                            <option value="SI">SI</option>
+                        </select>
+                    </div>
+
+                    <div class="col-12">
+                        <label class="form-label">Dirección Matriz *</label>
+                        <input class="form-control" formControlName="dirMatriz">
+                    </div>
+
+                    <div class="col-12">
+                        <label class="form-label">Dirección Establecimiento *</label>
+                        <input class="form-control" formControlName="dirEstablecimiento">
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class="form-label">Establecimiento *</label>
+                        <input class="form-control" formControlName="establecimiento" maxlength="3"
+                            (input)="validarSoloNumeros($event)" placeholder="001">
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class="form-label">Pto. Emisión *</label>
+                        <input class="form-control" formControlName="puntoEmision" maxlength="3"
+                            (input)="validarSoloNumeros($event)" placeholder="001">
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Ambiente *</label>
+                        <select class="form-select" formControlName="ambiente">
+                            <option [ngValue]="1">Pruebas</option>
+                            <option [ngValue]="2">Producción</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Ruta Firma (.p12) *</label>
+                        <input class="form-control" formControlName="rutaFirma"
+                            placeholder="Ej: C:/firmas/tu_firma.p12">
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Clave Firma *</label>
+                        <input type="password" class="form-control" formControlName="claveFirma">
+                    </div>
+                </div>
+
+                <div class="mt-4 text-end">
+                    <button type="submit" class="btn btn-primary-custom" [disabled]="form.invalid">
+                        <i class="bi bi-check2-circle"></i>
+                        {{ editando ? 'Actualizar' : 'Guardar' }}
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    <!-- LISTADO -->
+    <div class="row g-3">
+        <div class="col-md-6 col-lg-4" *ngFor="let e of empresas">
+            <div class="modern-card p-4 h-100 d-flex flex-column">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                    <div>
+                        <h5 class="fw-bold mb-1">{{ e.nombreComercial }}</h5>
+                        <span class="badge bg-light text-dark border">{{ e.ruc }}</span>
+                    </div>
+                    <div class="d-flex gap-1">
+                        <button class="btn-action btn-action-edit" (click)="editar(e)" title="Editar">
+                            <i class="bi bi-pencil-square"></i>
+                        </button>
+                        <button class="btn-action btn-action-delete" (click)="eliminar(e.empresaId!)" title="Eliminar">
+                            <i class="bi bi-trash3"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <p class="text-muted small mb-1"><i class="bi bi-geo-alt me-1"></i> {{ e.dirMatriz }}</p>
+                <p class="text-muted small mb-0"><i class="bi bi-file-earmark-lock me-1"></i> Firma: ...{{
+                    e.rutaFirma.slice(-15) }}</p>
+            </div>
+        </div>
+
+        <div class="col-12" *ngIf="empresas.length === 0">
+            <div class="alert alert-light text-center border">
+                No hay empresas configuradas. ¡Crea una para empezar a facturar!
+            </div>
+        </div>
+    </div>
+</div>

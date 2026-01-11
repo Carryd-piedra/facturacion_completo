@@ -1,0 +1,144 @@
+/* Global Styles for Component */
+:host {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    color: #2c3e50;
+    display: block;
+    background-color: #f8f9fa;
+    min-height: 100vh;
+}
+
+/* Titles */
+h2 {
+    font-weight: 700;
+    color: #2c3e50;
+    letter-spacing: -0.5px;
+}
+
+/* Modern Cards */
+.modern-card {
+    border: none;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    background: white;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    overflow: hidden;
+}
+
+.modern-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+.card-header-custom {
+    background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
+    color: white;
+    padding: 1.25rem 1.5rem;
+    font-weight: 600;
+    font-size: 1.1rem;
+    border-bottom: none;
+}
+
+/* Form Styling */
+.form-label {
+    font-weight: 500;
+    color: #4b5563;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+}
+
+.form-control,
+.form-select {
+    border: 2px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+}
+
+/* Custom Buttons */
+.btn-primary-custom {
+    background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.2s;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.2);
+}
+
+.btn-primary-custom:hover {
+    filter: brightness(110%);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 8px -1px rgba(79, 70, 229, 0.3);
+}
+
+.btn-outline-custom {
+    background: transparent;
+    border: 2px solid #e5e7eb;
+    color: #6b7280;
+    padding: 0.75rem 1.5rem;
+    border-radius: 10px;
+    font-weight: 600;
+}
+
+.btn-outline-custom:hover {
+    background: #f3f4f6;
+    border-color: #d1d5db;
+    color: #374151;
+}
+
+/* Action Buttons */
+.btn-action {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    border: none;
+    cursor: pointer;
+    background: transparent;
+}
+
+.btn-action-edit {
+    color: #3b82f6;
+    background-color: rgba(59, 130, 246, 0.1);
+}
+
+.btn-action-edit:hover {
+    background-color: #3b82f6;
+    color: white;
+    transform: scale(1.1);
+}
+
+.btn-action-delete {
+    color: #ef4444;
+    background-color: rgba(239, 68, 68, 0.1);
+}
+
+.btn-action-delete:hover {
+    background-color: #ef4444;
+    color: white;
+    transform: scale(1.1);
+}
+
+/* Table */
+.table th {
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    color: #64748b;
+    border-top: none;
+}

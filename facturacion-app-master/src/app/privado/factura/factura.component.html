@@ -4,8 +4,8 @@
             <h2 class="fw-bold mb-1">Facturación</h2>
             <p class="text-muted">Gestiona tus ventas y comprobantes</p>
         </div>
-        <button class="btn btn-primary" (click)="toggleForm()">
-            <i class="bi" [ngClass]="mostrarFormulario ? 'bi-x-lg' : 'bi-plus-lg'"></i>
+        <button class="btn btn-primary-custom" (click)="toggleForm()">
+            <i class="bi" [ngClass]="mostrarFormulario ? 'bi-x-circle' : 'bi-plus-circle'"></i>
             {{ mostrarFormulario ? 'Cancelar' : 'Nueva Factura' }}
         </button>
     </div>
@@ -19,23 +19,31 @@
             <form [formGroup]="form" (ngSubmit)="guardar()">
 
                 <!-- CABECERA -->
-                <div class="row g-3 mb-4">
-                    <div class="col-md-6">
-                        <label class="form-label">Cliente</label>
-                        <select class="form-select" formControlName="clienteId">
-                            <option [ngValue]="null">Seleccione un cliente...</option>
-                            <option *ngFor="let c of clientes" [ngValue]="c.clienteId">
-                                {{ c.clienteNombre }}
+                <div class="row g-3 mb-3">
+                    <div class="col-12">
+                        <label class="form-label">Empresa Emisora</label>
+                        <select class="form-select" formControlName="empresaId">
+                            <option [ngValue]="null">Seleccione una empresa...</option>
+                            <option *ngFor="let e of empresas" [ngValue]="e.empresaId">
+                                {{ e.nombreComercial }} - {{ e.ruc }}
                             </option>
                         </select>
                     </div>
+                </div>
 
-                    <div class="col-md-3">
-                        <label class="form-label">Secuencial</label>
-                        <input class="form-control" formControlName="secuencial">
+                <div class="row g-3 mb-4">
+                    <div class="col-md-8">
+                        <label class="form-label">Cliente</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" [value]="clienteSeleccionadoNombre" readonly
+                                placeholder="Seleccione un cliente..." style="background-color: #fff;">
+                            <button class="btn btn-primary-custom ms-2" type="button" (click)="abrirModalCliente()">
+                                <i class="bi bi-search"></i> Buscar
+                            </button>
+                        </div>
                     </div>
 
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <label class="form-label">Fecha Emisión</label>
                         <input type="date" class="form-control" formControlName="fechaEmision">
                     </div>
@@ -48,12 +56,14 @@
                         class="row g-2 align-items-end mb-2">
                         <div class="col-md-4">
                             <label *ngIf="i===0" class="form-label small">Producto</label>
-                            <select class="form-select" formControlName="productoId">
-                                <option [ngValue]="null">Producto...</option>
-                                <option *ngFor="let p of productos" [ngValue]="p.productoId">
-                                    {{ p.productoNombre }}
-                                </option>
-                            </select>
+                            <div class="input-group">
+                                <input type="text" class="form-control" formControlName="nombreProducto" readonly
+                                    placeholder="Buscar producto..." style="background-color: #fff;">
+                                <button class="btn btn-primary-custom ms-2" type="button"
+                                    (click)="abrirModalProducto(i)">
+                                    <i class="bi bi-search"></i>
+                                </button>
+                            </div>
                         </div>
 
                         <div class="col-md-2">
@@ -73,16 +83,19 @@
                         </div>
 
                         <div class="col-md-2 text-end">
-                            <button type="button" class="btn btn-outline-danger" (click)="eliminarDetalle(i)">
-                                <i class="bi bi-trash"></i>
+                            <button type="button" class="btn btn-action btn-action-delete" (click)="eliminarDetalle(i)"
+                                title="Eliminar ítem">
+                                <i class="bi bi-trash3"></i>
                             </button>
                         </div>
                     </div>
                 </div>
 
-                <button type="button" class="btn btn-sm btn-outline-secondary mt-2" (click)="agregarDetalle()">
-                    <i class="bi bi-plus"></i> Agregar Producto
-                </button>
+                <div class="mt-2">
+                    <button type="button" class="btn btn-outline-secondary" (click)="agregarDetalle()">
+                        <i class="bi bi-plus-circle"></i> Agregar Producto
+                    </button>
+                </div>
 
                 <!-- PAGOS -->
                 <h6 class="border-bottom pb-2 mb-3 mt-4">Formas de Pago</h6>
@@ -90,19 +103,18 @@
                     <div *ngFor="let p of pagos.controls; let i=index" [formGroupName]="i" class="row g-2 mb-2">
                         <div class="col-md-6">
                             <select class="form-select" formControlName="formaPagoId">
-                                <option *ngFor="let fp of formasPago" [ngValue]="fp.id">
-                                    {{ fp.descripcion }}
+                                <option [ngValue]="null">Seleccione...</option>
+                                <option *ngFor="let fp of formasPago" [ngValue]="fp.formaPagoId">
+                                    {{ fp.nombre }}
                                 </option>
-                                <!-- Fallback if formasPago is empty or different structure, usually it has codigo/descripcion -->
-                                <option [ngValue]="1">SIN UTILIZACION DEL SISTEMA FINANCIERO</option>
                             </select>
                         </div>
                     </div>
                 </div>
 
                 <div class="mt-4 text-end">
-                    <button type="submit" class="btn btn-success btn-lg">
-                        <i class="bi bi-check-circle"></i> Emitir Factura
+                    <button type="submit" class="btn btn-primary-custom btn-lg">
+                        <i class="bi bi-check2-circle"></i> Emitir Factura
                     </button>
                 </div>
 
@@ -127,7 +139,7 @@
                 <tbody>
                     <tr *ngFor="let f of facturas">
                         <td class="ps-4 fw-bold">{{ f.secuencial }}</td>
-                        <td>{{ f.cliente?.clienteNombre }}</td>
+                        <td>{{ f.cliente?.clienteNombre }} {{ f.cliente?.clienteAplellido }}</td>
                         <td>{{ f.fechaEmision | date:'shortDate' }}</td>
                         <td class="fw-bold text-success">{{ f.totalFactura | currency:'USD' }}</td>
                         <td>
@@ -140,8 +152,8 @@
                             </span>
                         </td>
                         <td>
-                            <button class="btn btn-sm btn-outline-primary">
-                                <i class="bi bi-eye"></i>
+                            <button class="btn btn-action btn-action-view" title="Ver Detalle">
+                                <i class="bi bi-file-earmark-text"></i>
                             </button>
                         </td>
                     </tr>
@@ -152,6 +164,108 @@
                     </tr>
                 </tbody>
             </table>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL BÚSQUEDA CLIENTES -->
+<div class="modal-backdrop fade show" *ngIf="mostrarModalCliente"></div>
+<div class="modal fade show d-block" *ngIf="mostrarModalCliente" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Buscar Cliente</h5>
+                <button type="button" class="btn-close" (click)="cerrarModalCliente()"></button>
+            </div>
+            <div class="modal-body">
+                <div class="input-group mb-3">
+                    <span class="input-group-text"><i class="bi bi-search"></i></span>
+                    <input type="text" class="form-control" placeholder="Escriba nombre o cédula..."
+                        [(ngModel)]="busquedaCliente" (keyup)="buscarCliente()">
+                </div>
+                <div class="table-responsive" style="max-height: 300px;">
+                    <table class="table table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Teléfono / ID</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let c of clientesFiltrados">
+                                <td>{{ c.clienteNombre }} {{ c.clienteAplellido }}</td>
+                                <td>{{ c.clienteTelefono }}</td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-primary" (click)="seleccionarCliente(c)">
+                                        <i class="bi bi-check2-circle"></i> Seleccionar
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr *ngIf="clientesFiltrados.length === 0">
+                                <td colspan="3" class="text-center">No se encontraron clientes.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="cerrarModalCliente()">
+                    <i class="bi bi-x-circle"></i> Cerrar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL BÚSQUEDA PRODUCTOS -->
+<div class="modal-backdrop fade show" *ngIf="mostrarModalProducto"></div>
+<div class="modal fade show d-block" *ngIf="mostrarModalProducto" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Buscar Producto</h5>
+                <button type="button" class="btn-close" (click)="cerrarModalProducto()"></button>
+            </div>
+            <div class="modal-body">
+                <div class="input-group mb-3">
+                    <span class="input-group-text"><i class="bi bi-search"></i></span>
+                    <input type="text" class="form-control" placeholder="Escriba nombre o código..."
+                        [(ngModel)]="busquedaProducto" (keyup)="buscarProducto()">
+                </div>
+                <div class="table-responsive" style="max-height: 300px;">
+                    <table class="table table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Producto</th>
+                                <th>Serial</th>
+                                <th>Precio</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let p of productosFiltrados">
+                                <td>{{ p.productoNombre }}</td>
+                                <td>{{ p.productoSerial }}</td>
+                                <td>{{ p.productoPrecio | currency:'USD' }}</td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-primary" (click)="seleccionarProducto(p)">
+                                        <i class="bi bi-check2-circle"></i> Seleccionar
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr *ngIf="productosFiltrados.length === 0">
+                                <td colspan="4" class="text-center">No se encontraron productos.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="cerrarModalProducto()">
+                    <i class="bi bi-x-circle"></i> Cerrar
+                </button>
+            </div>
         </div>
     </div>
 </div>

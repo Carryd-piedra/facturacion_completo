@@ -1,3 +1,25 @@
+/* Custom Primary Button */
+.btn-primary-custom {
+    background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    font-weight: 500;
+    box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.2);
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-primary-custom:hover {
+    filter: brightness(110%);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 8px -1px rgba(79, 70, 229, 0.3);
+    color: white;
+}
+
 /* Action Buttons */
 .btn-action {
     width: 36px;

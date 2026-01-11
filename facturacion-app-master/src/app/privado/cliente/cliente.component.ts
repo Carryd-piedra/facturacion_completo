@@ -45,15 +45,16 @@ export class ClienteComponent implements OnInit {
   initForm() {
     this.form = this.fb.group({
       // Cliente Info
-      clienteNombre: ['', [Validators.required, Validators.minLength(3)]],
-      clienteAplellido: ['', Validators.required],
-      clienteDirecion: [''],
-      clienteTelefono: ['', [Validators.pattern('^[0-9]{10}$')]],
-      clienteMail: ['', [Validators.email]],
+      // Cliente Info
+      clienteNombre: ['', [Validators.required, Validators.minLength(3), Validators.pattern(/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/)]],
+      clienteAplellido: ['', [Validators.required, Validators.pattern(/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/)]],
+      clienteDirecion: ['', [Validators.required]],
+      clienteTelefono: ['', [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
+      clienteMail: ['', [Validators.required, Validators.email]],
 
       // Document Info
       tipoDocumentoId: [null, Validators.required],
-      numeroDocumento: ['', Validators.required]
+      numeroDocumento: ['', [Validators.required, Validators.pattern(/^[0-9]+$/)]]
     });
   }
 
@@ -186,5 +187,19 @@ export class ClienteComponent implements OnInit {
 
   toggleForm() {
     this.mostrarFormulario = !this.mostrarFormulario;
+  }
+
+  // VALIDADORES EN TIEMPO REAL (Prevent Default)
+  validarSoloLetras(event: any) {
+    const input = event.target as HTMLInputElement;
+    // Reemplaza todo lo que NO sea letras (incluyendo tildes y ñ) o espacios
+    input.value = input.value.replace(/[^a-zA-ZñÑáéíóúÁÉÍÓÚ\s]/g, '');
+    this.form.get(input.getAttribute('formControlName')!)?.setValue(input.value);
+  }
+
+  validarSoloNumeros(event: any) {
+    const input = event.target as HTMLInputElement;
+    input.value = input.value.replace(/[^0-9]/g, '');
+    this.form.get(input.getAttribute('formControlName')!)?.setValue(input.value);
   }
 }

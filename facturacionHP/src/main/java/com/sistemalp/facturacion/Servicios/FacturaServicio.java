@@ -58,8 +58,19 @@ public class FacturaServicio {
         Empresa empresa = empresaRepository.findById(request.getEmpresaId())
                 .orElseThrow(() -> new RuntimeException("Empresa no encontrada."));
         Factura factura = new Factura();
-        factura.setSecuencial(request.getSecuencial());
-        factura.setFechaEmision(request.getFechaEmision());
+
+        // Generar secuencial automático
+        String maxSecuencial = facturaRepository.findMaxSecuencial();
+        String nuevoSecuencial;
+        if (maxSecuencial == null) {
+            nuevoSecuencial = "000000001";
+        } else {
+            int sec = Integer.parseInt(maxSecuencial);
+            nuevoSecuencial = String.format("%09d", sec + 1);
+        }
+        factura.setSecuencial(nuevoSecuencial);
+
+        factura.setFechaEmision(request.getFechaEmision().atStartOfDay());
         factura.setSubtotal12(request.getSubtotal12());
         factura.setSubtotal0(request.getSubtotal0());
         factura.setSubtotalExento(request.getSubtotalExento());
