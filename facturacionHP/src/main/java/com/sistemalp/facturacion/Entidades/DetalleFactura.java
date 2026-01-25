@@ -34,5 +34,7 @@ public class DetalleFactura {
 
     @OneToOne(mappedBy = "detalle", cascade = CascadeType.ALL)
     private ImpuestoDetalle impuesto;
-}
 
+    @jakarta.persistence.OneToMany(mappedBy = "detalleFactura", cascade = CascadeType.ALL, fetch = jakarta.persistence.FetchType.LAZY)
+    private java.util.List<DetalleAdicionalFactura> detallesAdicionales;
+}

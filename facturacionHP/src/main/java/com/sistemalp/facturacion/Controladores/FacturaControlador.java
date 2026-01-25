@@ -3,8 +3,6 @@ package com.sistemalp.facturacion.Controladores;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 import com.sistemalp.facturacion.Dto.FacturaRequestDTO;
 import com.sistemalp.facturacion.Entidades.Factura;
 import com.sistemalp.facturacion.Servicios.FacturaServicio;
@@ -21,10 +19,11 @@ public class FacturaControlador {
     private final FacturaServicio facturaService;
     private final FirmaElectronicaServicio firmaService;
 
-    @GetMapping
-    public ResponseEntity<List<Factura>> listar() {
-        return ResponseEntity.ok(facturaService.listar());
-    }
+    @org.springframework.beans.factory.annotation.Value("${sri.firma.ruta}")
+    private String firmaRuta;
+
+    @org.springframework.beans.factory.annotation.Value("${sri.firma.clave}")
+    private String firmaClave;
 
     @PostMapping
     public ResponseEntity<?> crearFactura(@RequestBody FacturaRequestDTO request) {
@@ -34,13 +33,14 @@ public class FacturaControlador {
 
             String claveAcceso = facturaService.generarClaveAcceso(factura);
             factura.setClaveAcceso(claveAcceso);
+            facturaService.actualizarFactura(factura); // Guardar clave en BD
 
             String xmlSinFirma = facturaService.generarXMLFactura(factura);
 
             String xmlFirmado = firmaService.firmarXML(
                     xmlSinFirma,
-                    factura.getEmpresa().getRutaFirma(),
-                    factura.getEmpresa().getClaveFirma());
+                    firmaRuta,
+                    firmaClave);
 
             return ResponseEntity.ok(new RespuestaFactura(
                     "Factura creada correctamente",
@@ -50,6 +50,7 @@ public class FacturaControlador {
                     xmlFirmado));
 
         } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.badRequest().body(
                     "Error al crear factura: " + e.getMessage());
         }

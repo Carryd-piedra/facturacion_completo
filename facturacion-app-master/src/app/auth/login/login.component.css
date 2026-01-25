@@ -1,0 +1,183 @@
+/* High Contrast / Dark Premium Theme */
+
+/* Background - Deep Dark with animated gradient feel */
+.login-container {
+    background: radial-gradient(circle at center, #2b2b2b 0%, #000000 100%);
+    min-height: 100vh;
+    /* Ensure full height */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Optional: Add a subtle overlay pattern or shape if possible, strictly CSS */
+.login-container::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(118, 75, 162, 0.1) 0%, transparent 60%);
+    animation: pulse 15s infinite ease-in-out;
+    z-index: 0;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 0.5;
+    }
+
+    50% {
+        transform: scale(1.2);
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 0.5;
+    }
+}
+
+/* Card - Dark Glassmorphism */
+.login-card {
+    background: rgba(30, 30, 30, 0.85);
+    /* Dark semi-transparent */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    /* Subtle white border */
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+    /* Deep shadow */
+    width: 100%;
+    max-width: 400px;
+    z-index: 1;
+    /* Above background */
+    overflow: hidden;
+    color: #fff;
+    /* White text globally */
+}
+
+/* Header */
+.login-header {
+    padding: 2.5rem 2rem 1rem;
+    text-align: center;
+}
+
+.login-icon {
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(135deg, #00f260 0%, #0575e6 100%);
+    /* Neon Green to Blue */
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    font-size: 2rem;
+    box-shadow: 0 0 20px rgba(0, 242, 96, 0.4);
+    /* Glow effect */
+}
+
+.login-title {
+    color: #fff;
+    font-weight: 800;
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+    letter-spacing: 1px;
+}
+
+.login-subtitle {
+    color: #aaa;
+    /* Lighter grey for subtitle */
+    font-size: 0.95rem;
+}
+
+/* Body */
+.login-body {
+    padding: 1rem 2.5rem 2.5rem;
+}
+
+/* Floating Labels Overrides for Dark Theme */
+.form-floating>.form-control {
+    background-color: #2a2a2a;
+    border: 1px solid #444;
+    color: #fff;
+    border-radius: 10px;
+}
+
+.form-floating>.form-control:focus {
+    background-color: #333;
+    border-color: #0575e6;
+    box-shadow: 0 0 0 0.25rem rgba(5, 117, 230, 0.25);
+    color: #fff;
+}
+
+.form-floating>label {
+    color: #888;
+}
+
+.form-floating>.form-control:focus~label,
+.form-floating>.form-control:not(:placeholder-shown)~label {
+    color: #0575e6;
+    /* Highlight label color on focus */
+}
+
+/* Button - High Contrast Neon */
+.btn-login {
+    background: linear-gradient(90deg, #00f260 0%, #0575e6 100%);
+    border: none;
+    border-radius: 10px;
+    padding: 14px;
+    font-size: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: white;
+    transition: all 0.3s ease;
+    margin-top: 1rem;
+}
+
+.btn-login:hover {
+    background: linear-gradient(90deg, #00cb51 0%, #0461bf 100%);
+    box-shadow: 0 0 20px rgba(5, 117, 230, 0.6);
+    /* Strong glow */
+    transform: translateY(-2px);
+}
+
+.btn-login:disabled {
+    background: #444;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+/* Error Alert */
+.alert-danger {
+    background-color: rgba(220, 53, 69, 0.2);
+    border-color: #dc3545;
+    color: #ff6b6b;
+    /* Brighter red for dark bg */
+}
+
+/* Utilities */
+.fade-in {
+    animation: fadeIn 0.8s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

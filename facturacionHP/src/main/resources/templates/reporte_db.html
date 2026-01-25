@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            margin: 30px;
+        }
+
+        .seccion {
+            margin-bottom: 25px;
+        }
+
+        .titulo {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        h2 {
+            font-size: 18px;
+            color: #444;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 5px;
+            margin-top: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 11px;
+            margin-bottom: 10px;
+        }
+
+        th {
+            background: #f4f4f4;
+            border: 1px solid #ccc;
+            padding: 6px;
+            text-align: left;
+            font-weight: bold;
+            color: #333;
+        }
+
+        td {
+            border: 1px solid #ccc;
+            padding: 6px;
+            text-align: left;
+            color: #555;
+        }
+
+        .total-record {
+            text-align: right;
+            font-style: italic;
+            margin-top: 5px;
+            font-size: 11px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="titulo">Reporte General</div>
+
+    <!-- CLIENTES -->
+    <div class="seccion">
+        <h2>Clientes</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Telefono</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{TABLA_CLIENTES}}
+            </tbody>
+        </table>
+        <div class="total-record">{{TOTAL_CLIENTES}}</div>
+    </div>
+
+    <!-- PRODUCTOS -->
+    <div class="seccion">
+        <h2>Productos</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Precio</th>
+                    <th>Stock</th>
+                    <th>Categoria</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{TABLA_PRODUCTOS}}
+            </tbody>
+        </table>
+        <div class="total-record">{{TOTAL_PRODUCTOS}}</div>
+    </div>
+
+    <!-- FACTURAS -->
+    <div class="seccion">
+        <h2>Facturas</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Secuencial</th>
+                    <th>Fecha Emision</th>
+                    <th>Cliente</th>
+                    <th>Total</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{TABLA_FACTURAS}}
+            </tbody>
+        </table>
+        <div class="total-record">{{TOTAL_FACTURAS}}</div>
+    </div>
+
+</body>
+
+</html>

@@ -8,7 +8,6 @@ import com.sistemalp.facturacion.Entidades.Factura;
 @Repository
 public interface FacturaRepositorio extends JpaRepository<Factura, Long> {
 
-    @org.springframework.data.jpa.repository.Query("SELECT MAX(f.secuencial) FROM Factura f")
-    String findMaxSecuencial();
+    java.util.Optional<Factura> findByClaveAcceso(String claveAcceso);
 
 }

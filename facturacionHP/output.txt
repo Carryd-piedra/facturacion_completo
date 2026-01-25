@@ -1,0 +1,42 @@
+﻿[INFO] Scanning for projects...
+[INFO] 
+[INFO] ---------------------< com.sistemalp:facturacion >----------------------
+[INFO] Building facturacion 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ facturacion ---
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] Copying 2 resources from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.14.0:compile (default-compile) @ facturacion ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 88 source files with javac [debug parameters release 17] to target\classes
+[INFO] /C:/Prueba/facturacion_completo/facturacionHP/src/main/java/com/sistemalp/facturacion/Servicios/ClienteServicio.java: C:\Prueba\facturacion_completo\facturacionHP\src\main\java\com\sistemalp\facturacion\Servicios\ClienteServicio.java uses or overrides a deprecated API.
+[INFO] /C:/Prueba/facturacion_completo/facturacionHP/src/main/java/com/sistemalp/facturacion/Servicios/ClienteServicio.java: Recompile with -Xlint:deprecation for details.
+[INFO] -------------------------------------------------------------
+[ERROR] COMPILATION ERROR : 
+[INFO] -------------------------------------------------------------
+[ERROR] /C:/Prueba/facturacion_completo/facturacionHP/src/main/java/com/sistemalp/facturacion/Controladores/DashboardControlador.java:[30,39] cannot find symbol
+  symbol:   method listar()
+  location: variable facturaServicio of type com.sistemalp.facturacion.Servicios.FacturaServicio
+[INFO] 1 error
+[INFO] -------------------------------------------------------------
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  11.924 s
+[INFO] Finished at: 2026-01-25T15:03:31-05:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.14.0:compile (default-compile) on project facturacion: Compilation failure
+[ERROR] /C:/Prueba/facturacion_completo/facturacionHP/src/main/java/com/sistemalp/facturacion/Controladores/DashboardControlador.java:[30,39] cannot find symbol
+[ERROR]   symbol:   method listar()
+[ERROR]   location: variable facturaServicio of type com.sistemalp.facturacion.Servicios.FacturaServicio
+[ERROR] 
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException

@@ -4,17 +4,26 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity
+@Table(name = "campo_adicional_factura")
 @Getter
 @Setter
-public class TipoUsuario {
+public class CampoAdicionalFactura {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String rol;
-    private String Descripcion;
 
+    private String nombre;
+    private String valor;
+
+    @ManyToOne
+    @JoinColumn(name = "factura_id", nullable = false)
+    private Factura factura;
 }

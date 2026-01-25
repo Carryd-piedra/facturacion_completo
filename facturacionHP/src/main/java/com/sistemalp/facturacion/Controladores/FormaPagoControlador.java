@@ -2,7 +2,6 @@ package com.sistemalp.facturacion.Controladores;
 
 import java.util.List;
 
-import java.util.Map;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,16 +40,9 @@ public class FormaPagoControlador {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> eliminar(@PathVariable Long id) {
-        try {
-            formaPagoService.eliminar(id);
-            return ResponseEntity.ok(Map.of("mensaje", "Forma de pago eliminada correctamente"));
-        } catch (org.springframework.dao.DataIntegrityViolationException e) {
-            return ResponseEntity.badRequest()
-                    .body(Map.of("mensaje",
-                            "No se puede eliminar la forma de pago porque está siendo utilizada en facturas."));
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(Map.of("mensaje", "Error al eliminar: " + e.getMessage()));
-        }
+    public ResponseEntity<String> eliminar(@PathVariable Long id) {
+        formaPagoService.eliminar(id);
+        return ResponseEntity.ok("Forma de pago eliminada correctamente");
     }
 }
+

@@ -34,8 +34,7 @@ public class AuthControlador {
     public ResponseEntity<?> login(@RequestBody LoginRequest request) {
         try {
             Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
-            );
+                    new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
 
             User user = (User) authentication.getPrincipal();
             Usuario usuario = usuarioService.findByUsername(user.getUsername());
@@ -51,6 +50,21 @@ public class AuthControlador {
             // Otro error (por ejemplo, error interno del servidor)
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Error al iniciar sesión: " + e.getMessage());
+        }
+    }
+
+    @PostMapping("/cambiar-rol")
+    public ResponseEntity<?> cambiarRol(@RequestBody com.sistemalp.facturacion.Dto.CambioRolDTO request) {
+        if (request.getUsuarioId() == null || request.getRol() == null || request.getRol().isEmpty()) {
+            return ResponseEntity.badRequest().body("UsuarioId y Rol son requeridos");
+        }
+        try {
+            Usuario usuarioActualizado = usuarioService.cambiarRol(request.getUsuarioId(), request.getRol(),
+                    request.getDescripcion());
+            return ResponseEntity
+                    .ok("Rol actualizado correctamente para el usuario: " + usuarioActualizado.getUsername());
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 }

@@ -1,7 +1,5 @@
 package com.sistemalp.facturacion.Servicios;
 
-
-
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -69,9 +67,7 @@ public class EmpresaServicio {
 
         e.setAmbiente(dto.getAmbiente());
         e.setTipoEmision(dto.getTipoEmision());
-        e.setRutaFirma(dto.getRutaFirma());
-        e.setClaveFirma(dto.getClaveFirma());
+
         e.setObligadoContabilidad(dto.getObligadoContabilidad());
     }
 }
-

@@ -22,9 +22,6 @@ public class EmpresaDTO {
 
     private String obligadoContabilidad;
 
-    private String rutaFirma;
-    private String claveFirma;
-
     private String contribuyenteEspecial;
     private String resolucion;
 }

@@ -1,7 +1,8 @@
 package com.sistemalp.facturacion.Controladores;
 
+
+
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -37,21 +38,15 @@ public class ProductoControlador {
     @PutMapping("/{id}")
     public ResponseEntity<Producto> actualizar(
             @PathVariable Long id,
-            @RequestBody Producto producto) {
+            @RequestBody Producto producto
+    ) {
         return ResponseEntity.ok(productoService.actualizarProducto(id, producto));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> eliminar(@PathVariable Long id) {
-        try {
-            productoService.eliminarProducto(id);
-            return ResponseEntity.ok(Map.of("mensaje", "Producto eliminado correctamente"));
-        } catch (org.springframework.dao.DataIntegrityViolationException e) {
-            return ResponseEntity.badRequest()
-                    .body(Map.of("mensaje",
-                            "No se puede eliminar el producto porque está siendo utilizado en facturas."));
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(Map.of("mensaje", "Error al eliminar: " + e.getMessage()));
-        }
+    public ResponseEntity<String> eliminar(@PathVariable Long id) {
+        productoService.eliminarProducto(id);
+        return ResponseEntity.ok("Producto eliminado correctamente");
     }
 }
+

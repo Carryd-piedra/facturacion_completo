@@ -6,13 +6,12 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;   // ← NECESARIO
+import java.nio.file.Files; // ← NECESARIO
 import java.util.Base64;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.springframework.stereotype.Service;
-
 
 @Service
 public class SriRecepcionService {
@@ -20,17 +19,26 @@ public class SriRecepcionService {
     // ==========================
     // 🔗 URLs del SRI
     // ==========================
-    private static final String SRI_RECEPCION_PRUEBAS =
-            "https://celcer.sri.gob.ec/comprobantes-electronicos-ws/RecepcionComprobantesOffline?wsdl";
-    private static final String SRI_AUTORIZACION_PRUEBAS =
-            "https://celcer.sri.gob.ec/comprobantes-electronicos-ws/AutorizacionComprobantesOffline?wsdl";
+    private static final String SRI_RECEPCION_PRUEBAS = "https://celcer.sri.gob.ec/comprobantes-electronicos-ws/RecepcionComprobantesOffline?wsdl";
+    private static final String SRI_AUTORIZACION_PRUEBAS = "https://celcer.sri.gob.ec/comprobantes-electronicos-ws/AutorizacionComprobantesOffline?wsdl";
 
     // ==========================
     // 📤 ENVIAR XML FIRMADO
     // ==========================
     public String enviarFactura(String rutaXmlFirmado) throws Exception {
 
-        log("📩 Recibido archivo: " + rutaXmlFirmado);
+        // Limpieza agresiva: Buscar patrón de disco (Ej: C:\ o C:/)
+        if (rutaXmlFirmado != null) {
+            java.util.regex.Pattern p = java.util.regex.Pattern.compile("[a-zA-Z]:[\\\\/]");
+            java.util.regex.Matcher m = p.matcher(rutaXmlFirmado);
+            if (m.find()) {
+                rutaXmlFirmado = rutaXmlFirmado.substring(m.start());
+            }
+            // Quitar comillas finales si quedaron
+            rutaXmlFirmado = rutaXmlFirmado.replaceAll("[\"']$", "").trim();
+        }
+
+        log("📩 Recibido archivo (limpio): " + rutaXmlFirmado);
 
         File file = new File(rutaXmlFirmado);
         if (!file.exists()) {
@@ -75,16 +83,16 @@ public class SriRecepcionService {
     private String generarSoapRecepcion(String xmlBase64) {
 
         return """
-        <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
-                          xmlns:ec="http://ec.gob.sri.ws.recepcion">
-            <soapenv:Header/>
-            <soapenv:Body>
-                <ec:validarComprobante>
-                    <xml>%s</xml>
-                </ec:validarComprobante>
-            </soapenv:Body>
-        </soapenv:Envelope>
-        """.formatted(xmlBase64);
+                <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+                                  xmlns:ec="http://ec.gob.sri.ws.recepcion">
+                    <soapenv:Header/>
+                    <soapenv:Body>
+                        <ec:validarComprobante>
+                            <xml>%s</xml>
+                        </ec:validarComprobante>
+                    </soapenv:Body>
+                </soapenv:Envelope>
+                """.formatted(xmlBase64);
     }
 
     // =====================================================================
@@ -93,16 +101,16 @@ public class SriRecepcionService {
     private String generarSoapAutorizacion(String claveAcceso) {
 
         return """
-        <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
-                          xmlns:ec="http://ec.gob.sri.ws.autorizacion">
-            <soapenv:Header/>
-            <soapenv:Body>
-                <ec:autorizacionComprobante>
-                    <claveAccesoComprobante>%s</claveAccesoComprobante>
-                </ec:autorizacionComprobante>
-            </soapenv:Body>
-        </soapenv:Envelope>
-        """.formatted(claveAcceso);
+                <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+                                  xmlns:ec="http://ec.gob.sri.ws.autorizacion">
+                    <soapenv:Header/>
+                    <soapenv:Body>
+                        <ec:autorizacionComprobante>
+                            <claveAccesoComprobante>%s</claveAccesoComprobante>
+                        </ec:autorizacionComprobante>
+                    </soapenv:Body>
+                </soapenv:Envelope>
+                """.formatted(claveAcceso);
     }
 
     // =====================================================================
@@ -149,7 +157,8 @@ public class SriRecepcionService {
             StringBuilder sb = new StringBuilder("❌ DEVUELTA — Errores del SRI:\n");
             Matcher m = Pattern.compile("<mensaje>(.*?)</mensaje>").matcher(xml);
 
-            while (m.find()) sb.append(" - ").append(m.group(1)).append("\n");
+            while (m.find())
+                sb.append(" - ").append(m.group(1)).append("\n");
 
             return sb.toString();
         }

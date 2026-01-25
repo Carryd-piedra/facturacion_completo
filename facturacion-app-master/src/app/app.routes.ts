@@ -22,11 +22,12 @@ export const routes: Routes = [
     children: [
       { path: '', component: InicioComponent },
       { path: 'productos', component: ProductosComponent },
-      { path: 'contacto', component: ContactanosComponent },
-      {
-        path: 'login', component: LoginComponent
-      }
+      { path: 'contacto', component: ContactanosComponent }
     ]
+  },
+  {
+    path: 'login',
+    component: LoginComponent
   },
 
   {

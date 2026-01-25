@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            margin: 30px;
+        }
+
+        .seccion {
+            border: 1px solid #000;
+            padding: 12px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+        }
+
+        .titulo {
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .label {
+            font-weight: bold;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 12px;
+            font-size: 12px;
+        }
+
+        th {
+            background: #f0f0f0;
+            border: 1px solid #000;
+            padding: 6px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        td {
+            border: 1px solid #000;
+            padding: 6px;
+            text-align: center;
+        }
+
+        .total {
+            text-align: right;
+            margin-top: 18px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .cabecera-sri {
+            font-size: 12px;
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- DATOS DE LA EMPRESA -->
+    <div class="seccion">
+        <div class="titulo">{{EMPRESA_NOMBRE}}</div>
+        <p><span class="label">Direccion:</span> {{EMPRESA_DIRECCION}}</p>
+        <p><span class="label">Telefono:</span> {{EMPRESA_TELEFONO}}</p>
+        <p><span class="label">RUC:</span> {{EMPRESA_RUC}}</p>
+    </div>
+
+    <!-- ENCABEZADO SRI -->
+    <div class="seccion">
+        <div class="titulo">FACTURA ELECTRONICA</div>
+
+        <p class="cabecera-sri"><span class="label">Autorizacion:</span> {{AUTORIZACION}}</p>
+        <p class="cabecera-sri"><span class="label">Fecha autorizacion:</span> {{FECHA_AUTORIZACION}}</p>
+    </div>
+
+    <!-- DATOS DEL CLIENTE -->
+    <div class="seccion">
+        <p><span class="label">Cliente:</span> {{CLIENTE}}</p>
+        <p><span class="label">RUC:</span> {{RUC}}</p>
+    </div>
+
+    <!-- DETALLE -->
+    <table>
+        <thead>
+            <tr>
+                <th>Descripcion</th>
+                <th>Cantidad</th>
+                <th>Precio Unitario</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{DETALLES}}
+        </tbody>
+    </table>
+
+    <!-- TOTAL GENERAL -->
+    <div class="total">
+        Total a pagar: $ {{TOTAL}}
+    </div>
+
+</body>
+
+</html>

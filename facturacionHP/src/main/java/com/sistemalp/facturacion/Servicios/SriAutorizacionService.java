@@ -10,22 +10,22 @@ import org.springframework.stereotype.Service;
 @Service
 public class SriAutorizacionService {
 
-    private static final String SRI_AUTORIZACION =
-            "https://celcer.sri.gob.ec/comprobantes-electronicos-ws/AutorizacionComprobantes";
+    private static final String SRI_AUTORIZACION = "https://celcer.sri.gob.ec/comprobantes-electronicos-ws/AutorizacionComprobantes";
 
-    public String consultarAutorizacion(String claveAcceso) throws Exception {
+    public String consultarAutorizacion(String claveAcceso, com.sistemalp.facturacion.Entidades.Factura factura)
+            throws Exception {
 
         String soap = """
-            <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
-                              xmlns:ec="http://ec.gob.sri.ws.autorizacion">
-                <soapenv:Header/>
-                <soapenv:Body>
-                    <ec:autorizacionComprobante>
-                        <claveAccesoComprobante>%s</claveAccesoComprobante>
-                    </ec:autorizacionComprobante>
-                </soapenv:Body>
-            </soapenv:Envelope>
-        """.formatted(claveAcceso);
+                    <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+                                      xmlns:ec="http://ec.gob.sri.ws.autorizacion">
+                        <soapenv:Header/>
+                        <soapenv:Body>
+                            <ec:autorizacionComprobante>
+                                <claveAccesoComprobante>%s</claveAccesoComprobante>
+                            </ec:autorizacionComprobante>
+                        </soapenv:Body>
+                    </soapenv:Envelope>
+                """.formatted(claveAcceso);
 
         HttpURLConnection conn = (HttpURLConnection) new URL(SRI_AUTORIZACION).openConnection();
         conn.setDoOutput(true);
@@ -36,13 +36,39 @@ public class SriAutorizacionService {
 
         String response = new String(conn.getInputStream().readAllBytes());
 
-        return procesarRespuestaAutorizacion(response);
+        return procesarRespuestaAutorizacion(response, factura);
     }
 
     // Procesar estado AUTORIZADO / NO AUTORIZADO
-    private String procesarRespuestaAutorizacion(String xml) {
+    private String procesarRespuestaAutorizacion(String xml, com.sistemalp.facturacion.Entidades.Factura factura) {
 
         if (xml.contains("<estado>AUTORIZADO</estado>")) {
+            try {
+                // Extraer fecha y numero de autorizacion (usualmente numero = clave acceso si
+                // no cambia)
+                String fechaAutorizacion = extraeTag(xml, "fechaAutorizacion");
+                String numeroAutorizacion = extraeTag(xml, "numeroAutorizacion");
+
+                if (numeroAutorizacion == null)
+                    numeroAutorizacion = factura.getClaveAcceso();
+                if (fechaAutorizacion == null)
+                    fechaAutorizacion = java.time.LocalDateTime.now().toString();
+
+                String html = FacturaHtmlBuilder.generarHtmlFactura(factura, numeroAutorizacion, fechaAutorizacion);
+
+                // Crear carpeta si no existe
+                java.io.File dir = new java.io.File("C:\\facturas_pdf");
+                if (!dir.exists())
+                    dir.mkdirs();
+
+                String rutaPdf = "C:\\facturas_pdf\\factura_" + factura.getClaveAcceso() + ".pdf";
+                PdfGenerator.generarPDF(html, rutaPdf);
+
+                System.out.println("PDF generado correctamente: " + rutaPdf);
+            } catch (Exception e) {
+                System.err.println("Error generando PDF: " + e.getMessage());
+                e.printStackTrace();
+            }
             return "AUTORIZADO";
         }
 
@@ -60,5 +86,14 @@ public class SriAutorizacionService {
         }
 
         return "Respuesta desconocida:\n" + xml;
+    }
+
+    private String extraeTag(String xml, String tag) {
+        Pattern p = Pattern.compile("<" + tag + ">(.*?)</" + tag + ">");
+        Matcher m = p.matcher(xml);
+        if (m.find()) {
+            return m.group(1);
+        }
+        return null;
     }
 }

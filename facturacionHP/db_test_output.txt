@@ -1,0 +1,115 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ---------------------< com.sistemalp:facturacion >----------------------
+[INFO] Building facturacion 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.4.1:clean (default-clean) @ facturacion ---
+[INFO] Deleting C:\Prueba\facturacionHP\target
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ facturacion ---
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] Copying 0 resource from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.14.0:compile (default-compile) @ facturacion ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 74 source files with javac [debug parameters release 17] to target\classes
+[INFO] /C:/Prueba/facturacionHP/src/main/java/com/sistemalp/facturacion/Servicios/ClienteServicio.java: C:\Prueba\facturacionHP\src\main\java\com\sistemalp\facturacion\Servicios\ClienteServicio.java uses or overrides a deprecated API.
+[INFO] /C:/Prueba/facturacionHP/src/main/java/com/sistemalp/facturacion/Servicios/ClienteServicio.java: Recompile with -Xlint:deprecation for details.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ facturacion ---
+[INFO] skip non existing resourceDirectory C:\Prueba\facturacionHP\src\test\resources
+[INFO] 
+[INFO] --- compiler:3.14.0:testCompile (default-testCompile) @ facturacion ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 2 source files with javac [debug parameters release 17] to target\test-classes
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ facturacion ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running com.sistemalp.facturacion.FacturacionApplicationTests
+14:36:28.111 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.sistemalp.facturacion.FacturacionApplicationTests]: FacturacionApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+14:36:28.430 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.sistemalp.facturacion.FacturacionApplication for test class com.sistemalp.facturacion.FacturacionApplicationTests
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.5.6)
+
+2025-12-02T14:36:29.787-05:00  INFO 17748 --- [Facturacion_SRI] [           main] c.s.f.FacturacionApplicationTests        : Starting FacturacionApplicationTests using Java 22.0.1 with PID 17748 (started by diego in C:\Prueba\facturacionHP)
+2025-12-02T14:36:29.789-05:00  INFO 17748 --- [Facturacion_SRI] [           main] c.s.f.FacturacionApplicationTests        : No active profile set, falling back to 1 default profile: "default"
+2025-12-02T14:36:33.488-05:00  INFO 17748 --- [Facturacion_SRI] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-12-02T14:36:34.116-05:00  INFO 17748 --- [Facturacion_SRI] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 593 ms. Found 12 JPA repository interfaces.
+2025-12-02T14:36:37.529-05:00  INFO 17748 --- [Facturacion_SRI] [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-12-02T14:36:37.995-05:00  INFO 17748 --- [Facturacion_SRI] [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.29.Final
+2025-12-02T14:36:38.163-05:00  INFO 17748 --- [Facturacion_SRI] [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-12-02T14:36:39.331-05:00  INFO 17748 --- [Facturacion_SRI] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-12-02T14:36:39.431-05:00  INFO 17748 --- [Facturacion_SRI] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-12-02T14:36:40.002-05:00  INFO 17748 --- [Facturacion_SRI] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@401b67a9
+2025-12-02T14:36:40.008-05:00  INFO 17748 --- [Facturacion_SRI] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-12-02T14:36:40.171-05:00  WARN 17748 --- [Facturacion_SRI] [           main] org.hibernate.orm.deprecation            : HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-12-02T14:36:40.175-05:00  WARN 17748 --- [Facturacion_SRI] [           main] org.hibernate.orm.deprecation            : HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2025-12-02T14:36:40.230-05:00  INFO 17748 --- [Facturacion_SRI] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-12-02T14:36:44.664-05:00  INFO 17748 --- [Facturacion_SRI] [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-12-02T14:36:44.896-05:00 DEBUG 17748 --- [Facturacion_SRI] [           main] org.hibernate.SQL                        : create table campo_adicional_guia (id bigint not null auto_increment, nombre varchar(255), valor varchar(255), guia_remision_id bigint not null, primary key (id)) engine=InnoDB
+Hibernate: create table campo_adicional_guia (id bigint not null auto_increment, nombre varchar(255), valor varchar(255), guia_remision_id bigint not null, primary key (id)) engine=InnoDB
+2025-12-02T14:36:45.028-05:00 DEBUG 17748 --- [Facturacion_SRI] [           main] org.hibernate.SQL                        : create table destinatario_guia (id bigint not null auto_increment, codDocSustento varchar(255), codEstabDestino varchar(255), dirDestinatario varchar(255), docAduaneroUnico varchar(255), fechaEmisionDocSustento date, identificacionDestinatario varchar(255), motivoTraslado varchar(255), numAutDocSustento varchar(255), numDocSustento varchar(255), razonSocialDestinatario varchar(255), ruta varchar(255), guia_remision_id bigint not null, primary key (id)) engine=InnoDB
+Hibernate: create table destinatario_guia (id bigint not null auto_increment, codDocSustento varchar(255), codEstabDestino varchar(255), dirDestinatario varchar(255), docAduaneroUnico varchar(255), fechaEmisionDocSustento date, identificacionDestinatario varchar(255), motivoTraslado varchar(255), numAutDocSustento varchar(255), numDocSustento varchar(255), razonSocialDestinatario varchar(255), ruta varchar(255), guia_remision_id bigint not null, primary key (id)) engine=InnoDB
+2025-12-02T14:36:45.062-05:00 DEBUG 17748 --- [Facturacion_SRI] [           main] org.hibernate.SQL                        : create table detalle_adicional_guia (id bigint not null auto_increment, nombre varchar(255), valor varchar(255), detalle_guia_id bigint not null, primary key (id)) engine=InnoDB
+Hibernate: create table detalle_adicional_guia (id bigint not null auto_increment, nombre varchar(255), valor varchar(255), detalle_guia_id bigint not null, primary key (id)) engine=InnoDB
+2025-12-02T14:36:45.089-05:00 DEBUG 17748 --- [Facturacion_SRI] [           main] org.hibernate.SQL                        : create table detalle_guia (id bigint not null auto_increment, cantidad decimal(38,2), codigoAdicional varchar(255), codigoInterno varchar(255), descripcion varchar(255), destinatario_id bigint not null, primary key (id)) engine=InnoDB
+Hibernate: create table detalle_guia (id bigint not null auto_increment, cantidad decimal(38,2), codigoAdicional varchar(255), codigoInterno varchar(255), descripcion varchar(255), destinatario_id bigint not null, primary key (id)) engine=InnoDB
+2025-12-02T14:36:45.120-05:00 DEBUG 17748 --- [Facturacion_SRI] [           main] org.hibernate.SQL                        : create table guia_remision (id bigint not null auto_increment, ambiente varchar(255), claveAcceso varchar(255), codDoc varchar(255), contribuyenteEspecial varchar(255), dirEstablecimiento varchar(255), dirMatriz varchar(255), dirPartida varchar(255), estab varchar(255), estado integer, fechaFinTransporte date, fechaIniTransporte date, nombreComercial varchar(255), obligadoContabilidad varchar(255), placa varchar(255), ptoEmi varchar(255), razonSocial varchar(255), razonSocialTransportista varchar(255), rise varchar(255), ruc varchar(255), rucTransportista varchar(255), secuencial varchar(255), tipoEmision varchar(255), tipoIdentificacionTransportista varchar(255), primary key (id)) engine=InnoDB
+Hibernate: create table guia_remision (id bigint not null auto_increment, ambiente varchar(255), claveAcceso varchar(255), codDoc varchar(255), contribuyenteEspecial varchar(255), dirEstablecimiento varchar(255), dirMatriz varchar(255), dirPartida varchar(255), estab varchar(255), estado integer, fechaFinTransporte date, fechaIniTransporte date, nombreComercial varchar(255), obligadoContabilidad varchar(255), placa varchar(255), ptoEmi varchar(255), razonSocial varchar(255), razonSocialTransportista varchar(255), rise varchar(255), ruc varchar(255), rucTransportista varchar(255), secuencial varchar(255), tipoEmision varchar(255), tipoIdentificacionTransportista varchar(255), primary key (id)) engine=InnoDB
+2025-12-02T14:36:45.160-05:00 DEBUG 17748 --- [Facturacion_SRI] [           main] org.hibernate.SQL                        : alter table campo_adicional_guia add constraint FKff4uhq7vm0bf29c0ttaf03gvk foreign key (guia_remision_id) references guia_remision (id)
+Hibernate: alter table campo_adicional_guia add constraint FKff4uhq7vm0bf29c0ttaf03gvk foreign key (guia_remision_id) references guia_remision (id)
+2025-12-02T14:36:45.317-05:00 DEBUG 17748 --- [Facturacion_SRI] [           main] org.hibernate.SQL                        : alter table destinatario_guia add constraint FKco3hqbuoteoagumh8ftxsdhpi foreign key (guia_remision_id) references guia_remision (id)
+Hibernate: alter table destinatario_guia add constraint FKco3hqbuoteoagumh8ftxsdhpi foreign key (guia_remision_id) references guia_remision (id)
+2025-12-02T14:36:45.431-05:00 DEBUG 17748 --- [Facturacion_SRI] [           main] org.hibernate.SQL                        : alter table detalle_adicional_guia add constraint FKps4b346ytqp9q366356xyn325 foreign key (detalle_guia_id) references detalle_guia (id)
+Hibernate: alter table detalle_adicional_guia add constraint FKps4b346ytqp9q366356xyn325 foreign key (detalle_guia_id) references detalle_guia (id)
+2025-12-02T14:36:45.530-05:00 DEBUG 17748 --- [Facturacion_SRI] [           main] org.hibernate.SQL                        : alter table detalle_guia add constraint FKjif6ki8ht8a488qm2cd7j0lge foreign key (destinatario_id) references destinatario_guia (id)
+Hibernate: alter table detalle_guia add constraint FKjif6ki8ht8a488qm2cd7j0lge foreign key (destinatario_id) references destinatario_guia (id)
+2025-12-02T14:36:45.831-05:00  INFO 17748 --- [Facturacion_SRI] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-12-02T14:36:47.383-05:00  INFO 17748 --- [Facturacion_SRI] [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2025-12-02T14:36:49.175-05:00  WARN 17748 --- [Facturacion_SRI] [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-12-02T14:36:52.010-05:00  INFO 17748 --- [Facturacion_SRI] [           main] c.s.f.FacturacionApplicationTests        : Started FacturacionApplicationTests in 23.164 seconds (process running for 25.779)
+2025-12-02T14:36:52.322-05:00 DEBUG 17748 --- [Facturacion_SRI] [           main] org.hibernate.SQL                        : select tu1_0.id,tu1_0.Descripcion,tu1_0.rol from TipoUsuario tu1_0 where tu1_0.rol=?
+Hibernate: select tu1_0.id,tu1_0.Descripcion,tu1_0.rol from TipoUsuario tu1_0 where tu1_0.rol=?
+2025-12-02T14:36:52.413-05:00 DEBUG 17748 --- [Facturacion_SRI] [           main] org.hibernate.SQL                        : select u1_0.id,u1_0.correo,u1_0.estaActivo,u1_0.nombre,u1_0.password,u1_0.tipousuario_id,u1_0.username from Usuario u1_0 where u1_0.username=?
+Hibernate: select u1_0.id,u1_0.correo,u1_0.estaActivo,u1_0.nombre,u1_0.password,u1_0.tipousuario_id,u1_0.username from Usuario u1_0 where u1_0.username=?
+2025-12-02T14:36:52.449-05:00 DEBUG 17748 --- [Facturacion_SRI] [           main] org.hibernate.SQL                        : select tu1_0.id,tu1_0.Descripcion,tu1_0.rol from TipoUsuario tu1_0 where tu1_0.id=?
+Hibernate: select tu1_0.id,tu1_0.Descripcion,tu1_0.rol from TipoUsuario tu1_0 where tu1_0.id=?
+Usuario 'admin' ya existe, no se crea nuevamente
+Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
+WARNING: A Java agent has been loaded dynamically (C:\Users\diego\.m2\repository\net\bytebuddy\byte-buddy-agent\1.17.7\byte-buddy-agent-1.17.7.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+Java HotSpot(TM) 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 25.55 s -- in com.sistemalp.facturacion.FacturacionApplicationTests
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  51.145 s
+[INFO] Finished at: 2025-12-02T14:36:53-05:00
+[INFO] ------------------------------------------------------------------------

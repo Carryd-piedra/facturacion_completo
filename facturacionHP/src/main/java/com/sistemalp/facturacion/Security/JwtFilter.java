@@ -30,35 +30,52 @@ public class JwtFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
         String path = request.getServletPath();
-        if (path.startsWith("/auth/") || path.startsWith("/v3/") || path.startsWith("/swagger") ||
-                path.startsWith("/api/tipodocumento") || path.startsWith("/api/cliente")) {
+        System.out.println("DEBUG JWT: Processing " + request.getMethod() + " request for path: " + path);
+
+        if (path.startsWith("/auth/") || path.startsWith("/v3/") || path.startsWith("/swagger")) {
+            System.out.println("DEBUG JWT: Public path detected, skipping filter logic.");
             filterChain.doFilter(request, response);
             return;
         }
+
         final String authHeader = request.getHeader("Authorization");
         String username = null;
         String jwtToken = null;
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            jwtToken = authHeader.substring(7); // Extrae token (sin "Bearer ")
+            jwtToken = authHeader.substring(7);
             try {
                 username = jwtService.extractUsername(jwtToken);
+                System.out.println("DEBUG JWT: Username extracted from token: " + username);
             } catch (Exception e) {
+                System.out.println("DEBUG JWT: Error extracting username: " + e.getMessage());
                 logger.error("Error al extraer username del JWT: " + e.getMessage());
             }
+        } else {
+            System.out.println("DEBUG JWT: No valid Auth header found. Header: " + authHeader);
         }
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            System.out.println("DEBUG JWT: Loading UserDetails for: " + username);
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
 
             if (jwtService.validarToken(jwtToken)) {
+                System.out.println("DEBUG JWT: Token is valid.");
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities());
 
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
                 SecurityContextHolder.getContext().setAuthentication(authToken);
+                System.out.println("DEBUG JWT: Authentication set in SecurityContext.");
+            } else {
+                System.out.println("DEBUG JWT: Token validation failed.");
             }
+        } else {
+            if (username == null)
+                System.out.println("DEBUG JWT: Username is null, skipping auth.");
+            else
+                System.out.println("DEBUG JWT: SecurityContext already authenticated.");
         }
         filterChain.doFilter(request, response);
     }

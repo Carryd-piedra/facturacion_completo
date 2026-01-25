@@ -24,8 +24,8 @@ public class Factura {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long facturaId;
 
-    private String secuencial;      // 9 dígitos
-    private String claveAcceso;     // generado por SRI
+    private String secuencial; // 9 dígitos
+    private String claveAcceso; // generado por SRI
 
     private LocalDateTime fechaEmision;
     private Double subtotal12;
@@ -36,7 +36,7 @@ public class Factura {
     private Double totalIva;
     private Double totalFactura;
 
-    private Integer estado;         // 1=Registrada,2=Enviada,3=Autorizada
+    private Integer estado; // 1=Registrada,2=Enviada,3=Autorizada
 
     @ManyToOne
     @JoinColumn(name = "cliente_id", nullable = false)
@@ -48,5 +48,11 @@ public class Factura {
 
     @OneToMany(mappedBy = "factura", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<DetalleFactura> detalles;
+
+    @OneToMany(mappedBy = "factura", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<FacturaPago> pagos;
+
+    @OneToMany(mappedBy = "factura", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<CampoAdicionalFactura> infoAdicional;
 
 }

@@ -1,6 +1,5 @@
 package com.sistemalp.facturacion.Dto;
 
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,4 +15,6 @@ public class DetalleFacturaDTO {
     private Double subtotal;
 
     private ImpuestoDetalleDTO impuesto;
+
+    private java.util.List<DetalleAdicionalDTO> detallesAdicionales;
 }

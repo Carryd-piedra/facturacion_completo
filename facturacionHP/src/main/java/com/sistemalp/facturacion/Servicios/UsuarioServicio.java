@@ -36,7 +36,31 @@ public class UsuarioServicio {
         return usuarioRespositorio.findByUsername(username).orElse(null);
     }
 
+    @Autowired
+    private com.sistemalp.facturacion.Repositorios.TipoUsuarioRepositorio tipoUsuarioRepositorio;
+
     public void eliminar(Long id) {
         usuarioRespositorio.deleteById(id);
+    }
+
+    public Usuario cambiarRol(Long usuarioId, String rolNombre, String rolDescripcion) throws Exception {
+        Usuario usuario = usuarioRespositorio.findById(usuarioId)
+                .orElseThrow(() -> new Exception("Usuario no encontrado"));
+
+        com.sistemalp.facturacion.Entidades.TipoUsuario nuevoRol = tipoUsuarioRepositorio.findByRol(rolNombre)
+                .orElseGet(() -> {
+                    com.sistemalp.facturacion.Entidades.TipoUsuario t = new com.sistemalp.facturacion.Entidades.TipoUsuario();
+                    t.setRol(rolNombre);
+                    t.setDescripcion(rolDescripcion != null ? rolDescripcion : "Rol creado automaticamente");
+                    return tipoUsuarioRepositorio.save(t);
+                });
+
+        if (rolDescripcion != null && !rolDescripcion.isEmpty()) {
+            nuevoRol.setDescripcion(rolDescripcion);
+            tipoUsuarioRepositorio.save(nuevoRol);
+        }
+
+        usuario.setTipoUsuario(nuevoRol);
+        return usuarioRespositorio.save(usuario);
     }
 }
