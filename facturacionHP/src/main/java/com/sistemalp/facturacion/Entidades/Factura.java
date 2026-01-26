@@ -27,6 +27,21 @@ public class Factura {
     private String secuencial; // 9 dígitos
     private String claveAcceso; // generado por SRI
 
+    // Info Tributaria (Snapshot)
+    private String ambiente;
+    private String tipoEmision;
+    private String razonSocial;
+    private String nombreComercial;
+    private String ruc;
+    private String codDoc; // 01 para factura
+    private String estab;
+    private String ptoEmi;
+    private String dirMatriz;
+
+    // Info Factura Adicional
+    private String contribuyenteEspecial;
+    private String obligadoContabilidad;
+
     private LocalDateTime fechaEmision;
     private Double subtotal12;
     private Double subtotal0;

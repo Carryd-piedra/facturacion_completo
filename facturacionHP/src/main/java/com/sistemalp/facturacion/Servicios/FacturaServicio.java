@@ -69,6 +69,23 @@ public class FacturaServicio {
         factura.setEstado(1);
         factura.setCliente(cliente);
         factura.setEmpresa(empresa);
+        factura.setEstado(1);
+        factura.setCliente(cliente);
+        factura.setEmpresa(empresa);
+
+        // SNAPSHOT: Copiar datos de la empresa a la factura
+        factura.setAmbiente(empresa.getAmbiente() != null ? String.valueOf(empresa.getAmbiente()) : "1");
+        factura.setTipoEmision(empresa.getTipoEmision() != null ? String.valueOf(empresa.getTipoEmision()) : "1");
+        factura.setRazonSocial(empresa.getRazonSocial());
+        factura.setNombreComercial(empresa.getNombreComercial());
+        factura.setRuc(empresa.getRuc());
+        factura.setCodDoc("01"); // Factura
+        factura.setEstab(empresa.getEstablecimiento());
+        factura.setPtoEmi(empresa.getPuntoEmision());
+        factura.setDirMatriz(empresa.getDirMatriz());
+        factura.setContribuyenteEspecial(empresa.getContribuyenteEspecial());
+        factura.setObligadoContabilidad(empresa.getObligadoContabilidad());
+
         factura = facturaRepository.save(factura);
 
         // Variables para acumuladores si el request no trae totales
@@ -251,8 +268,9 @@ public class FacturaServicio {
         String ambiente = "1"; // Siempre 1
 
         // Padding Estricto
-        String estab = String.format("%03d", Integer.parseInt(factura.getEmpresa().getEstablecimiento()));
-        String ptoEmi = String.format("%03d", Integer.parseInt(factura.getEmpresa().getPuntoEmision()));
+        // Padding Estricto
+        String estab = String.format("%03d", Integer.parseInt(factura.getEstab()));
+        String ptoEmi = String.format("%03d", Integer.parseInt(factura.getPtoEmi()));
         String secuencial = String.format("%09d", Integer.parseInt(factura.getSecuencial()));
 
         String codigoNumerico = generarCodigoNumerico();
@@ -302,17 +320,17 @@ public class FacturaServicio {
             // ================= INFO TRIBUTARIA =================
             Element infoTrib = doc.createElement("infoTributaria");
             facturaEl.appendChild(infoTrib);
-            infoTrib.appendChild(add(doc, "ambiente", "1"));
-            infoTrib.appendChild(add(doc, "tipoEmision", "1"));
-            infoTrib.appendChild(add(doc, "razonSocial", factura.getEmpresa().getRazonSocial()));
-            infoTrib.appendChild(add(doc, "nombreComercial", factura.getEmpresa().getNombreComercial()));
-            infoTrib.appendChild(add(doc, "ruc", factura.getEmpresa().getRuc()));
+            infoTrib.appendChild(add(doc, "ambiente", factura.getAmbiente()));
+            infoTrib.appendChild(add(doc, "tipoEmision", factura.getTipoEmision()));
+            infoTrib.appendChild(add(doc, "razonSocial", factura.getRazonSocial()));
+            infoTrib.appendChild(add(doc, "nombreComercial", factura.getNombreComercial()));
+            infoTrib.appendChild(add(doc, "ruc", factura.getRuc()));
             infoTrib.appendChild(add(doc, "claveAcceso", factura.getClaveAcceso()));
             infoTrib.appendChild(add(doc, "codDoc", "01"));
-            infoTrib.appendChild(add(doc, "estab", factura.getEmpresa().getEstablecimiento()));
-            infoTrib.appendChild(add(doc, "ptoEmi", factura.getEmpresa().getPuntoEmision()));
+            infoTrib.appendChild(add(doc, "estab", factura.getEstab()));
+            infoTrib.appendChild(add(doc, "ptoEmi", factura.getPtoEmi()));
             infoTrib.appendChild(add(doc, "secuencial", factura.getSecuencial()));
-            infoTrib.appendChild(add(doc, "dirMatriz", factura.getEmpresa().getDirEstablecimiento()));
+            infoTrib.appendChild(add(doc, "dirMatriz", factura.getDirMatriz()));
 
             // ================= INFO FACTURA =================
             Element infoFac = doc.createElement("infoFactura");
@@ -320,10 +338,20 @@ public class FacturaServicio {
 
             infoFac.appendChild(add(doc, "fechaEmision",
                     factura.getFechaEmision().toLocalDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))));
-            infoFac.appendChild(add(doc, "dirEstablecimiento", factura.getEmpresa().getDirEstablecimiento()));
+            infoFac.appendChild(add(doc, "dirEstablecimiento", factura.getEmpresa().getDirEstablecimiento())); // Opcional:
+                                                                                                               // podrías
+                                                                                                               // usar
+                                                                                                               // dirMatriz
+                                                                                                               // o
+                                                                                                               // dirSucursal
+                                                                                                               // si lo
+                                                                                                               // tuvieras
 
             // Obligado Contabilidad
-            infoFac.appendChild(add(doc, "obligadoContabilidad", "NO"));
+            infoFac.appendChild(add(doc, "obligadoContabilidad", factura.getObligadoContabilidad()));
+            if (factura.getContribuyenteEspecial() != null && !factura.getContribuyenteEspecial().isEmpty()) {
+                infoFac.appendChild(add(doc, "contribuyenteEspecial", factura.getContribuyenteEspecial()));
+            }
 
             // Determinar Tipo Identificación Comprador (04=RUC, 05=Cedula, 07=Consumidor
             // Final)

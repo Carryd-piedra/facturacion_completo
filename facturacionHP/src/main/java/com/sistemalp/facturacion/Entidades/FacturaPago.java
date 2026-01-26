@@ -9,7 +9,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class FacturaPago {
+public class FacturaPago { //entidad para guardar los pagos de la factura
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
