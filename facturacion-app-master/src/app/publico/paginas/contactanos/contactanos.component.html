@@ -1,6 +1,7 @@
 <div class="container my-5">
 
-  <h1 class="text-center mb-4">Contáctanos</h1>
+  <h1 class="text-center mb-4 fw-bold text-danger">Contáctanos</h1>
+  <p class="text-center text-muted mb-5">Estamos aquí para ayudarte. Envíanos un mensaje.</p>
 
   <div class="row justify-content-center">
     <div class="col-md-8 col-lg-6">
@@ -19,12 +20,8 @@
 
         <div class="mb-3">
           <label class="form-label">Nombre</label>
-          <input
-            type="text"
-            class="form-control"
-            formControlName="nombre"
-            [class.is-invalid]="form.get('nombre')?.touched && form.get('nombre')?.invalid"
-          >
+          <input type="text" class="form-control" formControlName="nombre"
+            [class.is-invalid]="form.get('nombre')?.touched && form.get('nombre')?.invalid">
           <div class="invalid-feedback">
             El nombre es obligatorio
           </div>
@@ -32,12 +29,8 @@
 
         <div class="mb-3">
           <label class="form-label">Correo electrónico</label>
-          <input
-            type="email"
-            class="form-control"
-            formControlName="email"
-            [class.is-invalid]="form.get('email')?.touched && form.get('email')?.invalid"
-          >
+          <input type="email" class="form-control" formControlName="email"
+            [class.is-invalid]="form.get('email')?.touched && form.get('email')?.invalid">
           <div class="invalid-feedback">
             Ingrese un correo válido
           </div>
@@ -45,12 +38,8 @@
 
         <div class="mb-3">
           <label class="form-label">Asunto</label>
-          <input
-            type="text"
-            class="form-control"
-            formControlName="asunto"
-            [class.is-invalid]="form.get('asunto')?.touched && form.get('asunto')?.invalid"
-          >
+          <input type="text" class="form-control" formControlName="asunto"
+            [class.is-invalid]="form.get('asunto')?.touched && form.get('asunto')?.invalid">
           <div class="invalid-feedback">
             El asunto es obligatorio
           </div>
@@ -58,22 +47,14 @@
 
         <div class="mb-3">
           <label class="form-label">Mensaje</label>
-          <textarea
-            rows="4"
-            class="form-control"
-            formControlName="mensaje"
-            [class.is-invalid]="form.get('mensaje')?.touched && form.get('mensaje')?.invalid"
-          ></textarea>
+          <textarea rows="4" class="form-control" formControlName="mensaje"
+            [class.is-invalid]="form.get('mensaje')?.touched && form.get('mensaje')?.invalid"></textarea>
           <div class="invalid-feedback">
             El mensaje es obligatorio
           </div>
         </div>
 
-        <button
-          type="submit"
-          class="btn btn-primary w-100"
-          [disabled]="enviando"
-        >
+        <button type="submit" class="btn btn-primary w-100" [disabled]="enviando">
           {{ enviando ? 'Enviando...' : 'Enviar mensaje' }}
         </button>
 

@@ -1,13 +1,11 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow">
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
   <div class="container">
-    <a class="navbar-brand fw-bold" routerLink="/">Mi Empresa</a>
+    <a class="navbar-brand fw-bold text-danger fs-4" routerLink="/">
+      <i class="bi bi-building-check me-2"></i>Sistema de Facturación
+    </a>
 
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarNav"
-    >
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
@@ -15,23 +13,21 @@
       <ul class="navbar-nav ms-auto align-items-lg-center">
 
         <li class="nav-item">
-          <a class="nav-link" routerLink="/" routerLinkActive="active">Inicio</a>
+          <a class="nav-link fw-semibold" routerLink="/" routerLinkActive="active-link"
+            [routerLinkActiveOptions]="{exact: true}">Inicio</a>
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" routerLink="/productos" routerLinkActive="active">Productos</a>
+          <a class="nav-link fw-semibold" routerLink="/productos" routerLinkActive="active-link">Productos</a>
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" routerLink="/contacto" routerLinkActive="active">Contáctanos</a>
+          <a class="nav-link fw-semibold" routerLink="/contacto" routerLinkActive="active-link">Contáctanos</a>
         </li>
 
         <!-- Botón Login -->
         <li class="nav-item ms-lg-3">
-          <a
-            class="btn btn-outline-light btn-sm"
-            routerLink="/login"
-          >
+          <a class="btn btn-danger text-white btn-sm px-4 rounded-0 shadow-sm" routerLink="/login">
             Iniciar sesión
           </a>
         </li>
@@ -40,4 +36,3 @@
     </div>
   </div>
 </nav>
-

@@ -11,11 +11,11 @@
     </div>
 
     <!-- FORMULARIO -->
-    <div *ngIf="mostrarFormulario" class="card shadow-sm mb-4 border-0">
-        <div class="card-header bg-white py-3">
-            <h5 class="mb-0 fw-bold text-primary">{{ editando ? 'Editar' : 'Nueva' }} Forma de Pago</h5>
+    <div *ngIf="mostrarFormulario" class="modern-card mb-4">
+        <div class="card-header-custom">
+            <h5 class="mb-0">{{ editando ? 'Editar' : 'Nueva' }} Forma de Pago</h5>
         </div>
-        <div class="card-body">
+        <div class="card-body p-4">
             <form [formGroup]="form" (ngSubmit)="guardar()">
                 <div class="row g-3">
                     <div class="col-md-8">
@@ -28,7 +28,7 @@
                     </div>
                 </div>
                 <div class="mt-4 text-end">
-                    <button type="submit" class="btn btn-success-custom px-4" [disabled]="form.invalid">
+                    <button type="submit" class="btn btn-primary-custom px-4" [disabled]="form.invalid">
                         <i class="bi bi-check-circle-fill me-2"></i>
                         {{ editando ? 'Actualizar' : 'Guardar' }}
                     </button>
@@ -38,10 +38,10 @@
     </div>
 
     <!-- LISTADO -->
-    <div class="card border-0 shadow-sm">
+    <div class="modern-card">
         <div class="table-responsive">
             <table class="table table-hover align-middle mb-0">
-                <thead class="bg-light">
+                <thead>
                     <tr>
                         <th class="ps-4">Código SRI</th>
                         <th>Nombre</th>
