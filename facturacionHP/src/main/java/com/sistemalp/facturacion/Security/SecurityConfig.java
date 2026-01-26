@@ -26,6 +26,7 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**", "/v3/**", "/swagger-ui/**", "/api/reporte/**").permitAll()
+                        .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/productos/**").permitAll()
                         .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**").permitAll()
                         .anyRequest().authenticated())
                 .cors(org.springframework.security.config.Customizer.withDefaults());

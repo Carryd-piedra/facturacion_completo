@@ -74,8 +74,8 @@
 }
 
 .table thead th {
-    background-color: #1a1a1a;
-    /* Dark Header (Global Match) */
+    background-color: var(--primary-red);
+    /* Primary Red */
     color: white;
     font-weight: 600;
     text-transform: uppercase;
