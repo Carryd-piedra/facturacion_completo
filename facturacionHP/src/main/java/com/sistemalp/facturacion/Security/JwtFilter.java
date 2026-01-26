@@ -32,7 +32,8 @@ public class JwtFilter extends OncePerRequestFilter {
         String path = request.getServletPath();
         System.out.println("DEBUG JWT: Processing " + request.getMethod() + " request for path: " + path);
 
-        if (path.startsWith("/auth/") || path.startsWith("/v3/") || path.startsWith("/swagger")) {
+        if (path.startsWith("/auth/") || path.startsWith("/v3/") || path.startsWith("/swagger")
+                || (path.startsWith("/api/productos") && "GET".equalsIgnoreCase(request.getMethod()))) {
             System.out.println("DEBUG JWT: Public path detected, skipping filter logic.");
             filterChain.doFilter(request, response);
             return;
