@@ -1,10 +1,9 @@
-/* High Contrast / Dark Premium Theme */
+/* Red & White Corporate Login Theme */
 
-/* Background - Deep Dark with animated gradient feel */
+/* Background - Clean White/Light Grey with Red Accent */
 .login-container {
-    background: radial-gradient(circle at center, #2b2b2b 0%, #000000 100%);
+    background-color: #f8f9fa;
     min-height: 100vh;
-    /* Ensure full height */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -13,167 +12,150 @@
     overflow: hidden;
 }
 
-/* Optional: Add a subtle overlay pattern or shape if possible, strictly CSS */
+/* Diagonal Red Shape Background */
 .login-container::before {
     content: '';
     position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(118, 75, 162, 0.1) 0%, transparent 60%);
-    animation: pulse 15s infinite ease-in-out;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, transparent 60%, #d32f2f 60%);
+    opacity: 0.1;
+    /* Subtle */
     z-index: 0;
 }
 
-@keyframes pulse {
-    0% {
-        transform: scale(1);
-        opacity: 0.5;
-    }
-
-    50% {
-        transform: scale(1.2);
-        opacity: 0.8;
-    }
-
-    100% {
-        transform: scale(1);
-        opacity: 0.5;
-    }
-}
-
-/* Card - Dark Glassmorphism */
+/* Card - Clean White */
 .login-card {
-    background: rgba(30, 30, 30, 0.85);
-    /* Dark semi-transparent */
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    /* Subtle white border */
-    border-radius: 20px;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
-    /* Deep shadow */
+    background: #ffffff;
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    /* Soft shadow */
     width: 100%;
     max-width: 400px;
     z-index: 1;
-    /* Above background */
     overflow: hidden;
-    color: #fff;
-    /* White text globally */
+    position: relative;
+}
+
+/* Red Top Bar on Card */
+.login-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background-color: #d32f2f;
 }
 
 /* Header */
 .login-header {
-    padding: 2.5rem 2rem 1rem;
+    padding: 3rem 2rem 1.5rem;
     text-align: center;
 }
 
 .login-icon {
-    width: 70px;
-    height: 70px;
-    background: linear-gradient(135deg, #00f260 0%, #0575e6 100%);
-    /* Neon Green to Blue */
-    color: #fff;
+    width: 80px;
+    height: 80px;
+    background-color: rgba(211, 47, 47, 0.1);
+    /* Light Red */
+    color: #d32f2f;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 0 auto 1.5rem;
-    font-size: 2rem;
-    box-shadow: 0 0 20px rgba(0, 242, 96, 0.4);
-    /* Glow effect */
+    font-size: 2.5rem;
 }
 
 .login-title {
-    color: #fff;
-    font-weight: 800;
-    font-size: 1.8rem;
+    color: #333;
+    font-weight: 700;
+    font-size: 1.5rem;
     margin-bottom: 0.5rem;
-    letter-spacing: 1px;
 }
 
 .login-subtitle {
-    color: #aaa;
-    /* Lighter grey for subtitle */
-    font-size: 0.95rem;
+    color: #6c757d;
+    font-size: 0.9rem;
 }
 
 /* Body */
 .login-body {
-    padding: 1rem 2.5rem 2.5rem;
+    padding: 0 2.5rem 3rem;
 }
 
-/* Floating Labels Overrides for Dark Theme */
+/* Form Controls - Standard Bootstrap Light Theme */
 .form-floating>.form-control {
-    background-color: #2a2a2a;
-    border: 1px solid #444;
-    color: #fff;
-    border-radius: 10px;
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    color: #333;
+    border-radius: 6px;
 }
 
 .form-floating>.form-control:focus {
-    background-color: #333;
-    border-color: #0575e6;
-    box-shadow: 0 0 0 0.25rem rgba(5, 117, 230, 0.25);
-    color: #fff;
+    border-color: #d32f2f;
+    box-shadow: 0 0 0 0.25rem rgba(211, 47, 47, 0.25);
 }
 
 .form-floating>label {
-    color: #888;
+    color: #6c757d;
 }
 
 .form-floating>.form-control:focus~label,
 .form-floating>.form-control:not(:placeholder-shown)~label {
-    color: #0575e6;
-    /* Highlight label color on focus */
+    color: #d32f2f;
 }
 
-/* Button - High Contrast Neon */
+/* Button - Corporate Red */
 .btn-login {
-    background: linear-gradient(90deg, #00f260 0%, #0575e6 100%);
+    background-color: #d32f2f;
     border: none;
-    border-radius: 10px;
-    padding: 14px;
+    border-radius: 6px;
+    padding: 12px;
     font-size: 1rem;
-    font-weight: 700;
+    font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
     color: white;
-    transition: all 0.3s ease;
-    margin-top: 1rem;
+    transition: all 0.2s ease;
+    margin-top: 1.5rem;
 }
 
 .btn-login:hover {
-    background: linear-gradient(90deg, #00cb51 0%, #0461bf 100%);
-    box-shadow: 0 0 20px rgba(5, 117, 230, 0.6);
-    /* Strong glow */
-    transform: translateY(-2px);
+    background-color: #b71c1c;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(211, 47, 47, 0.3);
 }
 
 .btn-login:disabled {
-    background: #444;
+    background-color: #e9ecef;
+    color: #adb5bd;
     cursor: not-allowed;
     box-shadow: none;
 }
 
 /* Error Alert */
 .alert-danger {
-    background-color: rgba(220, 53, 69, 0.2);
-    border-color: #dc3545;
-    color: #ff6b6b;
-    /* Brighter red for dark bg */
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    color: #721c24;
+    border-radius: 6px;
+    font-size: 0.9rem;
 }
 
 /* Utilities */
 .fade-in {
-    animation: fadeIn 0.8s ease-out;
+    animation: fadeIn 0.5s ease-out;
 }
 
 @keyframes fadeIn {
     from {
         opacity: 0;
-        transform: translateY(20px);
+        transform: translateY(10px);
     }
 
     to {

@@ -1,0 +1,87 @@
+/* Sidebar Container */
+aside {
+    background-color: #ffffff;
+    border-right: 1px solid #e9ecef;
+    box-shadow: 4px 0 12px rgba(0, 0, 0, 0.03) !important;
+    z-index: 10;
+}
+
+/* Brand Section */
+.sidebar-brand {
+    color: var(--primary-red, #d32f2f);
+    font-size: 1.4rem;
+    letter-spacing: -0.5px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.sidebar-brand i {
+    font-size: 1.6rem;
+    filter: drop-shadow(0 2px 4px rgba(211, 47, 47, 0.2));
+}
+
+/* Navigation Links */
+.sidebar-link {
+    color: #64748b;
+    /* Cool grey for inactive */
+    font-weight: 600;
+    border-radius: 12px;
+    /* Pill shape */
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 0.9rem 1.2rem;
+    margin-bottom: 0.25rem;
+    border: 1px solid transparent;
+    /* Prevent layout shift */
+}
+
+/* Icons */
+.sidebar-link i {
+    font-size: 1.2rem;
+    transition: transform 0.2s;
+}
+
+/* Hover State */
+.sidebar-link:hover {
+    background-color: #fff1f2;
+    /* Very light red tint */
+    color: var(--primary-red-dark, #b91c1c);
+    transform: translateX(4px);
+    /* Subtle slide right */
+}
+
+.sidebar-link:hover i {
+    transform: scale(1.1);
+}
+
+/* ACTIVE STATE - The "Solid Block" Look */
+.sidebar-link.active {
+    background-color: var(--primary-red, #d32f2f);
+    color: white;
+    box-shadow: 0 4px 12px rgba(211, 47, 47, 0.35);
+    /* Strong Glow */
+    border: 1px solid var(--primary-red, #d32f2f);
+}
+
+.sidebar-link.active:hover {
+    background-color: var(--primary-red-dark, #b71c1c);
+    transform: none;
+    /* Lock position for active item */
+}
+
+/* Logout Button Area */
+.logout-btn {
+    border: 2px solid #fee2e2;
+    color: #dc2626;
+    font-weight: 600;
+    border-radius: 12px;
+    padding: 0.8rem;
+    transition: all 0.2s;
+}
+
+.logout-btn:hover {
+    background-color: #dc2626;
+    color: white;
+    border-color: #dc2626;
+    box-shadow: 0 4px 6px rgba(220, 38, 38, 0.25);
+}

@@ -1,27 +1,62 @@
-<div class="d-flex">
+<div class="d-flex bg-light">
 
   <!-- Sidebar -->
-  <aside class="bg-dark text-light p-3" style="width: 250px; min-height: 100vh;">
-    <h5 class="fw-bold mb-4">Panel</h5>
+  <aside class="d-flex flex-column p-3 bg-white border-end shadow-sm" style="width: 260px; min-height: 100vh;">
+    <div class="mb-4 px-2 pt-2">
+      <h5 class="fw-bold sidebar-brand mb-0">
+        <i class="bi bi-grid-fill me-2"></i>Facturación
+      </h5>
+      <small class="text-muted" style="font-size: 0.75rem; letter-spacing: 1px;">PANEL DE CONTROL</small>
+    </div>
 
-    <ul class="nav flex-column gap-2">
-      <li><a routerLink="/dashboard" class="nav-link text-light">Dashboard</a></li>
-      <li><a routerLink="/documentos" class="nav-link text-light">Tipos de documentos</a></li>
-      <li><a routerLink="/productos-admin" class="nav-link text-light">Productos</a></li>
-      <li><a routerLink="/clientes" class="nav-link text-light">Clientes</a></li>
-      <li><a routerLink="/formas-pago" class="nav-link text-light">Formas de pago</a></li>
-      <li><a routerLink="/empresas" class="nav-link text-light">Empresas</a></li>
-      <li><a routerLink="/facturas" class="nav-link text-light">Facturación</a></li>
-      <li class="mt-3">
-        <button class="btn btn-outline-danger btn-sm w-100" (click)="logout()">
-          Cerrar sesión
-        </button>
+    <ul class="nav flex-column gap-1 flex-grow-1">
+      <li>
+        <a routerLink="/dashboard" routerLinkActive="active" class="nav-link sidebar-link d-flex align-items-center">
+          <i class="bi bi-speedometer2 me-3"></i> Dashboard
+        </a>
+      </li>
+      <li>
+        <a routerLink="/documentos" routerLinkActive="active" class="nav-link sidebar-link d-flex align-items-center">
+          <i class="bi bi-file-earmark-text me-3"></i> Tipos Doc.
+        </a>
+      </li>
+      <li>
+        <a routerLink="/productos-admin" routerLinkActive="active"
+          class="nav-link sidebar-link d-flex align-items-center">
+          <i class="bi bi-box-seam me-3"></i> Productos
+        </a>
+      </li>
+      <li>
+        <a routerLink="/clientes" routerLinkActive="active" class="nav-link sidebar-link d-flex align-items-center">
+          <i class="bi bi-people me-3"></i> Clientes
+        </a>
+      </li>
+      <li>
+        <a routerLink="/formas-pago" routerLinkActive="active" class="nav-link sidebar-link d-flex align-items-center">
+          <i class="bi bi-credit-card me-3"></i> Formas Pago
+        </a>
+      </li>
+      <li>
+        <a routerLink="/empresas" routerLinkActive="active" class="nav-link sidebar-link d-flex align-items-center">
+          <i class="bi bi-building me-3"></i> Empresas
+        </a>
+      </li>
+      <li>
+        <a routerLink="/facturas" routerLinkActive="active" class="nav-link sidebar-link d-flex align-items-center">
+          <i class="bi bi-receipt me-3"></i> Facturación
+        </a>
       </li>
     </ul>
+
+    <div class="mt-auto pt-3 border-top">
+      <button class="btn w-100 d-flex align-items-center justify-content-center gap-2 logout-btn" (click)="logout()">
+        <i class="bi bi-box-arrow-right"></i> Cerrar Sesión
+      </button>
+    </div>
   </aside>
 
   <!-- Contenido -->
-  <main class="flex-fill p-4">
+  <main class="flex-fill p-4" style="background-color: #f8f9fa;">
     <router-outlet></router-outlet>
   </main>
 

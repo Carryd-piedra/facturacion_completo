@@ -1,1 +1,173 @@
-/* You can add global styles to this file, and also import other style files */
+/* Global Red & White Theme - SOLID & BOLD VERSION */
+:root {
+    --primary-red: #d32f2f;
+    --primary-red-dark: #b71c1c;
+    --secondary-grey: #495057;
+    --light-bg: #f3f4f6;
+    --white: #ffffff;
+    --border-color: #dee2e6;
+}
+
+body {
+    background-color: var(--light-bg);
+    color: #212529;
+    font-family: 'Segoe UI', Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* SOLID BUTTONS */
+.btn-primary,
+.btn-primary-custom {
+    background-color: var(--primary-red) !important;
+    border-color: var(--primary-red) !important;
+    color: white !important;
+    font-weight: 700;
+    padding: 0.6rem 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(211, 47, 47, 0.2);
+    transition: all 0.2s ease;
+}
+
+.btn-primary:hover,
+.btn-primary-custom:hover {
+    background-color: var(--primary-red-dark) !important;
+    border-color: var(--primary-red-dark) !important;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 12px rgba(211, 47, 47, 0.3);
+}
+
+.btn-primary:disabled,
+.btn-primary-custom:disabled {
+    background-color: #e0e0e0 !important;
+    border-color: #e0e0e0 !important;
+    color: #9e9e9e !important;
+    box-shadow: none;
+    cursor: not-allowed;
+}
+
+/* ACTION BUTTONS (Icons) */
+.btn-action {
+    width: 34px;
+    height: 34px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    border: none;
+    transition: all 0.2s;
+}
+
+.btn-action-edit {
+    color: white;
+    background-color: #f59e0b;
+}
+
+/* Solid Orange */
+.btn-action-edit:hover {
+    background-color: #d97706;
+}
+
+.btn-action-delete {
+    color: white;
+    background-color: #ef4444;
+}
+
+/* Solid Red */
+.btn-action-delete:hover {
+    background-color: #b91c1c;
+}
+
+
+/* FORM INPUTS */
+.form-control,
+.form-select {
+    background-color: #fff;
+    border: 1px solid #ced4da;
+    padding: 0.7rem 1rem;
+    border-radius: 8px;
+    font-size: 0.95rem;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--primary-red);
+    box-shadow: 0 0 0 0.25rem rgba(211, 47, 47, 0.15);
+}
+
+.form-label {
+    font-weight: 700;
+    color: #374151;
+    margin-bottom: 0.5rem;
+}
+
+
+/* CARD STYLES - SOLID HEADER */
+.modern-card,
+.card {
+    background-color: white;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    /* Soft shadow */
+    overflow: hidden;
+    /* Keeps header inside border radius */
+}
+
+/* THE KEY CHANGE: Solid Red Header */
+.card-header,
+.card-header-custom {
+    background-color: var(--primary-red);
+    color: white;
+    padding: 1rem 1.5rem;
+    font-weight: 700;
+    font-size: 1.1rem;
+    border-bottom: none;
+}
+
+/* Card Titles inside the Red Header */
+.card-header h5,
+.card-header-custom h5,
+.card-header-custom i {
+    color: white !important;
+    margin: 0;
+}
+
+
+/* TABLE STYLES - CLEAN & READABLE */
+.table-responsive {
+    border-radius: 0 0 12px 12px;
+}
+
+.table thead th {
+    background-color: #343a40;
+    /* Dark Grey */
+    color: white;
+    font-weight: 600;
+    padding: 1rem;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    border: none;
+}
+
+.table tbody td {
+    padding: 1rem;
+    vertical-align: middle;
+    border-bottom: 1px solid #f3f4f6;
+    color: #495057;
+}
+
+.table-hover tbody tr:hover {
+    background-color: #fef2f2;
+    /* Very pale red hover */
+}
+
+/* Pagination */
+.page-link {
+    color: var(--primary-red);
+    font-weight: 600;
+}
+
+.page-item.active .page-link {
+    background-color: var(--primary-red);
+    border-color: var(--primary-red);
+    color: white;
+}

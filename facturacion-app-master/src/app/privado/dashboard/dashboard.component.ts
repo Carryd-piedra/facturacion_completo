@@ -1,16 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { DashboardService, DashboardStats } from '../../servicio/dashboard.service';
 import { FacturaService } from '../../servicio/factura.service';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent implements OnInit {
+  now = new Date();
   stats: DashboardStats = {
     totalClientes: 0,
     totalProductos: 0,

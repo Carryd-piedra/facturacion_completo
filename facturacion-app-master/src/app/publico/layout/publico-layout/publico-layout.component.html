@@ -1,7 +1,9 @@
-<app-menu></app-menu>
+<div class="d-flex flex-column min-vh-100">
+  <app-menu></app-menu>
 
-<main class="container">
-  <router-outlet></router-outlet>
-</main>
+  <main class="container flex-grow-1">
+    <router-outlet></router-outlet>
+  </main>
 
-<app-piepagina></app-piepagina>
+  <app-piepagina></app-piepagina>
+</div>

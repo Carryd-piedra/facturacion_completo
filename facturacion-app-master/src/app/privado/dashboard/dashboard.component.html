@@ -1,81 +1,100 @@
-<div class="container my-5">
+<div class="container-fluid my-4">
 
-    <div class="mb-5">
-        <h2 class="fw-bold mb-1">Panel de Control</h2>
-        <p class="text-muted">Resumen general de tu negocio</p>
+    <div class="d-flex justify-content-between align-items-center mb-5">
+        <div>
+            <h2 class="fw-bold mb-1 text-dark" style="font-size: 2rem; letter-spacing: -1px;">Panel de Control</h2>
+            <p class="text-muted mb-0">Resumen y métricas clave de tu negocio</p>
+        </div>
+        <div class="d-none d-md-block">
+            <span class="badge bg-dark rounded-pill px-4 py-2 shadow-sm" style="font-size: 0.9rem;">
+                <i class="bi bi-calendar-event me-2 text-danger"></i> {{ now | date:'fullDate' }}
+            </span>
+        </div>
     </div>
 
     <!-- STATS CARDS -->
     <div class="row g-4 mb-5">
 
         <div class="col-md-3">
-            <div class="card border-0 shadow-sm stat-card h-100 bg-primary text-white">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <div class="stat-icon-wrapper">
-                            <i class="bi bi-people-fill"></i>
-                        </div>
+            <div class="stat-card h-100 p-4 d-flex justify-content-between align-items-center">
+                <div>
+                    <h6 class="stat-label fw-bold text-uppercase mb-2">Total Clientes</h6>
+                    <h2 class="stat-value fw-bold text-dark mb-0">{{ stats.totalClientes }}</h2>
+                    <div class="mt-2 text-success small fw-bold">
+                        <i class="bi bi-arrow-up-circle-fill"></i> Activos
                     </div>
-                    <h3 class="fw-bold mb-0 text-white">{{ stats.totalClientes }}</h3>
-                    <p class="text-white-50 mb-0">Total Clientes</p>
+                </div>
+                <div class="stat-icon-wrapper shadow-sm">
+                    <i class="bi bi-people-fill"></i>
                 </div>
             </div>
         </div>
 
         <div class="col-md-3">
-            <div class="card border-0 shadow-sm stat-card h-100 bg-success text-white">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <div class="stat-icon-wrapper">
-                            <i class="bi bi-box-seam-fill"></i>
-                        </div>
+            <div class="stat-card h-100 p-4 d-flex justify-content-between align-items-center">
+                <div>
+                    <h6 class="stat-label fw-bold text-uppercase mb-2">Productos</h6>
+                    <h2 class="stat-value fw-bold text-dark mb-0">{{ stats.totalProductos }}</h2>
+                    <div class="mt-2 text-muted small">
+                        En inventario
                     </div>
-                    <h3 class="fw-bold mb-0 text-white">{{ stats.totalProductos }}</h3>
-                    <p class="text-white-50 mb-0">Productos</p>
+                </div>
+                <div class="stat-icon-wrapper shadow-sm"
+                    style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); box-shadow: 0 4px 10px rgba(217, 119, 6, 0.3);">
+                    <i class="bi bi-box-seam-fill"></i>
                 </div>
             </div>
         </div>
 
         <div class="col-md-3">
-            <div class="card border-0 shadow-sm stat-card h-100 bg-info text-white">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <div class="stat-icon-wrapper">
-                            <i class="bi bi-file-earmark-text-fill"></i>
-                        </div>
+            <div class="stat-card h-100 p-4 d-flex justify-content-between align-items-center">
+                <div>
+                    <h6 class="stat-label fw-bold text-uppercase mb-2">Facturas</h6>
+                    <h2 class="stat-value fw-bold text-dark mb-0">{{ stats.totalFacturas }}</h2>
+                    <div class="mt-2 text-muted small">
+                        Emitidas
                     </div>
-                    <h3 class="fw-bold mb-0 text-white">{{ stats.totalFacturas }}</h3>
-                    <p class="text-white-50 mb-0">Facturas Emitidas</p>
+                </div>
+                <div class="stat-icon-wrapper shadow-sm"
+                    style="background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);">
+                    <i class="bi bi-file-earmark-text-fill"></i>
                 </div>
             </div>
         </div>
 
         <div class="col-md-3">
-            <div class="card border-0 shadow-sm stat-card h-100 bg-warning text-dark">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <div class="stat-icon-wrapper text-dark">
-                            <i class="bi bi-currency-dollar"></i>
-                        </div>
+            <div class="stat-card h-100 p-4 d-flex justify-content-between align-items-center">
+                <div>
+                    <h6 class="stat-label fw-bold text-uppercase mb-2">Ingresos</h6>
+                    <h2 class="stat-value fw-bold text-dark mb-0">{{ stats.totalVentas | currency:'USD':'symbol':'1.0-0'
+                        }}</h2>
+                    <div class="mt-2 text-success small fw-bold">
+                        <i class="bi bi-graph-up-arrow"></i> Total
                     </div>
-                    <h3 class="fw-bold mb-0 text-dark">{{ stats.totalVentas | currency }}</h3>
-                    <p class="text-dark-50 mb-0">Ventas Totales</p>
+                </div>
+                <div class="stat-icon-wrapper shadow-sm"
+                    style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); box-shadow: 0 4px 10px rgba(5, 150, 105, 0.3);">
+                    <i class="bi bi-currency-dollar"></i>
                 </div>
             </div>
         </div>
 
     </div>
 
-    <!-- RECENT ACTIVITY -->
-    <div class="row">
-        <div class="col-md-8">
-            <div class="card border-0 shadow-sm h-100">
-                <div class="card-header bg-white py-3 border-0">
-                    <h5 class="mb-0 fw-bold">Facturas Recientes</h5>
+    <!-- RECENT ACTIVITY & ACTIONS -->
+    <div class="row g-4">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm h-100" style="border-radius: 16px; overflow: hidden;">
+                <div class="card-header bg-white py-4 px-4 d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5 class="mb-0 fw-bold text-dark">Facturas Recientes</h5>
+                        <small class="text-muted">Últimos movimientos registrados</small>
+                    </div>
+                    <a routerLink="/facturas" class="btn btn-sm btn-outline-dark rounded-pill px-3">Ver todas</a>
                 </div>
                 <div class="table-responsive">
                     <table class="table table-hover align-middle mb-0">
-                        <thead class="bg-light">
+                        <thead>
                             <tr>
                                 <th class="ps-4">Secuencial</th>
                                 <th>Cliente</th>
@@ -85,14 +104,32 @@
                         </thead>
                         <tbody>
                             <tr *ngFor="let f of recentInvoices">
-                                <td class="ps-4 fw-bold">#{{ f.secuencial }}</td>
-                                <td>{{ f.cliente?.clienteNombre }} {{ f.cliente?.clienteAplellido }}</td>
-                                <td>{{ f.fechaEmision | date:'shortDate' }}</td>
-                                <td class="text-end pe-4 text-primary fw-bold">{{ f.totalFactura | currency }}</td>
+                                <td class="ps-4">
+                                    <span class="badge bg-light text-dark border fw-normal px-2 py-1 rounded">
+                                        #{{ f.secuencial }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="fw-bold text-dark">{{ f.cliente?.clienteNombre }} {{
+                                        f.cliente?.clienteAplellido }}</div>
+                                    <small class="text-muted" style="font-size: 0.75rem;">{{
+                                        f.cliente?.clienteIdentificacion }}</small>
+                                </td>
+                                <td>
+                                    <span class="text-secondary">
+                                        <i class="bi bi-calendar3 me-1 small"></i> {{ f.fechaEmision | date:'dd MMM
+                                        yyyy' }}
+                                    </span>
+                                </td>
+                                <td class="text-end pe-4">
+                                    <strong class="text-success fs-6">{{ f.totalFactura | currency }}</strong>
+                                </td>
                             </tr>
                             <tr *ngIf="recentInvoices.length === 0">
-                                <td colspan="4" class="text-center py-4 text-muted">
-                                    No hay facturas recientes.
+                                <td colspan="4" class="text-center py-5 text-muted">
+                                    <i class="bi bi-inbox fs-1 d-block mb-3 opacity-25"></i>
+                                    <h5>Sin movimientos</h5>
+                                    <p class="small mb-0">No se han registrado facturas recientemente.</p>
                                 </td>
                             </tr>
                         </tbody>
@@ -101,22 +138,57 @@
             </div>
         </div>
 
-        <div class="col-md-4">
-            <div class="card border-0 shadow-sm h-100">
-                <div class="card-header bg-white py-3 border-0">
-                    <h5 class="mb-0 fw-bold">Acciones Rápidas</h5>
+        <div class="col-lg-4">
+            <div class="card border-0 h-100 bg-transparent shadow-none">
+                <!-- Transparent container for separate buttons card feel -->
+                <div class="mb-3">
+                    <h5 class="fw-bold text-dark ps-1">Acciones Rápidas</h5>
                 </div>
-                <div class="card-body">
-                    <div class="d-grid gap-3">
-                        <a href="/privado/facturacion" class="btn btn-outline-primary py-3">
-                            <i class="bi bi-plus-circle me-2"></i> Nueva Factura
-                        </a>
-                        <a href="/privado/cliente" class="btn btn-outline-secondary py-3">
-                            <i class="bi bi-person-plus me-2"></i> Nuevo Cliente
-                        </a>
-                        <a href="/privado/producto" class="btn btn-outline-success py-3">
-                            <i class="bi bi-plus-square me-2"></i> Nuevo Producto
-                        </a>
+
+                <div class="d-grid gap-3">
+                    <a routerLink="/privado/facturacion"
+                        class="btn btn-quick-action py-4 d-flex align-items-center shadow-sm">
+                        <div class="rounded-circle bg-danger bg-opacity-10 p-2 me-3 d-flex justify-content-center align-items-center"
+                            style="width: 45px; height: 45px;">
+                            <i class="bi bi-plus-lg text-danger fs-5 m-0"></i>
+                        </div>
+                        <div>
+                            <div class="fw-bold text-dark">Nueva Factura</div>
+                            <small class="text-muted">Registrar venta</small>
+                        </div>
+                    </a>
+
+                    <a routerLink="/privado/cliente"
+                        class="btn btn-quick-action py-4 d-flex align-items-center shadow-sm">
+                        <div class="rounded-circle bg-primary bg-opacity-10 p-2 me-3 d-flex justify-content-center align-items-center"
+                            style="width: 45px; height: 45px;">
+                            <i class="bi bi-person-plus-fill text-primary fs-5 m-0"></i>
+                        </div>
+                        <div>
+                            <div class="fw-bold text-dark">Nuevo Cliente</div>
+                            <small class="text-muted">Añadir comprador</small>
+                        </div>
+                    </a>
+
+                    <a routerLink="/privado/producto"
+                        class="btn btn-quick-action py-4 d-flex align-items-center shadow-sm">
+                        <div class="rounded-circle bg-warning bg-opacity-10 p-2 me-3 d-flex justify-content-center align-items-center"
+                            style="width: 45px; height: 45px;">
+                            <i class="bi bi-box-seam-fill text-warning fs-5 m-0"></i>
+                        </div>
+                        <div>
+                            <div class="fw-bold text-dark">Nuevo Producto</div>
+                            <small class="text-muted">Gestionar stock</small>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="mt-4 pt-4">
+                    <h6 class="text-muted small fw-bold text-uppercase mb-3 ps-1">Accesos Directos</h6>
+                    <div class="d-flex flex-wrap gap-2">
+                        <button class="btn btn-sm btn-white border shadow-sm btn-shortcut">Reportes</button>
+                        <button class="btn btn-sm btn-white border shadow-sm btn-shortcut">Configuración</button>
+                        <button class="btn btn-sm btn-white border shadow-sm btn-shortcut">Ayuda</button>
                     </div>
                 </div>
             </div>

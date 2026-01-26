@@ -1,52 +1,147 @@
+/* Dashboard Styles */
+:host {
+    display: block;
+    background-color: #f8f9fa;
+    /* Ensure background matches global */
+}
+
+/* STAT CARDS - High Contrast Pop */
 .stat-card {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     border-radius: 16px;
+    background-color: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    /* Subtle border definition */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+    /* Soft initial shadow */
+    position: relative;
     overflow: hidden;
 }
 
 .stat-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1);
+    border-color: rgba(211, 47, 47, 0.1);
+    /* Subtle red hint on hover */
+}
+
+/* Accent top line for cards instead of left border, looks more "card-like" */
+.stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #d32f2f, #ef5350);
+    /* Red Gradient Top */
 }
 
 .stat-icon-wrapper {
-    width: 48px;
-    height: 48px;
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 12px;
+    width: 60px;
+    /* Big icon background */
+    height: 60px;
+    background: linear-gradient(135deg, #d32f2f 0%, #b71c1c 100%);
+    /* Solid Red Gradient */
+    color: white;
+    /* White icon */
+    border-radius: 14px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.5rem;
+    font-size: 1.8rem;
+    box-shadow: 0 4px 10px rgba(211, 47, 47, 0.3);
+    /* Red glow */
 }
 
-.bg-warning .stat-icon-wrapper {
-    background: rgba(0, 0, 0, 0.05);
+/* Typography Boost */
+.stat-label {
+    letter-spacing: 0.5px;
+    font-size: 0.8rem;
+    color: #64748b;
 }
 
-.card {
-    border-radius: 16px;
+.stat-value {
+    font-size: 2rem;
+    letter-spacing: -1px;
+}
+
+/* RECENT INVOICES CARD & TABLE */
+.card-header {
+    background-color: white;
+    /* Keep white usually, or distinct */
+    border-bottom: 2px solid #f1f5f9;
 }
 
 .table thead th {
+    background-color: #1a1a1a;
+    /* Dark Header (Global Match) */
+    color: white;
     font-weight: 600;
     text-transform: uppercase;
-    font-size: 0.75rem;
-    color: #6b7280;
-    letter-spacing: 0.05em;
-    border-top: none;
+    font-size: 0.8rem;
+    padding: 1rem 1.5rem;
+    border: none;
 }
 
-.btn-outline-primary,
-.btn-outline-secondary,
-.btn-outline-success {
-    border-width: 2px;
+.table tbody td {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid #f1f5f9;
+    color: #334155;
+    font-weight: 500;
+}
+
+.table-hover tbody tr:hover {
+    background-color: #fff1f2;
+    /* Light red hover */
+}
+
+/* QUICK ACTION BUTTONS - High Visual Weight */
+.btn-quick-action {
+    border: 1px solid #e2e8f0;
+    background: white;
+    color: #334155;
     font-weight: 600;
     border-radius: 12px;
+    transition: all 0.2s ease;
+    text-align: left;
+    padding-left: 1.5rem;
+    /* Align text better */
+    position: relative;
+    overflow: hidden;
 }
 
-.btn-outline-primary:hover,
-.btn-outline-secondary:hover,
-.btn-outline-success:hover {
-    transform: scale(1.02);
+.btn-quick-action i {
+    color: #d32f2f;
+    font-size: 1.4rem;
+    margin-right: 0.5rem;
+    transition: transform 0.2s;
+}
+
+.btn-quick-action:hover {
+    border-color: #d32f2f;
+    background-color: #fef2f2;
+    /* Very pale red bg */
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(211, 47, 47, 0.1);
+    color: #b91c1c;
+    /* Darker red text on hover */
+}
+
+.btn-quick-action:hover i {
+    transform: scale(1.1);
+}
+
+/* ACCESS SHORTCUTS */
+.btn-shortcut {
+    border: 1px solid #e2e8f0;
+    color: #64748b;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.btn-shortcut:hover {
+    background-color: #f8fafc;
+    color: #0f172a;
+    border-color: #cbd5e1;
 }

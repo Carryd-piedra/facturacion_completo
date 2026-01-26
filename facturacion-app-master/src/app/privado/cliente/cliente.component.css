@@ -1,76 +1,10 @@
-/* Custom Primary Button */
-.btn-primary-custom {
-    background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
-    color: white;
-    border: none;
-    padding: 0.6rem 1.2rem;
-    border-radius: 8px;
-    font-weight: 500;
-    box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.2);
-    transition: all 0.2s;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
+/* Global Styles for Component */
+:host {
+    display: block;
 }
 
-.btn-primary-custom:hover {
-    filter: brightness(110%);
-    transform: translateY(-1px);
-    box-shadow: 0 6px 8px -1px rgba(79, 70, 229, 0.3);
-    color: white;
-}
+/* Inherit global button styles - removed local blue overrides */
+/* Inherit global table styles - removed local table overrides */
+/* Inherit global card styles - removed local card overrides */
 
-/* Action Buttons */
-.btn-action {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-    border: none;
-    cursor: pointer;
-    background: transparent;
-}
-
-.btn-action-edit {
-    color: #3b82f6;
-    background-color: rgba(59, 130, 246, 0.1);
-}
-
-.btn-action-edit:hover {
-    background-color: #3b82f6;
-    color: white;
-    transform: scale(1.1);
-    box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.3);
-}
-
-.btn-action-delete {
-    color: #ef4444;
-    background-color: rgba(239, 68, 68, 0.1);
-}
-
-.btn-action-delete:hover {
-    background-color: #ef4444;
-    color: white;
-    transform: scale(1.1);
-    box-shadow: 0 4px 6px -1px rgba(239, 68, 68, 0.3);
-}
-
-.btn-action i {
-    font-size: 1rem;
-}
-
-/* Card and Spacing refinements */
-.card {
-    border-radius: 12px;
-}
-
-.table thead th {
-    font-weight: 600;
-    text-transform: uppercase;
-    font-size: 0.8rem;
-    color: #64748b;
-    border-top: none;
-}
+/* Any specific client component styles can go here, but strictly voiding specific colors */

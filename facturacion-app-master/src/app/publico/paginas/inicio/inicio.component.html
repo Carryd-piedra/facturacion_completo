@@ -1,45 +1,66 @@
-<section class="py-5 bg-light">
-  <div class="container">
+<section class="viewport-section d-flex align-items-center position-relative overflow-hidden bg-white">
+  <!-- Geometric Shape Background -->
+  <div class="red-shape"></div>
 
-    <!-- Título principal -->
-    <div class="text-center mb-5">
-      <h1 class="fw-bold display-5">Bienvenidos a Mi Empresa</h1>
-      <p class="text-muted mt-3">
-        Comprometidos con la calidad, innovación y el mejor servicio
-      </p>
-    </div>
+  <div class="container position-relative z-2">
+    <div class="row align-items-center h-100">
 
-    <!-- Misión y Visión -->
-    <div class="row g-4">
-
-      <!-- Misión -->
-      <div class="col-md-6">
-        <div class="card h-100 shadow-sm border-0">
-          <div class="card-body text-center">
-            <h2 class="h4 fw-bold mb-3">🎯 Misión</h2>
-            <p class="text-muted">
-              Brindar productos de calidad, satisfaciendo las necesidades de nuestros
-              clientes mediante un servicio confiable y eficiente.
-            </p>
-          </div>
+      <!-- Left Column: Hero Text -->
+      <div class="col-lg-6 mb-5 mb-lg-0 text-center text-lg-start animate__animated animate__fadeInLeft">
+        <h1 class="display-4 fw-extra-bold text-dark mb-3 lh-1">
+          SISTEMA DE <br>
+          <span class="text-danger">FACTURACIÓN</span>
+        </h1>
+        <p class="lead text-secondary mb-4 w-75 mx-auto mx-lg-0">
+          La solución integral para tu negocio. Gestiona, controla y crece sin límites.
+        </p>
+        <div class="d-flex gap-3 justify-content-center justify-content-lg-start">
+          <a routerLink="/productos" class="btn btn-danger btn-lg px-4 shadow-sm rounded-1">
+            VER PRODUCTOS
+          </a>
+          <a routerLink="/contacto" class="btn btn-outline-dark btn-lg px-4 rounded-1">
+            CONTACTAR
+          </a>
         </div>
       </div>
 
-      <!-- Visión -->
-      <div class="col-md-6">
-        <div class="card h-100 shadow-sm border-0">
-          <div class="card-body text-center">
-            <h2 class="h4 fw-bold mb-3">🚀 Visión</h2>
-            <p class="text-muted">
-              Ser una empresa líder a nivel nacional, reconocida por su innovación,
-              excelencia y compromiso con nuestros clientes.
-            </p>
+      <!-- Right Column: Compact Cards -->
+      <div class="col-lg-6">
+        <div class="row g-3">
+
+          <!-- Card Misión -->
+          <div class="col-md-6 animate__animated animate__zoomIn delay-100">
+            <div class="card h-100 border-0 shadow-sm card-compact">
+              <div class="card-body p-4 text-center">
+                <div class="icon-circle bg-danger-subtle text-danger mb-3 mx-auto">
+                  <i class="bi bi-bullseye fs-3"></i>
+                </div>
+                <h5 class="fw-bold">Misión</h5>
+                <p class="small text-muted mb-0">
+                  Optimizar procesos con tecnología segura y eficiente.
+                </p>
+              </div>
+            </div>
           </div>
+
+          <!-- Card Visión -->
+          <div class="col-md-6 animate__animated animate__zoomIn delay-200">
+            <div class="card h-100 border-0 shadow-sm card-compact">
+              <div class="card-body p-4 text-center">
+                <div class="icon-circle bg-dark-subtle text-dark mb-3 mx-auto">
+                  <i class="bi bi-rocket-takeoff fs-3"></i>
+                </div>
+                <h5 class="fw-bold">Visión</h5>
+                <p class="small text-muted mb-0">
+                  Liderar la transformación digital empresarial en el país.
+                </p>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
 
     </div>
-
   </div>
 </section>
-
