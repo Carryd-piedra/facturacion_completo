@@ -138,8 +138,8 @@ body {
 }
 
 .table thead th {
-    background-color: #343a40;
-    /* Dark Grey */
+    background-color: var(--primary-red);
+    /* Primary Red */
     color: white;
     font-weight: 600;
     padding: 1rem;
