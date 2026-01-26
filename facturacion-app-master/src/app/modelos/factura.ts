@@ -1,4 +1,5 @@
 import { Cliente } from './cliente';
+import { FormaPago } from './forma-pago';
 
 export interface Factura {
     facturaId: number;
@@ -16,6 +17,7 @@ export interface Factura {
     cliente: Cliente;
     empresa: Empresa;
     detalles: DetalleFactura[];
+    pagos: FacturaPago[];
     estadoSri?: string; // Optional for UI
 }
 
@@ -29,8 +31,10 @@ export interface DetalleFactura {
 }
 
 export interface FacturaPago {
-    pagoId?: number;
-    formaPagoId: number;
+    pagoId?: number; // Backend uses facturaPagoId, mapping might need adjustment if using this
+    facturaPagoId?: number;
+    formaPagoId?: number; // On response this might be null if using object
+    formaPago?: FormaPago;
     total: number;
     plazo: number;
     unidadTiempo: string;

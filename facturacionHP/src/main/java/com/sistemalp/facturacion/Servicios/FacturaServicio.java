@@ -120,9 +120,6 @@ public class FacturaServicio {
         factura.setEstado(1);
         factura.setCliente(cliente);
         factura.setEmpresa(empresa);
-        factura.setEstado(1);
-        factura.setCliente(cliente);
-        factura.setEmpresa(empresa);
 
         // SNAPSHOT: Copiar datos de la empresa a la factura
         // FORZADO A 1 (PRUEBAS) por solicitud del usuario
@@ -230,7 +227,7 @@ public class FacturaServicio {
 
             // Acumular Totales
             calcTotalDescuento += descuento;
-            if (imp.getTarifa() > 0) {
+            if (imp.getTarifa() != null && imp.getTarifa() > 0) {
                 calcSubtotal12 += imp.getBaseImponible();
                 calcTotalIva += imp.getValor();
             } else {
@@ -263,8 +260,13 @@ public class FacturaServicio {
                 request.getTotalDescuento() != null ? request.getTotalDescuento() : calcTotalDescuento);
         factura.setTotalIva(request.getTotalIva() != null ? request.getTotalIva() : calcTotalIva);
 
-        Double totalFinal = factura.getSubtotal12() + factura.getSubtotal0() + factura.getSubtotalExento()
-                + factura.getTotalIva() - factura.getTotalDescuento();
+        Double sub12 = factura.getSubtotal12() != null ? factura.getSubtotal12() : 0.0;
+        Double sub0 = factura.getSubtotal0() != null ? factura.getSubtotal0() : 0.0;
+        Double subEx = factura.getSubtotalExento() != null ? factura.getSubtotalExento() : 0.0;
+        Double totIva = factura.getTotalIva() != null ? factura.getTotalIva() : 0.0;
+        Double totDesc = factura.getTotalDescuento() != null ? factura.getTotalDescuento() : 0.0;
+
+        Double totalFinal = sub12 + sub0 + subEx + totIva - totDesc;
         factura.setTotalFactura(request.getTotalFactura() != null ? request.getTotalFactura() : totalFinal);
 
         // Guardar Factura con totales actualizados
@@ -578,5 +580,41 @@ public class FacturaServicio {
         Element e = doc.createElement(tag);
         e.appendChild(doc.createTextNode(String.valueOf(value)));
         return e;
+    }
+
+    public String obtenerXmlFactura(Long facturaId) {
+        if (facturaId == null)
+            throw new RuntimeException("El ID de la factura no puede ser nulo.");
+
+        Factura factura = facturaRepository.findById(facturaId)
+                .orElseThrow(() -> new RuntimeException("Factura no encontrada"));
+
+        String ruta = "C:\\facturaSRI\\factura_" + factura.getClaveAcceso() + ".xml";
+        File archivo = new File(ruta);
+
+        if (!archivo.exists()) {
+            // Intenta buscar el firmado
+            String rutaFirmado = "C:\\facturaSRI\\factura_" + factura.getClaveAcceso() + "_signed.xml";
+            archivo = new File(rutaFirmado);
+            if (!archivo.exists()) {
+                throw new RuntimeException("No se encontró el archivo XML para esta factura.");
+            }
+        }
+
+        try {
+            return java.nio.file.Files.readString(archivo.toPath(), java.nio.charset.StandardCharsets.UTF_8);
+        } catch (Exception e) {
+            throw new RuntimeException("Error al leer el archivo XML: " + e.getMessage());
+        }
+    }
+
+    public void eliminarFactura(Long facturaId) {
+        if (facturaId == null)
+            throw new RuntimeException("El ID de la factura no puede ser nulo.");
+
+        if (!facturaRepository.existsById(facturaId)) {
+            throw new RuntimeException("Factura no encontrada");
+        }
+        facturaRepository.deleteById(facturaId);
     }
 }

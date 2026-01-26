@@ -157,10 +157,16 @@ public class SriRecepcionService {
             StringBuilder sb = new StringBuilder("❌ DEVUELTA — Errores del SRI:\n");
             Matcher m = Pattern.compile("<mensaje>(.*?)</mensaje>").matcher(xml);
 
-            while (m.find())
+            while (m.find()) {
                 sb.append(" - ").append(m.group(1)).append("\n");
+            }
 
-            return sb.toString();
+            String finalMsg = sb.toString();
+            if (finalMsg.contains("CLAVE DE ACCESO EN PROCESAMIENTO")) {
+                return "⚠ EN PROCESAMIENTO — El SRI ya tiene el comprobante. Verificando...";
+            }
+
+            return finalMsg;
         }
 
         if (xml.contains("<faultstring>"))

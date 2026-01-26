@@ -25,7 +25,8 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**", "/v3/**", "/swagger-ui/**", "/api/reporte/**").permitAll()
+                        .requestMatchers("/auth/**", "/v3/**", "/swagger-ui/**").permitAll()
+                        .requestMatchers("/api/reporte/**").permitAll()
                         .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/productos/**").permitAll()
                         .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**").permitAll()
                         .anyRequest().authenticated())

@@ -41,7 +41,8 @@ export const routes: Routes = [
       { path: 'clientes', component: ClienteComponent },
       { path: 'formas-pago', component: FormapagoComponent },
       { path: 'empresas', loadComponent: () => import('./privado/empresa/empresa.component').then(m => m.EmpresaComponent) },
-      { path: 'facturas', loadComponent: () => import('./privado/factura/factura.component').then(m => m.FacturaComponent) }
+      { path: 'facturas', loadComponent: () => import('./privado/factura/factura.component').then(m => m.FacturaComponent) },
+      { path: 'reportes', loadComponent: () => import('./privado/reporte/reporte.component').then(m => m.ReporteComponent) }
     ]
   },
   { path: '**', redirectTo: '' }

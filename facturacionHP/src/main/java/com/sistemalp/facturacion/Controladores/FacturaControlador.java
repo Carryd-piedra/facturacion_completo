@@ -81,6 +81,26 @@ public class FacturaControlador {
         }
     }
 
+    @GetMapping(value = "/{id}/xml", produces = org.springframework.http.MediaType.APPLICATION_XML_VALUE)
+    public ResponseEntity<?> obtenerXml(@PathVariable Long id) {
+        try {
+            String xmlContent = facturaService.obtenerXmlFactura(id);
+            return ResponseEntity.ok(xmlContent);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(java.util.Collections.singletonMap("error", e.getMessage()));
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> eliminarFactura(@PathVariable Long id) {
+        try {
+            facturaService.eliminarFactura(id);
+            return ResponseEntity.ok(java.util.Collections.singletonMap("mensaje", "Factura eliminada correctamente"));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(java.util.Collections.singletonMap("error", e.getMessage()));
+        }
+    }
+
     record RespuestaFactura(
             String mensaje,
             Long facturaId,

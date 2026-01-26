@@ -13,8 +13,48 @@ public class ReporteHtmlBuilder {
 
     public static String generarHtmlReporte(List<Cliente> clientes, List<Producto> productos, List<Factura> facturas)
             throws Exception {
+        // TRY 1: CLASSPATH (Spring Way)
+        String template = null;
+        try {
+            org.springframework.core.io.Resource resource = new org.springframework.core.io.ClassPathResource(
+                    "templates/reporte_db.html");
+            if (resource.exists()) {
+                java.io.InputStream is = resource.getInputStream();
+                template = new String(is.readAllBytes(), java.nio.charset.StandardCharsets.UTF_8);
+            }
+        } catch (Exception e) {
+            System.out.println("No se pudo leer del classpath: " + e.getMessage());
+        }
 
-        String template = new String(Files.readAllBytes(Paths.get("src/main/resources/templates/reporte_db.html")));
+        // TRY 2: FILESYSTEM (facturacionHP context)
+        if (template == null) {
+            try {
+                java.io.File f = new java.io.File("src/main/resources/templates/reporte_db.html");
+                if (f.exists()) {
+                    template = java.nio.file.Files.readString(f.toPath(), java.nio.charset.StandardCharsets.UTF_8);
+                }
+            } catch (Exception e) {
+                System.out.println("Error filesystem 1: " + e.getMessage());
+            }
+        }
+
+        // TRY 3: FILESYSTEM (Parent context - facturacionHP subfolder)
+        if (template == null) {
+            try {
+                java.io.File f = new java.io.File("facturacionHP/src/main/resources/templates/reporte_db.html");
+                if (f.exists()) {
+                    template = java.nio.file.Files.readString(f.toPath(), java.nio.charset.StandardCharsets.UTF_8);
+                }
+            } catch (Exception e) {
+                System.out.println("Error filesystem 2: " + e.getMessage());
+            }
+        }
+
+        if (template == null) {
+            throw new Exception(
+                    "No se encontró la plantilla reporte_db.html en el classpath ni en rutas relativas. CWD: "
+                            + System.getProperty("user.dir"));
+        }
 
         // 1. Clientes
         StringBuilder sbClientes = new StringBuilder();
@@ -51,7 +91,7 @@ public class ReporteHtmlBuilder {
 
         // 3. Facturas
         StringBuilder sbFacturas = new StringBuilder();
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         if (facturas != null) {
             for (Factura f : facturas) {
                 String fecha = f.getFechaEmision() != null ? f.getFechaEmision().format(dtf) : "";

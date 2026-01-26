@@ -331,10 +331,6 @@ export class FacturaComponent implements OnInit {
                         icon: 'info'
                     });
 
-                    // Pequeña pausa opcional (aunque el backend ya espera 3s en el metodo anterior, aqui lo quitamos)
-                    // Como quitamos la pausa del backend, podemos hacer el llamado directamente.
-                    // O el backend ya no retorna autorizacion, asi que llamamos al nuevo endpoint.
-
                     this.facturaService.autorizarSRI(factura.facturaId).subscribe({
                         next: (respAuth) => {
                             Swal.fire({
@@ -364,5 +360,62 @@ export class FacturaComponent implements OnInit {
                 Swal.fire('Error', msg, 'error');
             }
         });
+    }
+
+    verXML(factura: Factura) {
+        this.facturaService.obtenerXml(factura.facturaId).subscribe({
+            next: (xml) => {
+                // Formatear XML para mostrar
+                const formattedXml = xml.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                Swal.fire({
+                    title: 'XML Generado',
+                    html: `<pre style="text-align: left; max-height: 400px; overflow-y: auto; background: #f4f4f4; padding: 10px; border-radius: 5px;"><code>${formattedXml}</code></pre>`,
+                    width: '800px',
+                    confirmButtonText: 'Cerrar'
+                });
+            },
+            error: (err) => {
+                Swal.fire('Error', 'No se pudo obtener el XML. Asegúrate de que la factura haya sido generada.', 'error');
+            }
+        });
+    }
+
+    eliminar(factura: Factura) {
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: "No podrás revertir esto. Si la factura ya fue enviada al SRI, deberás anularla allá también.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                this.facturaService.eliminar(factura.facturaId).subscribe({
+                    next: () => {
+                        Swal.fire('Eliminado!', 'La factura ha sido eliminada.', 'success');
+                        this.cargarFacturas();
+                    },
+                    error: (err) => {
+                        Swal.fire('Error', 'No se pudo eliminar la factura.', 'error');
+                    }
+                });
+            }
+        });
+    }
+
+    // --- VER DETALLE ---
+    mostrarModalDetalle = false;
+    facturaSeleccionada: Factura | null = null;
+
+    verDetalle(factura: Factura) {
+        this.facturaSeleccionada = factura;
+        this.mostrarModalDetalle = true;
+    }
+
+    cerrarModalDetalle() {
+        this.mostrarModalDetalle = false;
+        this.facturaSeleccionada = null;
     }
 }

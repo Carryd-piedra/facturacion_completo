@@ -28,4 +28,12 @@ export class FacturaService {
     crear(factura: FacturaRequestDTO): Observable<any> {
         return this.http.post<any>(this.apiUrl, factura);
     }
+
+    obtenerXml(id: number): Observable<string> {
+        return this.http.get(`${this.apiUrl}/${id}/xml`, { responseType: 'text' });
+    }
+
+    eliminar(id: number): Observable<any> {
+        return this.http.delete(`${this.apiUrl}/${id}`);
+    }
 }
