@@ -1,6 +1,6 @@
 package com.sistemalp.facturacion.Dto;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 import lombok.Getter;
@@ -12,7 +12,7 @@ public class FacturaRequestDTO {
 
     // Información de la factura
     private String secuencial;
-    private LocalDateTime fechaEmision;
+    private LocalDate fechaEmision;
 
     private Double subtotal12;
     private Double subtotal0;

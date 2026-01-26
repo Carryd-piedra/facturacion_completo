@@ -1,6 +1,5 @@
 package com.sistemalp.facturacion.Servicios;
 
-
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -16,8 +15,13 @@ import java.util.function.Function;
 @Service
 public class JwtService {
 
-    // Clave secreta para firmar el token (debería estar en un config externo seguro)
-    private final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    // Clave secreta (debería estar en config)
+    private final String SECRET_KEY = "claveMuySecretaDeAlMenos256bitsClaveMuySecretaDeAlMenos256bits";
+
+    private Key getSigningKey() {
+        byte[] keyBytes = SECRET_KEY.getBytes(StandardCharsets.UTF_8);
+        return Keys.hmacShaKeyFor(keyBytes);
+    }
 
     // Extraer username del token
     public String extractUsername(String token) {
@@ -30,19 +34,18 @@ public class JwtService {
         return claimsResolver.apply(claims);
     }
 
-     private Claims getClaims(String token) {
+    private Claims getClaims(String token) {
         return Jwts.parserBuilder()
-                .setSigningKey(getSigningKey())  // aquí usamos el método para obtener la Key
+                .setSigningKey(getSigningKey())
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
     }
 
-    // Método para validar el token usando getClaims()
+    // Método para validar el token
     public boolean validarToken(String token) {
         try {
-            getClaims(token);
-            return true;
+            return !isTokenExpired(token);
         } catch (Exception e) {
             return false;
         }
@@ -53,18 +56,13 @@ public class JwtService {
         final Date expiration = extractClaim(token, Claims::getExpiration);
         return expiration.before(new Date());
     }
-    private final String SECRET_KEY = "claveMuySecretaDeAlMenos256bitsClaveMuySecretaDeAlMenos256bits";
 
-    private Key getSigningKey() {
-        byte[] keyBytes = SECRET_KEY.getBytes(StandardCharsets.UTF_8);
-        return Keys.hmacShaKeyFor(keyBytes);
-    }
     public String generateToken(String username) {
         return Jwts.builder()
                 .setSubject(username)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60)) // 1 hora
-                .signWith(getSigningKey(), SignatureAlgorithm.HS256)  // Aquí
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)) // 10 horas
+                .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
 }

@@ -1,6 +1,6 @@
 package com.sistemalp.facturacion.Entidades;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -42,7 +42,8 @@ public class Factura {
     private String contribuyenteEspecial;
     private String obligadoContabilidad;
 
-    private LocalDateTime fechaEmision;
+    @com.fasterxml.jackson.annotation.JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate fechaEmision;
     private Double subtotal12;
     private Double subtotal0;
     private Double subtotalNoObjeto;

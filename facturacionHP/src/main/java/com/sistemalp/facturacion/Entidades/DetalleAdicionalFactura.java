@@ -23,6 +23,7 @@ public class DetalleAdicionalFactura {
     private String nombre;
     private String valor;
 
+    @com.fasterxml.jackson.annotation.JsonIgnore
     @ManyToOne
     @JoinColumn(name = "detalle_factura_id", nullable = false)
     private DetalleFactura detalleFactura;

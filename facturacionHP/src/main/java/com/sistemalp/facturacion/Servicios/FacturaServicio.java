@@ -40,6 +40,43 @@ public class FacturaServicio {
     private final FacturaPagoRepositorio facturaPagoRepository;
     private final CampoAdicionalFacturaRepositorio campoAdicionalRepository;
     private final DetalleAdicionalFacturaRepositorio detalleAdicionalRepository;
+    private final FirmaElectronicaServicio firmaService;
+    private final SriRecepcionService sriRecepcionService;
+
+    @org.springframework.beans.factory.annotation.Value("${sri.firma.ruta}")
+    private String firmaRuta;
+
+    @org.springframework.beans.factory.annotation.Value("${sri.firma.clave}")
+    private String firmaClave;
+
+    public String enviarFacturaSri(Long facturaId) {
+        Factura factura = facturaRepository.findById(facturaId)
+                .orElseThrow(() -> new RuntimeException("Factura no encontrada"));
+
+        try {
+            // 1. Generar XML (Devuelve la RUTA del XML sin firma)
+            String rutaXmlSinFirma = generarXMLFactura(factura);
+
+            // 2. Firmar XML (Devuelve la RUTA del XML firmado)
+            String rutaXmlFirmado = firmaService.firmarXML(rutaXmlSinFirma, firmaRuta, firmaClave);
+
+            // 3. Enviar al SRI (Espera la RUTA del archivo firmado)
+            return sriRecepcionService.enviarFactura(rutaXmlFirmado);
+
+        } catch (Exception e) {
+            throw new RuntimeException("Error al enviar al SRI: " + e.getMessage());
+        }
+    }
+
+    public String verificarAutorizacionSRI(Long facturaId) {
+        Factura factura = facturaRepository.findById(facturaId)
+                .orElseThrow(() -> new RuntimeException("Factura no encontrada"));
+        try {
+            return sriRecepcionService.consultarAutorizacion(factura.getClaveAcceso());
+        } catch (Exception e) {
+            throw new RuntimeException("Error al consultar autorización: " + e.getMessage());
+        }
+    }
 
     @Transactional
     public Factura crearFacturaCompleta(FacturaRequestDTO request) {
@@ -61,9 +98,23 @@ public class FacturaServicio {
         if (rawSeq != null && rawSeq.contains("-")) {
             rawSeq = rawSeq.substring(rawSeq.lastIndexOf("-") + 1);
         }
+        if (rawSeq == null || rawSeq.trim().isEmpty()) {
+            String maxSeq = facturaRepository.findMaxSecuencial(empresa.getEstablecimiento(),
+                    empresa.getPuntoEmision());
+            if (maxSeq == null) {
+                rawSeq = "000000001";
+            } else {
+                try {
+                    int next = Integer.parseInt(maxSeq) + 1;
+                    rawSeq = String.format("%09d", next);
+                } catch (NumberFormatException e) {
+                    rawSeq = "000000001";
+                }
+            }
+        }
         factura.setSecuencial(rawSeq);
         factura.setFechaEmision(
-                request.getFechaEmision() != null ? request.getFechaEmision() : java.time.LocalDateTime.now());
+                request.getFechaEmision() != null ? request.getFechaEmision() : java.time.LocalDate.now());
 
         // Se establecen inicialmente en 0 si vienen nulos, se recalcularán
         factura.setEstado(1);
@@ -74,7 +125,8 @@ public class FacturaServicio {
         factura.setEmpresa(empresa);
 
         // SNAPSHOT: Copiar datos de la empresa a la factura
-        factura.setAmbiente(empresa.getAmbiente() != null ? String.valueOf(empresa.getAmbiente()) : "1");
+        // FORZADO A 1 (PRUEBAS) por solicitud del usuario
+        factura.setAmbiente("1");
         factura.setTipoEmision(empresa.getTipoEmision() != null ? String.valueOf(empresa.getTipoEmision()) : "1");
         factura.setRazonSocial(empresa.getRazonSocial());
         factura.setNombreComercial(empresa.getNombreComercial());
@@ -261,7 +313,7 @@ public class FacturaServicio {
     }
 
     public String generarClaveAcceso(Factura factura) {
-        String fecha = factura.getFechaEmision().toLocalDate()
+        String fecha = factura.getFechaEmision()
                 .format(DateTimeFormatter.ofPattern("ddMMyyyy"));
         String tipoComprobante = "01";
         String ruc = factura.getEmpresa().getRuc();
@@ -269,9 +321,14 @@ public class FacturaServicio {
 
         // Padding Estricto
         // Padding Estricto
-        String estab = String.format("%03d", Integer.parseInt(factura.getEstab()));
-        String ptoEmi = String.format("%03d", Integer.parseInt(factura.getPtoEmi()));
-        String secuencial = String.format("%09d", Integer.parseInt(factura.getSecuencial()));
+        // Validar y Parsear
+        int estabInt = parseIntSafe(factura.getEstab(), "Establecimiento");
+        int ptoEmiInt = parseIntSafe(factura.getPtoEmi(), "Punto Emisión");
+        int secInt = parseIntSafe(factura.getSecuencial(), "Secuencial");
+
+        String estab = String.format("%03d", estabInt);
+        String ptoEmi = String.format("%03d", ptoEmiInt);
+        String secuencial = String.format("%09d", secInt);
 
         String codigoNumerico = generarCodigoNumerico();
         String tipoEmision = "1";
@@ -303,6 +360,18 @@ public class FacturaServicio {
         if (dv == 10)
             return "1";
         return String.valueOf(dv);
+    }
+
+    private int parseIntSafe(String value, String fieldName) {
+        try {
+            if (value == null || value.trim().isEmpty()) {
+                throw new RuntimeException("El campo " + fieldName + " está vacío o es nulo.");
+            }
+            return Integer.parseInt(value.trim());
+        } catch (NumberFormatException e) {
+            throw new RuntimeException(
+                    "El campo " + fieldName + " tiene un valor inválido para numérico: '" + value + "'");
+        }
     }
 
     public String generarXMLFactura(Factura factura) {
@@ -337,7 +406,7 @@ public class FacturaServicio {
             facturaEl.appendChild(infoFac);
 
             infoFac.appendChild(add(doc, "fechaEmision",
-                    factura.getFechaEmision().toLocalDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))));
+                    factura.getFechaEmision().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))));
             infoFac.appendChild(add(doc, "dirEstablecimiento", factura.getEmpresa().getDirEstablecimiento())); // Opcional:
                                                                                                                // podrías
                                                                                                                // usar

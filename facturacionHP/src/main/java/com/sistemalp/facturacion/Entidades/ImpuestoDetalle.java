@@ -17,12 +17,13 @@ public class ImpuestoDetalle {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long impuestoId;
 
+    @com.fasterxml.jackson.annotation.JsonIgnore
     @ManyToOne
     private DetalleFactura detalle;
 
-    private String codigo;             // 2 = IVA
-    private String codigoPorcentaje;   // 2=12%, 0=0%
-    private Double tarifa;             // 12.00
-    private Double baseImponible;      // subtotal del ítem
-    private Double valor;              // IVA calculado
+    private String codigo; // 2 = IVA
+    private String codigoPorcentaje; // 2=12%, 0=0%
+    private Double tarifa; // 12.00
+    private Double baseImponible; // subtotal del ítem
+    private Double valor; // IVA calculado
 }

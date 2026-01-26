@@ -23,6 +23,7 @@ public class CampoAdicionalFactura {
     private String nombre;
     private String valor;
 
+    @com.fasterxml.jackson.annotation.JsonIgnore
     @ManyToOne
     @JoinColumn(name = "factura_id", nullable = false)
     private Factura factura;

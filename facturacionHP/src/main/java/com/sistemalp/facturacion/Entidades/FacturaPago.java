@@ -1,7 +1,5 @@
 package com.sistemalp.facturacion.Entidades;
 
-
-
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,12 +7,13 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class FacturaPago { //entidad para guardar los pagos de la factura
+public class FacturaPago { // entidad para guardar los pagos de la factura
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long facturaPagoId;
 
+    @com.fasterxml.jackson.annotation.JsonIgnore
     @ManyToOne
     private Factura factura;
 
@@ -23,6 +22,6 @@ public class FacturaPago { //entidad para guardar los pagos de la factura
 
     private Double total;
 
-    private Integer plazo;        // opcional
-    private String unidadTiempo;  // “Días”, “Meses”
+    private Integer plazo; // opcional
+    private String unidadTiempo; // “Días”, “Meses”
 }

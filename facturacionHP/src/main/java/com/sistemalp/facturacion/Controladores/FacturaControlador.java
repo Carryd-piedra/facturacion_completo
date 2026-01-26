@@ -25,6 +25,11 @@ public class FacturaControlador {
     @org.springframework.beans.factory.annotation.Value("${sri.firma.clave}")
     private String firmaClave;
 
+    @GetMapping
+    public ResponseEntity<java.util.List<Factura>> listar() {
+        return ResponseEntity.ok(facturaService.listar());
+    }
+
     @PostMapping
     public ResponseEntity<?> crearFactura(@RequestBody FacturaRequestDTO request) {
         try {
@@ -53,6 +58,26 @@ public class FacturaControlador {
             e.printStackTrace();
             return ResponseEntity.badRequest().body(
                     "Error al crear factura: " + e.getMessage());
+        }
+    }
+
+    @PostMapping("/{id}/enviar")
+    public ResponseEntity<?> enviarSRI(@PathVariable Long id) {
+        try {
+            String respuesta = facturaService.enviarFacturaSri(id);
+            return ResponseEntity.ok(java.util.Collections.singletonMap("mensaje", respuesta));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(java.util.Collections.singletonMap("error", e.getMessage()));
+        }
+    }
+
+    @PostMapping("/{id}/autorizar")
+    public ResponseEntity<?> autorizarSRI(@PathVariable Long id) {
+        try {
+            String respuesta = facturaService.verificarAutorizacionSRI(id);
+            return ResponseEntity.ok(java.util.Collections.singletonMap("mensaje", respuesta));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(java.util.Collections.singletonMap("error", e.getMessage()));
         }
     }
 

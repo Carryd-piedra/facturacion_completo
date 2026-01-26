@@ -182,8 +182,16 @@ export class FacturaComponent implements OnInit {
         this.detalles.push(detalle);
     }
 
+    // Totales Calculados
+    totalSubtotal: number = 0;
+    totalIva: number = 0;
+    totalGeneral: number = 0;
+
+    // ...
+
     eliminarDetalle(index: number) {
         this.detalles.removeAt(index);
+        this.calcularTotales();
     }
 
     agregarPago() {
@@ -200,6 +208,8 @@ export class FacturaComponent implements OnInit {
         this.pagos.removeAt(index);
     }
 
+    // ...
+
     calcularLinea(group: FormGroup | any) {
         const cant = group.get('cantidad').value || 0;
         const precio = group.get('precioUnitario').value || 0;
@@ -207,12 +217,34 @@ export class FacturaComponent implements OnInit {
         group.patchValue({ subtotal: subtotal }, { emitEvent: false });
 
         const baseImponible = subtotal;
-        const valorIva = baseImponible * 0.12;
+        const valorIva = baseImponible * 0.12; // Asumiendo 12% por ahora
 
         group.get('impuesto').patchValue({
             baseImponible: baseImponible,
             valor: valorIva
         }, { emitEvent: false });
+
+        this.calcularTotales();
+    }
+
+    calcularTotales() {
+        this.totalSubtotal = 0;
+        this.totalIva = 0;
+        this.totalGeneral = 0;
+
+        this.detalles.controls.forEach((d: any) => {
+            const sub = d.get('subtotal')?.value || 0;
+            const iva = d.get('impuesto')?.get('valor')?.value || 0;
+            this.totalSubtotal += sub;
+            this.totalIva += iva;
+        });
+
+        this.totalGeneral = this.totalSubtotal + this.totalIva;
+
+        // Actualizar el pago si existe (solo si hay un solo pago por defecto)
+        if (this.pagos.length > 0) {
+            this.pagos.at(0).patchValue({ total: this.totalGeneral }, { emitEvent: false });
+        }
     }
 
     guardar() {
@@ -223,36 +255,30 @@ export class FacturaComponent implements OnInit {
                 text: 'Por favor complete todos los campos requeridos.',
                 confirmButtonColor: '#4f46e5'
             });
+            this.form.markAllAsTouched();
             return;
         }
 
         const formValue = this.form.value;
 
-        let subtotal12 = 0;
-        let totalIva = 0;
-
-        formValue.detalles.forEach((d: any) => {
-            subtotal12 += d.subtotal;
-            totalIva += d.impuesto.valor;
-        });
-
-        const totalFactura = subtotal12 + totalIva;
+        // Recalcular para asegurar (aunque calcularTotales lo mantiene al día)
+        this.calcularTotales();
 
         const factura: FacturaRequestDTO = {
             ...formValue,
-            secuencial: '', // Backend lo genera
-            subtotal12: subtotal12,
+            secuencial: '',
+            subtotal12: this.totalSubtotal,
             subtotal0: 0,
             subtotalNoObjeto: 0,
             subtotalExento: 0,
             totalDescuento: 0,
-            totalIva: totalIva,
-            totalFactura: totalFactura
+            totalIva: this.totalIva,
+            totalFactura: this.totalGeneral
         };
 
         if (this.pagos.length > 0) {
-            this.pagos.at(0).patchValue({ total: totalFactura });
-            factura.pagos[0].total = totalFactura;
+            this.pagos.at(0).patchValue({ total: this.totalGeneral });
+            factura.pagos[0].total = this.totalGeneral;
         }
 
         this.facturaService.crear(factura).subscribe({
@@ -281,5 +307,62 @@ export class FacturaComponent implements OnInit {
 
     toggleForm() {
         this.mostrarFormulario = !this.mostrarFormulario;
+    }
+
+    enviarSRI(factura: Factura) {
+        Swal.fire({
+            title: 'Enviando al SRI...',
+            text: 'Por favor espere',
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
+
+        this.facturaService.enviarSRI(factura.facturaId).subscribe({
+            next: (resp) => {
+                const mensajeRecepcion = resp.mensaje;
+
+                if (mensajeRecepcion.includes('RECIBIDA') || mensajeRecepcion.includes('PROCESAMIENTO')) {
+                    // Paso 2: Consultar Autorización
+                    Swal.update({
+                        title: 'Comprobante Recibido',
+                        text: 'Verificando autorización en el SRI...',
+                        icon: 'info'
+                    });
+
+                    // Pequeña pausa opcional (aunque el backend ya espera 3s en el metodo anterior, aqui lo quitamos)
+                    // Como quitamos la pausa del backend, podemos hacer el llamado directamente.
+                    // O el backend ya no retorna autorizacion, asi que llamamos al nuevo endpoint.
+
+                    this.facturaService.autorizarSRI(factura.facturaId).subscribe({
+                        next: (respAuth) => {
+                            Swal.fire({
+                                title: 'Resultado SRI',
+                                html: `<b>Recepci&oacute;n:</b><br>${mensajeRecepcion}<br><br><b>Autorizaci&oacute;n:</b><br>${respAuth.mensaje}`,
+                                icon: 'success',
+                                width: '600px'
+                            });
+                        },
+                        error: (errAuth) => {
+                            console.error(errAuth);
+                            Swal.fire('Error Autorización', 'El comprobante fue Recibido pero falló la consulta de autorización.', 'warning');
+                        }
+                    });
+
+                } else {
+                    // Error en Recepción (Devuelta, Rechazada)
+                    Swal.fire('Error Recepción SRI', mensajeRecepcion, 'error');
+                }
+            },
+            error: (err) => {
+                console.error(err);
+                let msg = 'Error al enviar al SRI';
+                if (err.error && err.error.error) {
+                    msg = err.error.error;
+                }
+                Swal.fire('Error', msg, 'error');
+            }
+        });
     }
 }
