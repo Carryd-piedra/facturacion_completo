@@ -168,7 +168,7 @@ export class ClienteComponent implements OnInit {
           next: (res: any) => {
             Swal.fire({
               title: 'Eliminado',
-              text: res.mensaje || 'El cliente ha sido eliminado.',
+              text: (res && res.mensaje) ? res.mensaje : 'El cliente ha sido eliminado.',
               icon: 'success',
               timer: 1500,
               showConfirmButton: false
