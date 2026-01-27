@@ -51,6 +51,14 @@ export class FacturaComponent implements OnInit {
         private fb: FormBuilder
     ) { }
 
+    getFechaActual(): string {
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = ('0' + (today.getMonth() + 1)).slice(-2);
+        const day = ('0' + today.getDate()).slice(-2);
+        return `${year}-${month}-${day}`;
+    }
+
     ngOnInit(): void {
         this.cargarFacturas();
         this.cargarCatalogos();
@@ -84,7 +92,7 @@ export class FacturaComponent implements OnInit {
         this.form = this.fb.group({
             clienteId: [null, Validators.required],
             empresaId: [1, Validators.required],
-            fechaEmision: [new Date().toISOString().substring(0, 10), Validators.required],
+            fechaEmision: [this.getFechaActual(), Validators.required],
             detalles: this.fb.array([]),
             pagos: this.fb.array([])
         });
