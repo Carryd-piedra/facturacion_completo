@@ -56,6 +56,58 @@ export class ClienteComponent implements OnInit {
       tipoDocumentoId: [null, Validators.required],
       numeroDocumento: ['', [Validators.required, Validators.pattern(/^[0-9]+$/)]]
     });
+
+    // Escuchar cambios en el tipo de documento para validaciones dinámicas
+    this.form.get('tipoDocumentoId')?.valueChanges.subscribe(id => {
+      this.actualizarValidacionesDocumento(id);
+    });
+  }
+
+  longitudMaximaDocumento: number = 20; // Default
+
+  actualizarValidacionesDocumento(id: number | null) {
+    const numeroControl = this.form.get('numeroDocumento');
+    if (!id) {
+      numeroControl?.clearValidators();
+      numeroControl?.setValidators([Validators.required, Validators.pattern(/^[0-9]+$/)]);
+      this.longitudMaximaDocumento = 20;
+      numeroControl?.updateValueAndValidity();
+      return;
+    }
+
+    const tipo = this.tiposDocumento.find(t => t.tipoDocumentoId === id);
+    if (tipo) {
+      const nombre = tipo.tipoDocumentoNombre.toUpperCase();
+      numeroControl?.clearValidators();
+
+      if (nombre.includes('RUC')) {
+        this.longitudMaximaDocumento = 13;
+        numeroControl?.setValidators([
+          Validators.required,
+          Validators.pattern(/^[0-9]*$/),
+          Validators.minLength(13),
+          Validators.maxLength(13)
+        ]);
+      } else if (nombre.includes('CEDULA') || nombre.includes('CÉDULA')) {
+        this.longitudMaximaDocumento = 10;
+        numeroControl?.setValidators([
+          Validators.required,
+          Validators.pattern(/^[0-9]*$/),
+          Validators.minLength(10),
+          Validators.maxLength(10)
+        ]);
+      } else {
+        this.longitudMaximaDocumento = 20;
+        numeroControl?.setValidators([Validators.required, Validators.pattern(/^[0-9]+$/)]);
+      }
+      numeroControl?.updateValueAndValidity();
+
+      // Ajustar valor actual si excede
+      const valActual = numeroControl?.value || '';
+      if (valActual.length > this.longitudMaximaDocumento) {
+        numeroControl?.setValue(valActual.substring(0, this.longitudMaximaDocumento));
+      }
+    }
   }
 
   guardar() {

@@ -117,4 +117,17 @@ export class FormapagoComponent implements OnInit {
       }
     });
   }
+
+  // VALIDATORS REAL-TIME
+  validarSoloNumeros(event: any) {
+    const input = event.target as HTMLInputElement;
+    input.value = input.value.replace(/[^0-9]/g, '');
+    this.form.get(input.getAttribute('formControlName')!)?.setValue(input.value);
+  }
+
+  validarSoloLetras(event: any) {
+    const input = event.target as HTMLInputElement;
+    input.value = input.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '');
+    this.form.get(input.getAttribute('formControlName')!)?.setValue(input.value);
+  }
 }

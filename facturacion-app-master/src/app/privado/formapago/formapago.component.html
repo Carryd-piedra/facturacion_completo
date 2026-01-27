@@ -20,11 +20,13 @@
                 <div class="row g-3">
                     <div class="col-md-8">
                         <label class="form-label">Nombre *</label>
-                        <input class="form-control" formControlName="nombre" placeholder="Ej: Tarjeta de Crédito">
+                        <input class="form-control" formControlName="nombre" maxlength="50"
+                            (input)="validarSoloLetras($event)" placeholder="Ej: Tarjeta de Crédito">
                     </div>
                     <div class="col-md-4">
                         <label class="form-label">Código SRI *</label>
-                        <input class="form-control" formControlName="codigoSri" placeholder="Ej: 19">
+                        <input class="form-control" formControlName="codigoSri" maxlength="3"
+                            (input)="validarSoloNumeros($event)" placeholder="Ej: 19">
                     </div>
                 </div>
                 <div class="mt-4 text-end">
