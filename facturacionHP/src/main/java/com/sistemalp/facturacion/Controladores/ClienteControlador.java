@@ -22,20 +22,28 @@ public class ClienteControlador {
     private ClienteServicio clienteServicio;
 
     @PostMapping
-    public Cliente guardar(@RequestBody ClienteConDocumentoDto cliente){
+    public Cliente guardar(@RequestBody ClienteConDocumentoDto cliente) {
         return clienteServicio.guardar(cliente);
     }
+
     @GetMapping
-    public List<Cliente> listasAll(){
+    public List<Cliente> listasAll() {
         return clienteServicio.listarAll();
     }
+
     @GetMapping("{id}")
-    public Cliente buscarId(@PathVariable Long id){
+    public Cliente buscarId(@PathVariable Long id) {
         return clienteServicio.buscarId(id);
     }
+
     @DeleteMapping("{id}")
-    public void elimnar(@PathVariable Long id){
-        clienteServicio.eliminar(id);
+    public org.springframework.http.ResponseEntity<?> elimnar(@PathVariable Long id) {
+        try {
+            clienteServicio.eliminar(id);
+            return org.springframework.http.ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return org.springframework.http.ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
 }
