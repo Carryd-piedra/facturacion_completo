@@ -1,3 +1,4 @@
+//paquete que contiene la aplicacion
 package com.sistemalp.facturacion;
 
 import org.springframework.boot.SpringApplication;

@@ -171,7 +171,7 @@ public class FacturaServicio {
         factura = facturaRepository.save(factura);
 
         // Variables para acumuladores si el request no trae totales
-        double calcSubtotal12 = 0.0;
+        double calcSubtotalConImpuestos = 0.0;
         double calcSubtotal0 = 0.0;
         double calcTotalDescuento = 0.0;
         double calcTotalIva = 0.0;
@@ -231,21 +231,29 @@ public class FacturaServicio {
                 imp.setBaseImponible(detDTO.getImpuesto().getBaseImponible());
                 imp.setValor(detDTO.getImpuesto().getValor());
             } else {
-                // Autocalcular Impuesto basado en producto.productoTasa (12 vs 0)
-                // Asumimos IVA código 2
+                // Autocalcular Impuesto basado en producto.productoTasa
+                // Asumimos IVA código 2 (Impuesto al Valor Agregado)
                 imp.setCodigo("2");
-                double tasa = producto.getProductoTasa() != null ? producto.getProductoTasa() : 0.0; // Ej: 12.0 o 15.0
+                double tasa = producto.getProductoTasa() != null ? producto.getProductoTasa() : 0.0;
                 imp.setTarifa(tasa);
 
-                // Mapeo básico de Código Porcentaje SRI
+                // Mapeo Códigos Porcentaje SRI (Ficha Técnica 2.26 - 2025)
                 if (tasa == 0.0) {
                     imp.setCodigoPorcentaje("0"); // 0%
                 } else if (tasa == 12.0) {
                     imp.setCodigoPorcentaje("2"); // 12%
+                } else if (tasa == 14.0) {
+                    imp.setCodigoPorcentaje("3"); // 14%
                 } else if (tasa == 15.0) {
-                    imp.setCodigoPorcentaje("4"); // 15% (Actualizado 2024/2025)
+                    imp.setCodigoPorcentaje("4"); // 15% (Vigente 2024/2025)
+                } else if (tasa == 5.0) {
+                    imp.setCodigoPorcentaje("5"); // 5% (Materiales construcción)
+                } else if (tasa == 13.0) {
+                    imp.setCodigoPorcentaje("10"); // 13%
+                } else if (tasa == 8.0) {
+                    imp.setCodigoPorcentaje("8"); // 8% (IVA diferenciado)
                 } else {
-                    imp.setCodigoPorcentaje("2"); // Default fallback
+                    imp.setCodigoPorcentaje("2"); // Default fallback (12%) o lanzar error si prefieres
                 }
 
                 imp.setBaseImponible(subtotal);
@@ -261,7 +269,7 @@ public class FacturaServicio {
             // Acumular Totales
             calcTotalDescuento += descuento;
             if (imp.getTarifa() != null && imp.getTarifa() > 0) {
-                calcSubtotal12 += imp.getBaseImponible();
+                calcSubtotalConImpuestos += imp.getBaseImponible();
                 calcTotalIva += imp.getValor();
             } else {
                 calcSubtotal0 += imp.getBaseImponible();
@@ -285,7 +293,8 @@ public class FacturaServicio {
         factura.setDetalles(detalles);
 
         // Asignar Totales finales (Calculados Vs Enviados)
-        factura.setSubtotal12(request.getSubtotal12() != null ? request.getSubtotal12() : calcSubtotal12);
+        factura.setSubtotalConImpuestos(request.getSubtotalConImpuestos() != null ? request.getSubtotalConImpuestos()
+                : calcSubtotalConImpuestos);
         factura.setSubtotal0(request.getSubtotal0() != null ? request.getSubtotal0() : calcSubtotal0);
         factura.setSubtotalExento(request.getSubtotalExento() != null ? request.getSubtotalExento() : 0.0);
         factura.setSubtotalNoObjeto(request.getSubtotalNoObjeto() != null ? request.getSubtotalNoObjeto() : 0.0);
@@ -293,13 +302,13 @@ public class FacturaServicio {
                 request.getTotalDescuento() != null ? request.getTotalDescuento() : calcTotalDescuento);
         factura.setTotalIva(request.getTotalIva() != null ? request.getTotalIva() : calcTotalIva);
 
-        Double sub12 = factura.getSubtotal12() != null ? factura.getSubtotal12() : 0.0;
+        Double subImp = factura.getSubtotalConImpuestos() != null ? factura.getSubtotalConImpuestos() : 0.0;
         Double sub0 = factura.getSubtotal0() != null ? factura.getSubtotal0() : 0.0;
         Double subEx = factura.getSubtotalExento() != null ? factura.getSubtotalExento() : 0.0;
         Double totIva = factura.getTotalIva() != null ? factura.getTotalIva() : 0.0;
         Double totDesc = factura.getTotalDescuento() != null ? factura.getTotalDescuento() : 0.0;
 
-        Double totalFinal = sub12 + sub0 + subEx + totIva - totDesc;
+        Double totalFinal = subImp + sub0 + subEx + totIva - totDesc;
         factura.setTotalFactura(request.getTotalFactura() != null ? request.getTotalFactura() : totalFinal);
 
         // Guardar Factura con totales actualizados
@@ -474,7 +483,8 @@ public class FacturaServicio {
             infoFac.appendChild(add(doc, "razonSocialComprador", factura.getCliente().getClienteNombre()));
             infoFac.appendChild(add(doc, "identificacionComprador", identComprador));
             infoFac.appendChild(add(doc, "totalSinImpuestos",
-                    String.format("%.2f", factura.getSubtotal12() + factura.getSubtotal0()).replace(",", ".")));
+                    String.format("%.2f", factura.getSubtotalConImpuestos() + factura.getSubtotal0()).replace(",",
+                            ".")));
             infoFac.appendChild(
                     add(doc, "totalDescuento", String.format("%.2f", factura.getTotalDescuento()).replace(",", ".")));
 

@@ -6,7 +6,7 @@ export interface Factura {
     secuencial: string;
     claveAcceso: string;
     fechaEmision: string; // ISO date
-    subtotal12: number;
+    subtotalConImpuestos: number;
     subtotal0: number;
     subtotalNoObjeto: number;
     subtotalExento: number;
@@ -46,7 +46,7 @@ export interface FacturaRequestDTO {
     empresaId: number;
     secuencial: string;
     fechaEmision: string;
-    subtotal12: number;
+    subtotalConImpuestos: number;
     subtotal0: number;
     subtotalNoObjeto: number;
     subtotalExento: number;

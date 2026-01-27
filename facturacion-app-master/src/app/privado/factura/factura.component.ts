@@ -151,8 +151,8 @@ export class FacturaComponent implements OnInit {
     seleccionarProducto(producto: Producto) {
         if (this.indiceDetalleSeleccionado >= 0) {
             const detalle = this.detalles.at(this.indiceDetalleSeleccionado);
-            // Asegurarnos de usar la tasa del producto, o 15 por defecto si no viene
-            const tasa = producto.productoTasa !== undefined ? producto.productoTasa : 15;
+            // Asegurarnos de usar la tasa del producto, o 15 por defecto si no viene (null o undefined)
+            const tasa = (producto.productoTasa != null) ? producto.productoTasa : 15;
 
             detalle.patchValue({
                 productoId: producto.productoId,
@@ -287,7 +287,7 @@ export class FacturaComponent implements OnInit {
         const factura: FacturaRequestDTO = {
             ...formValue,
             secuencial: '',
-            subtotal12: this.totalSubtotal,
+            subtotalConImpuestos: this.totalSubtotal,
             subtotal0: 0,
             subtotalNoObjeto: 0,
             subtotalExento: 0,
@@ -367,7 +367,7 @@ export class FacturaComponent implements OnInit {
         this.facturaService.autorizarSRI(factura.facturaId).subscribe({
             next: (resp) => {
                 const msj = resp.mensaje || '';
-                if (msj.includes('AUTORIZADO')) {
+                if (msj.includes('AUTORIZADO') && !msj.includes('NO AUTORIZADO')) {
                     Swal.fire('¡Autorizado!', msj, 'success');
                     this.cargarFacturas();
                 } else {

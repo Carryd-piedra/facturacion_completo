@@ -12,6 +12,7 @@ import lombok.Setter;
 @Entity
 @Setter
 @Getter
+//entidad que sirve para definir el tipo de documento del cliente
 public class TipoDocumentoCliente {
     @ManyToOne
     @JoinColumn(name = "clienteId", nullable = false)

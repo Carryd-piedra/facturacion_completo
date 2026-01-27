@@ -56,8 +56,14 @@
 
               <div class="col-12">
                 <label class="form-label">IVA (%)</label>
-                <input type="text" class="form-control" formControlName="productoTasa"
-                  (input)="validarSoloNumeros($event)">
+                <select class="form-select" formControlName="productoTasa">
+                  <option [ngValue]="0">0%</option>
+                  <option [ngValue]="5">5% (Materiales)</option>
+                  <option [ngValue]="8">8% (Turismo/Feriados)</option>
+                  <option [ngValue]="12">12%</option>
+                  <option [ngValue]="13">13%</option>
+                  <option [ngValue]="15">15% (General)</option>
+                </select>
               </div>
 
             </div>

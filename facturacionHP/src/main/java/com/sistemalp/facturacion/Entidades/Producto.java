@@ -10,6 +10,7 @@ import lombok.Setter;
 @Entity
 @Setter
 @Getter
+//entidad que sirve para definir los productos de la factura
 public class Producto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

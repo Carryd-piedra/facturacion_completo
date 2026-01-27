@@ -16,6 +16,7 @@ import lombok.Setter;
 @Setter
 @Getter
 
+//Clase que representa el cliente
 public class Cliente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

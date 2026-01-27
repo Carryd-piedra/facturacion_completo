@@ -10,6 +10,7 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
+//Clase que representa el detalle adicional de una factura
 @Entity
 @Table(name = "detalle_adicional_factura")
 @Getter

@@ -14,7 +14,7 @@ public class FacturaRequestDTO {
     private String secuencial;
     private LocalDate fechaEmision;
 
-    private Double subtotal12;
+    private Double subtotalConImpuestos;
     private Double subtotal0;
     private Double subtotalExento;
     private Double subtotalNoObjeto;

@@ -44,7 +44,7 @@ public class Factura {
 
     @com.fasterxml.jackson.annotation.JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate fechaEmision;
-    private Double subtotal12;
+    private Double subtotalConImpuestos;
     private Double subtotal0;
     private Double subtotalNoObjeto;
     private Double subtotalExento;

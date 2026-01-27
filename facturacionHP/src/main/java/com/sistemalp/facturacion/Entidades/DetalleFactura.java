@@ -21,11 +21,12 @@ public class DetalleFactura {
     private Long detalleId;
 
     @com.fasterxml.jackson.annotation.JsonIgnore
+    //relacion muchos a 1 con Factura
     @ManyToOne
     @JoinColumn(name = "facturaId", nullable = false)
     private Factura factura;
 
-    @ManyToOne
+    @ManyToOne  //relacion muchos a 1 con Producto
     private Producto producto;
 
     private Double cantidad;
@@ -33,9 +34,11 @@ public class DetalleFactura {
     private Double descuento;
     private Double subtotal;
 
+    //relacion 1 a 1 con ImpuestoDetalle
     @OneToOne(mappedBy = "detalle", cascade = CascadeType.ALL)
     private ImpuestoDetalle impuesto;
 
+    //relacion 1 a muchos con DetalleAdicionalFactura
     @jakarta.persistence.OneToMany(mappedBy = "detalleFactura", cascade = CascadeType.ALL, fetch = jakarta.persistence.FetchType.LAZY)
     private java.util.List<DetalleAdicionalFactura> detallesAdicionales;
 }

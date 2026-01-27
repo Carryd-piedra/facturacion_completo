@@ -44,7 +44,7 @@ export class ProductoComponent implements OnInit {
       productoNombre: ['', Validators.required],
       productoPrecio: [0, Validators.required],
       productoStock: [0, Validators.required],
-      productoTasa: [12],
+      productoTasa: [15, Validators.required],
       productoCategoria: ['', Validators.required],
       productoEstado: [1]
     });
@@ -121,7 +121,7 @@ export class ProductoComponent implements OnInit {
               timer: 1500,
               showConfirmButton: false
             });
-            this.form.reset({ productoEstado: 1, productoTasa: 12 });
+            this.form.reset({ productoEstado: 1, productoTasa: 15 });
             this.cargarProductos();
           },
           error: () => Swal.fire('Error', 'No se pudo crear el producto', 'error')
@@ -174,7 +174,7 @@ export class ProductoComponent implements OnInit {
   cancelar() {
     this.editando = false;
     this.productoId = undefined;
-    this.form.reset({ productoEstado: 1, productoTasa: 12 });
+    this.form.reset({ productoEstado: 1, productoTasa: 15 });
   }
 
   // VALIDATORS REAL-TIME

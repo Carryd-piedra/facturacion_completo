@@ -1,7 +1,7 @@
 package com.sistemalp.facturacion.Repositorios;
 
-import java.util.List;
-
+//interfaz que sirve para definir el repositorio del cliente
+//lo que hace un repositorio es que permite hacer consultas a la base de datos
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

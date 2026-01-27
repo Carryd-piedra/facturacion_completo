@@ -12,6 +12,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
+//entidad que sirve para definir el usuario del sistema
 public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
