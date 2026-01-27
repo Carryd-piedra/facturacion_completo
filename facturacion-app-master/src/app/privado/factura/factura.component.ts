@@ -317,55 +317,59 @@ export class FacturaComponent implements OnInit {
         this.mostrarFormulario = !this.mostrarFormulario;
     }
 
-    enviarSRI(factura: Factura) {
+    // PASO 1: ENVIAR (Recepción)
+    enviarRecepcion(factura: Factura) {
         Swal.fire({
             title: 'Enviando al SRI...',
-            text: 'Por favor espere',
+            text: 'Espere un momento...',
             allowOutsideClick: false,
-            didOpen: () => {
-                Swal.showLoading();
-            }
+            didOpen: () => Swal.showLoading()
         });
 
         this.facturaService.enviarSRI(factura.facturaId).subscribe({
             next: (resp) => {
-                const mensajeRecepcion = resp.mensaje;
-
-                if (mensajeRecepcion.includes('RECIBIDA') || mensajeRecepcion.includes('PROCESAMIENTO')) {
-                    // Paso 2: Consultar Autorización
-                    Swal.update({
-                        title: 'Comprobante Recibido',
-                        text: 'Verificando autorización en el SRI...',
-                        icon: 'info'
-                    });
-
-                    this.facturaService.autorizarSRI(factura.facturaId).subscribe({
-                        next: (respAuth) => {
-                            Swal.fire({
-                                title: 'Resultado SRI',
-                                html: `<b>Recepci&oacute;n:</b><br>${mensajeRecepcion}<br><br><b>Autorizaci&oacute;n:</b><br>${respAuth.mensaje}`,
-                                icon: 'success',
-                                width: '600px'
-                            });
-                        },
-                        error: (errAuth) => {
-                            console.error(errAuth);
-                            Swal.fire('Error Autorización', 'El comprobante fue Recibido pero falló la consulta de autorización.', 'warning');
-                        }
-                    });
-
+                const msj = resp.mensaje || '';
+                if (msj.includes('RECIBIDA') || msj.includes('PROCESAMIENTO')) {
+                    Swal.fire('Comprobante Recibido', msj, 'success');
+                    this.cargarFacturas(); // Actualizar estado para habilitar btn Autorizar
                 } else {
-                    // Error en Recepción (Devuelta, Rechazada)
-                    Swal.fire('Error Recepción SRI', mensajeRecepcion, 'error');
+                    Swal.fire('Error en Recepción', msj, 'error');
                 }
             },
             error: (err) => {
                 console.error(err);
-                let msg = 'Error al enviar al SRI';
-                if (err.error && err.error.error) {
-                    msg = err.error.error;
+                Swal.fire('Error', 'Falló el envío al SRI', 'error');
+            }
+        });
+    }
+
+    // PASO 2: AUTORIZAR
+    consultarAutorizacion(factura: Factura) {
+        Swal.fire({
+            title: 'Consultando Autorización...',
+            text: 'Espere un momento...',
+            allowOutsideClick: false,
+            didOpen: () => Swal.showLoading()
+        });
+
+        this.facturaService.autorizarSRI(factura.facturaId).subscribe({
+            next: (resp) => {
+                const msj = resp.mensaje || '';
+                if (msj.includes('AUTORIZADO')) {
+                    Swal.fire('¡Autorizado!', msj, 'success');
+                    this.cargarFacturas();
+                } else {
+                    // Mostrar errores detallados si existen
+                    Swal.fire({
+                        title: 'No Autorizado',
+                        html: `<pre style="text-align: left">${msj}</pre>`,
+                        icon: 'warning'
+                    });
                 }
-                Swal.fire('Error', msg, 'error');
+            },
+            error: (err) => {
+                console.error(err);
+                Swal.fire('Error', 'Falló la consulta de autorización', 'error');
             }
         });
     }

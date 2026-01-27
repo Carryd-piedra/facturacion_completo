@@ -69,5 +69,11 @@ public class EmpresaServicio {
         e.setTipoEmision(dto.getTipoEmision());
 
         e.setObligadoContabilidad(dto.getObligadoContabilidad());
+
+        e.setContribuyenteEspecial(dto.getContribuyenteEspecial());
+        e.setResolucion(dto.getResolucion());
+
+        e.setRutaFirma(dto.getRutaFirma());
+        e.setClaveFirma(dto.getClaveFirma());
     }
 }

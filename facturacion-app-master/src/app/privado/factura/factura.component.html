@@ -174,9 +174,17 @@
                             <button class="btn btn-action btn-action-view" (click)="verDetalle(f)" title="Ver Detalle">
                                 <i class="bi bi-file-earmark-text"></i>
                             </button>
-                            <button class="btn btn-sm btn-outline-primary ms-1" (click)="enviarSRI(f)"
-                                title="Enviar al SRI">
-                                <i class="bi bi-send"></i> SRI
+
+                            <!-- Botón ENVIAR (Estado: Registrada) -->
+                            <button *ngIf="f.estado === 1" class="btn btn-sm btn-primary ms-1"
+                                (click)="enviarRecepcion(f)" title="Enviar al SRI">
+                                <i class="bi bi-send"></i> Enviar
+                            </button>
+
+                            <!-- Botón AUTORIZAR (Estado: Enviada) -->
+                            <button *ngIf="f.estado === 2" class="btn btn-sm btn-warning ms-1"
+                                (click)="consultarAutorizacion(f)" title="Autorizar SRI">
+                                <i class="bi bi-check-circle"></i> Autorizar
                             </button>
                             <button class="btn btn-sm btn-outline-info ms-1" (click)="verXML(f)" title="Ver XML">
                                 <i class="bi bi-file-earmark-code"></i> XML

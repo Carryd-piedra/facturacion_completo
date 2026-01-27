@@ -24,4 +24,7 @@ public class EmpresaDTO {
 
     private String contribuyenteEspecial;
     private String resolucion;
+
+    private String rutaFirma;
+    private String claveFirma;
 }

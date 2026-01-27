@@ -61,7 +61,14 @@ public class FacturaServicio {
             String rutaXmlFirmado = firmaService.firmarXML(rutaXmlSinFirma, firmaRuta, firmaClave);
 
             // 3. Enviar al SRI (Espera la RUTA del archivo firmado)
-            return sriRecepcionService.enviarFactura(rutaXmlFirmado);
+            String resultado = sriRecepcionService.enviarFactura(rutaXmlFirmado);
+
+            if (resultado.contains("RECIBIDA") || resultado.contains("PROCESAMIENTO")) {
+                factura.setEstado(2); // Estado 2: Enviada / Recibida
+                facturaRepository.save(factura);
+            }
+
+            return resultado;
 
         } catch (Exception e) {
             throw new RuntimeException("Error al enviar al SRI: " + e.getMessage());
@@ -72,7 +79,33 @@ public class FacturaServicio {
         Factura factura = facturaRepository.findById(facturaId)
                 .orElseThrow(() -> new RuntimeException("Factura no encontrada"));
         try {
-            return sriRecepcionService.consultarAutorizacion(factura.getClaveAcceso());
+            String resultado = sriRecepcionService.consultarAutorizacion(factura.getClaveAcceso());
+
+            if (resultado.contains("AUTORIZADO")) {
+                factura.setEstado(3); // Estado 3: Autorizada
+                facturaRepository.save(factura);
+
+                // Generar PDF al autorizar
+                try {
+                    String numAuth = factura.getClaveAcceso();
+                    String fechaAuth = java.time.LocalDateTime.now().toString();
+                    // Parsear fecha autorizacion si viene en el XML seria mejor, pero por ahora
+                    // usamos actual o la del XML si pudieramos extraerla
+
+                    String html = FacturaHtmlBuilder.generarHtmlFactura(factura, numAuth, fechaAuth);
+
+                    File dir = new File("C:\\facturas_pdf");
+                    if (!dir.exists())
+                        dir.mkdirs();
+
+                    String rutaPdf = "C:\\facturas_pdf\\factura_" + factura.getClaveAcceso() + ".pdf";
+                    PdfGenerator.generarPDF(html, rutaPdf);
+                } catch (Exception e) {
+                    System.err.println("Error generando PDF: " + e.getMessage());
+                }
+            }
+
+            return resultado;
         } catch (Exception e) {
             throw new RuntimeException("Error al consultar autorización: " + e.getMessage());
         }

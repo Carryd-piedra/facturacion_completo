@@ -33,4 +33,7 @@ public class Empresa {
 
     private String contribuyenteEspecial; // opcional
     private String resolucion; // opcional
+
+    private String rutaFirma;
+    private String claveFirma;
 }
