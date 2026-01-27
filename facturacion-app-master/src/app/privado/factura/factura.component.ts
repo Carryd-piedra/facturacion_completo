@@ -151,11 +151,20 @@ export class FacturaComponent implements OnInit {
     seleccionarProducto(producto: Producto) {
         if (this.indiceDetalleSeleccionado >= 0) {
             const detalle = this.detalles.at(this.indiceDetalleSeleccionado);
+            // Asegurarnos de usar la tasa del producto, o 15 por defecto si no viene
+            const tasa = producto.productoTasa !== undefined ? producto.productoTasa : 15;
+
             detalle.patchValue({
                 productoId: producto.productoId,
-                nombreProducto: producto.productoNombre, // Campo auxiliar para mostrar nombre
-                precioUnitario: producto.productoPrecio
+                nombreProducto: producto.productoNombre,
+                precioUnitario: producto.productoPrecio,
             });
+
+            // Actualizar también el grupo de impuestos con la nueva tarifa
+            detalle.get('impuesto')?.patchValue({
+                tarifa: tasa
+            });
+
             this.calcularLinea(detalle);
             this.cerrarModalProducto();
         }
@@ -180,7 +189,7 @@ export class FacturaComponent implements OnInit {
             impuesto: this.fb.group({
                 codigo: ['2'],
                 codigoPorcentaje: ['2'],
-                tarifa: [12],
+                tarifa: [15],
                 baseImponible: [0],
                 valor: [0]
             })
@@ -225,7 +234,10 @@ export class FacturaComponent implements OnInit {
         group.patchValue({ subtotal: subtotal }, { emitEvent: false });
 
         const baseImponible = subtotal;
-        const valorIva = baseImponible * 0.12; // Asumiendo 12% por ahora
+
+        // Obtener la tarifa del form (que se seteó al seleccionar producto)
+        const tarifa = group.get('impuesto')?.get('tarifa')?.value || 0;
+        const valorIva = baseImponible * (tarifa / 100);
 
         group.get('impuesto').patchValue({
             baseImponible: baseImponible,
