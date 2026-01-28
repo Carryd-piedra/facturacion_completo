@@ -146,6 +146,7 @@
                 </div>
 
                 <div class="d-grid gap-3">
+                    @if(authService.hasAnyRole(['Admin', 'Vendedor'])) {
                     <a routerLink="/facturas" class="btn btn-quick-action py-4 d-flex align-items-center shadow-sm">
                         <div class="rounded-circle bg-danger bg-opacity-10 p-2 me-3 d-flex justify-content-center align-items-center"
                             style="width: 45px; height: 45px;">
@@ -167,7 +168,9 @@
                             <small class="text-muted">Añadir comprador</small>
                         </div>
                     </a>
+                    }
 
+                    @if(authService.hasAnyRole(['Admin'])) {
                     <a routerLink="/productos-admin"
                         class="btn btn-quick-action py-4 d-flex align-items-center shadow-sm">
                         <div class="rounded-circle bg-warning bg-opacity-10 p-2 me-3 d-flex justify-content-center align-items-center"
@@ -179,6 +182,7 @@
                             <small class="text-muted">Gestionar stock</small>
                         </div>
                     </a>
+                    }
                 </div>
             </div>
         </div>

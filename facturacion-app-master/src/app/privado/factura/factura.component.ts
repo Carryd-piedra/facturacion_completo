@@ -10,6 +10,7 @@ import { ProductoService } from '../../servicio/producto.service';
 import { FormaPagoService } from '../../servicio/forma-pago.service';
 import { EmpresaService } from '../../servicio/empresa.service';
 import { Empresa } from '../../modelos/empresa';
+import { AuthService } from '../../auth/auth.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -42,12 +43,14 @@ export class FacturaComponent implements OnInit {
 
     empresas: Empresa[] = [];
 
+
     constructor(
         private facturaService: FacturaService,
         private clienteService: ClienteService,
         private productoService: ProductoService,
         private formaPagoService: FormaPagoService,
         private empresaService: EmpresaService,
+        public authService: AuthService, // Injected public
         private fb: FormBuilder
     ) { }
 
@@ -66,7 +69,11 @@ export class FacturaComponent implements OnInit {
     }
 
     cargarFacturas() {
-        this.facturaService.listar().subscribe(data => this.facturas = data);
+        if (this.authService.getRole() === 'Contador') {
+            this.facturaService.listarEnviadas().subscribe(data => this.facturas = data);
+        } else {
+            this.facturaService.listar().subscribe(data => this.facturas = data);
+        }
     }
 
     cargarCatalogos() {
@@ -404,11 +411,37 @@ export class FacturaComponent implements OnInit {
         });
     }
 
+    anular(factura: Factura) {
+        Swal.fire({
+            title: '¿Anular Factura?',
+            text: "La factura cambiará a estado 'Anulada' y no se podrá recuperar. El secuencial se conservará.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Sí, anular',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                this.facturaService.anular(factura.facturaId).subscribe({
+                    next: () => {
+                        Swal.fire('Anulada!', 'La factura ha sido anulada.', 'success');
+                        this.cargarFacturas();
+                    },
+                    error: (err) => {
+                        console.error(err);
+                        Swal.fire('Error', 'No se pudo anular la factura.', 'error');
+                    }
+                });
+            }
+        });
+    }
+
     eliminar(factura: Factura) {
         Swal.fire({
-            title: '¿Estás seguro?',
-            text: "No podrás revertir esto. Si la factura ya fue enviada al SRI, deberás anularla allá también.",
-            icon: 'warning',
+            title: '¿Eliminar Permanentemente?',
+            text: "¡CUIDADO! Esto borrará la factura de la base de datos. Si borras la última factura, el secuencial podría reutilizarse. Solo usa esto si sabes lo que haces.",
+            icon: 'error',
             showCancelButton: true,
             confirmButtonColor: '#d33',
             cancelButtonColor: '#3085d6',
@@ -418,7 +451,7 @@ export class FacturaComponent implements OnInit {
             if (result.isConfirmed) {
                 this.facturaService.eliminar(factura.facturaId).subscribe({
                     next: () => {
-                        Swal.fire('Eliminado!', 'La factura ha sido eliminada.', 'success');
+                        Swal.fire('Eliminado!', 'La factura ha sido eliminada permanentemente.', 'success');
                         this.cargarFacturas();
                     },
                     error: (err) => {

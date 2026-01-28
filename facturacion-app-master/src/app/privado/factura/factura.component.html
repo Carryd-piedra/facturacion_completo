@@ -4,11 +4,14 @@
             <h2 class="fw-bold mb-1">Facturación</h2>
             <p class="text-muted">Gestiona tus ventas y comprobantes</p>
         </div>
+        @if(authService.hasAnyRole(['Admin', 'Vendedor'])) {
         <button class="btn btn-primary-custom" (click)="toggleForm()">
             <i class="bi" [ngClass]="mostrarFormulario ? 'bi-x-circle' : 'bi-plus-circle'"></i>
             {{ mostrarFormulario ? 'Cancelar' : 'Nueva Factura' }}
         </button>
+        }
     </div>
+
 
     <!-- FORMULARIO -->
     <div *ngIf="mostrarFormulario" class="modern-card mb-4">
@@ -177,9 +180,11 @@
                             <span class="badge" [ngClass]="{
                   'bg-success': f.estado === 3,
                   'bg-warning': f.estado === 2,
-                  'bg-secondary': f.estado === 1
+                  'bg-secondary': f.estado === 1,
+                  'bg-danger': f.estado === 0
                 }">
-                                {{ f.estado === 1 ? 'Registrada' : (f.estado === 2 ? 'Enviada' : 'Autorizada') }}
+                                {{ f.estado === 0 ? 'Anulada' : (f.estado === 1 ? 'Registrada' : (f.estado === 2 ?
+                                'Enviada' : 'Autorizada')) }}
                             </span>
                         </td>
                         <td>
@@ -188,6 +193,7 @@
                             </button>
 
                             <!-- Botón ENVIAR (Estado: Registrada) -->
+                            @if(authService.hasAnyRole(['Admin', 'Vendedor'])) {
                             <button *ngIf="f.estado === 1" class="btn btn-sm btn-primary ms-1"
                                 (click)="enviarRecepcion(f)" title="Enviar al SRI">
                                 <i class="bi bi-send"></i> Enviar
@@ -198,12 +204,27 @@
                                 (click)="consultarAutorizacion(f)" title="Autorizar SRI">
                                 <i class="bi bi-check-circle"></i> Autorizar
                             </button>
+                            }
+
                             <button class="btn btn-sm btn-outline-info ms-1" (click)="verXML(f)" title="Ver XML">
                                 <i class="bi bi-file-earmark-code"></i> XML
                             </button>
-                            <button class="btn btn-sm btn-outline-danger ms-1" (click)="eliminar(f)" title="Eliminar">
+
+                            <!-- Botón ANULAR (Admin y Vendedor, si no está anulada) -->
+                            @if(authService.hasAnyRole(['Admin', 'Vendedor']) && f.estado !== 0) {
+                            <button class="btn btn-sm btn-outline-danger ms-1" (click)="anular(f)"
+                                title="Anular (Conservar Secuencial)">
+                                <i class="bi bi-x-circle"></i>
+                            </button>
+                            }
+
+                            <!-- Botón ELIMINAR (Solo Admin) -->
+                            @if(authService.hasAnyRole(['Admin'])) {
+                            <button class="btn btn-sm btn-danger ms-1" (click)="eliminar(f)"
+                                title="Eliminar Permanentemente">
                                 <i class="bi bi-trash"></i>
                             </button>
+                            }
                         </td>
                     </tr>
                     <tr *ngIf="facturas.length === 0">

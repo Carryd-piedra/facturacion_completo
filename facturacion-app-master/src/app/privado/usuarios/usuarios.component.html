@@ -1,0 +1,105 @@
+<div class="container-fluid my-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold mb-1">Gestión de Usuarios</h2>
+            <p class="text-muted mb-0">Administra los accesos al sistema</p>
+        </div>
+        <button class="btn btn-primary" (click)="nuevoUsuario()" *ngIf="!mostrarFormulario">
+            <i class="bi bi-person-plus-fill me-2"></i> Nuevo Usuario
+        </button>
+    </div>
+
+    <!-- Formulario de Creación -->
+    <div class="card border-0 shadow-sm mb-4" *ngIf="mostrarFormulario">
+        <div class="card-header bg-white py-3">
+            <h5 class="mb-0 fw-bold text-primary">{{ usuarioEditarId ? 'Editar Usuario' : 'Nuevo Usuario' }}</h5>
+        </div>
+        <div class="card-body">
+            <form [formGroup]="usuarioForm" (ngSubmit)="guardar()">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Nombre Completo</label>
+                        <input type="text" class="form-control" formControlName="nombre">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Correo Electrónico</label>
+                        <input type="email" class="form-control" formControlName="email">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Usuario (Login)</label>
+                        <input type="text" class="form-control" formControlName="username">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Contraseña</label>
+                        <input type="password" class="form-control" formControlName="password">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Rol</label>
+                        <select class="form-select" formControlName="rol">
+                            <option *ngFor="let r of roles" [value]="r">{{ r }}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="alert alert-danger mt-3" *ngIf="error">
+                    {{ error }}
+                </div>
+
+                <div class="mt-4 d-flex justify-content-end gap-2">
+                    <button type="button" class="btn btn-light" (click)="cancelar()">Cancelar</button>
+                    <button type="submit" class="btn btn-success" [disabled]="usuarioForm.invalid || procesando">
+                        <i class="bi bi-save me-2"></i> Guardar Usuario
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Tabla de Usuarios -->
+    <div class="card border-0 shadow-sm">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="bg-light">
+                    <tr>
+                        <th class="ps-4">ID</th>
+                        <th>Usuario</th>
+                        <th>Nombre</th>
+                        <th>Rol</th>
+                        <th>Estado</th>
+                        <th class="text-end pe-4">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let u of usuarios">
+                        <td class="ps-4 text-muted">#{{ u.id }}</td>
+                        <td class="fw-bold">{{ u.username }}</td>
+                        <td>
+                            <div>{{ u.nombre }}</div>
+                            <small class="text-muted">{{ u.correo }}</small>
+                        </td>
+                        <td>
+                            <span class="badge" [ngClass]="{
+                                    'bg-danger': u.tipoUsuario?.rol === 'Admin',
+                                    'bg-primary': u.tipoUsuario?.rol === 'Contador',
+                                    'bg-success': u.tipoUsuario?.rol === 'Vendedor'
+                                }">
+                                {{ u.tipoUsuario?.rol }}
+                            </span>
+                        </td>
+                        <td>
+                            <span class="badge bg-light text-dark border">Activo</span>
+                        </td>
+                        <td class="text-end pe-4">
+                            <button class="btn btn-sm btn-outline-primary me-2" (click)="editar(u)" title="Editar">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline-danger" (click)="eliminar(u.id)" title="Eliminar">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -10,7 +10,7 @@ export class AuthService {
 
   private apiUrl = environment.apiUrl;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   login(username: string, password: string): Observable<any> {
     return this.http.post<any>(
@@ -20,6 +20,10 @@ export class AuthService {
       tap(response => {
         localStorage.setItem('token', response.token);
         localStorage.setItem('username', response.username);
+
+        // Decodificar token para guardar rol (opcional, o extraerlo bajo demanda)
+        const payload = JSON.parse(atob(response.token.split('.')[1]));
+        localStorage.setItem('role', payload.rol);
       })
     );
   }
@@ -30,6 +34,18 @@ export class AuthService {
 
   getToken(): string | null {
     return localStorage.getItem('token');
+  }
+
+  getRole(): string | null {
+    return localStorage.getItem('role');
+  }
+
+  // Verifica si el usuario tiene alguno de los roles permitidos
+  hasAnyRole(allowedRoles: string[]): boolean {
+    const userRole = this.getRole();
+    if (!userRole) return false;
+    if (userRole === 'Admin') return true; // El Admin tiene acceso a todo
+    return allowedRoles.includes(userRole);
   }
 
   isLoggedIn(): boolean {

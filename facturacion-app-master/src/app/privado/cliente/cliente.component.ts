@@ -39,12 +39,14 @@ export class ClienteComponent implements OnInit {
   }
 
   cargarTiposDocumento() {
-    this.tipoDocumentoService.listar().subscribe(data => this.tiposDocumento = data);
+    this.tipoDocumentoService.listar().subscribe(data => {
+      // Filtrar 'Consumidor Final' para que no aparezca en la creación manual
+      this.tiposDocumento = data.filter(t => !t.tipoDocumentoNombre.toUpperCase().includes('CONSUMIDOR FINAL'));
+    });
   }
 
   initForm() {
     this.form = this.fb.group({
-      // Cliente Info
       // Cliente Info
       clienteNombre: ['', [Validators.required, Validators.minLength(3), Validators.pattern(/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/)]],
       clienteAplellido: ['', [Validators.required, Validators.pattern(/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/)]],
@@ -78,6 +80,7 @@ export class ClienteComponent implements OnInit {
     const tipo = this.tiposDocumento.find(t => t.tipoDocumentoId === id);
     if (tipo) {
       const nombre = tipo.tipoDocumentoNombre.toUpperCase();
+      numeroControl?.setValue(''); // Limpiar valor al cambiar tipo para evitar conflictos
       numeroControl?.clearValidators();
 
       if (nombre.includes('RUC')) {
@@ -96,17 +99,14 @@ export class ClienteComponent implements OnInit {
           Validators.minLength(10),
           Validators.maxLength(10)
         ]);
+      } else if (nombre.includes('PASAPORTE')) {
+        this.longitudMaximaDocumento = 20;
+        numeroControl?.setValidators([Validators.required]);
       } else {
         this.longitudMaximaDocumento = 20;
         numeroControl?.setValidators([Validators.required, Validators.pattern(/^[0-9]+$/)]);
       }
       numeroControl?.updateValueAndValidity();
-
-      // Ajustar valor actual si excede
-      const valActual = numeroControl?.value || '';
-      if (valActual.length > this.longitudMaximaDocumento) {
-        numeroControl?.setValue(valActual.substring(0, this.longitudMaximaDocumento));
-      }
     }
   }
 

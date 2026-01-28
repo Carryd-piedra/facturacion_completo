@@ -30,6 +30,11 @@ public class FacturaControlador {
         return ResponseEntity.ok(facturaService.listar());
     }
 
+    @GetMapping("/enviadas")
+    public ResponseEntity<java.util.List<Factura>> listarEnviadas() {
+        return ResponseEntity.ok(facturaService.listarEnviadas());
+    }
+
     @PostMapping
     public ResponseEntity<?> crearFactura(@RequestBody FacturaRequestDTO request) {
         try {
@@ -96,6 +101,16 @@ public class FacturaControlador {
         try {
             facturaService.eliminarFactura(id);
             return ResponseEntity.ok(java.util.Collections.singletonMap("mensaje", "Factura eliminada correctamente"));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(java.util.Collections.singletonMap("error", e.getMessage()));
+        }
+    }
+
+    @PutMapping("/{id}/anular")
+    public ResponseEntity<?> anular(@PathVariable Long id) {
+        try {
+            facturaService.anularFactura(id);
+            return ResponseEntity.ok(java.util.Collections.singletonMap("mensaje", "Factura anulada correctamente"));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(java.util.Collections.singletonMap("error", e.getMessage()));
         }

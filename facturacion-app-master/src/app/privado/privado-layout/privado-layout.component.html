@@ -10,11 +10,15 @@
     </div>
 
     <ul class="nav flex-column gap-1 flex-grow-1">
+      @if(authService.hasAnyRole(['Admin', 'Contador', 'Vendedor'])) {
       <li>
         <a routerLink="/dashboard" routerLinkActive="active" class="nav-link sidebar-link d-flex align-items-center">
           <i class="bi bi-speedometer2 me-3"></i> Dashboard
         </a>
       </li>
+      }
+
+      @if(authService.hasAnyRole(['Admin'])) {
       <li>
         <a routerLink="/documentos" routerLinkActive="active" class="nav-link sidebar-link d-flex align-items-center">
           <i class="bi bi-file-earmark-text me-3"></i> Tipos Doc.
@@ -26,11 +30,17 @@
           <i class="bi bi-box-seam me-3"></i> Productos
         </a>
       </li>
+      }
+
+      @if(authService.hasAnyRole(['Admin', 'Vendedor'])) {
       <li>
         <a routerLink="/clientes" routerLinkActive="active" class="nav-link sidebar-link d-flex align-items-center">
           <i class="bi bi-people me-3"></i> Clientes
         </a>
       </li>
+      }
+
+      @if(authService.hasAnyRole(['Admin'])) {
       <li>
         <a routerLink="/formas-pago" routerLinkActive="active" class="nav-link sidebar-link d-flex align-items-center">
           <i class="bi bi-credit-card me-3"></i> Formas Pago
@@ -42,15 +52,27 @@
         </a>
       </li>
       <li>
+        <a routerLink="/usuarios" routerLinkActive="active" class="nav-link sidebar-link d-flex align-items-center">
+          <i class="bi bi-people-fill me-3"></i> Usuarios
+        </a>
+      </li>
+      }
+
+      @if(authService.hasAnyRole(['Admin', 'Vendedor', 'Contador'])) {
+      <li>
         <a routerLink="/facturas" routerLinkActive="active" class="nav-link sidebar-link d-flex align-items-center">
           <i class="bi bi-receipt me-3"></i> Facturación
         </a>
       </li>
+      }
+
+      @if(authService.hasAnyRole(['Admin', 'Contador'])) {
       <li>
         <a routerLink="/reportes" routerLinkActive="active" class="nav-link sidebar-link d-flex align-items-center">
           <i class="bi bi-file-bar-graph me-3"></i> Reportes
         </a>
       </li>
+      }
     </ul>
 
     <div class="mt-auto pt-3 border-top">

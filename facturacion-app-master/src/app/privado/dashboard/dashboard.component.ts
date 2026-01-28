@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { DashboardService, DashboardStats } from '../../servicio/dashboard.service';
 import { FacturaService } from '../../servicio/factura.service';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -23,7 +24,8 @@ export class DashboardComponent implements OnInit {
 
   constructor(
     private dashboardService: DashboardService,
-    private facturaService: FacturaService
+    private facturaService: FacturaService,
+    public authService: AuthService
   ) { }
 
   ngOnInit(): void {

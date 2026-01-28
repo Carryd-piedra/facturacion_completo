@@ -9,10 +9,10 @@ import { AuthService } from '../../auth/auth.service';
   styleUrl: './privado-layout.component.css'
 })
 export class PrivadoLayoutComponent {
-   constructor(
-    private authService: AuthService,
+  constructor(
+    public authService: AuthService,
     private router: Router
-  ) {}
+  ) { }
 
   logout(): void {
     this.authService.logout();

@@ -1,5 +1,7 @@
 import { Routes } from '@angular/router';
 
+import { UsuariosComponent } from './privado/usuarios/usuarios.component';
+
 import { InicioComponent } from './publico/paginas/inicio/inicio.component';
 import { ProductosComponent } from './publico/paginas/productos/productos.component';
 import { ContactanosComponent } from './publico/paginas/contactanos/contactanos.component';
@@ -35,14 +37,17 @@ export const routes: Routes = [
     component: PrivadoLayoutComponent,
     canActivate: [authGuard],
     children: [
-      { path: 'dashboard', component: DashboardComponent },
-      { path: 'documentos', component: DocumentoComponent },
-      { path: 'productos-admin', component: ProductoComponent },
-      { path: 'clientes', component: ClienteComponent },
-      { path: 'formas-pago', component: FormapagoComponent },
-      { path: 'empresas', loadComponent: () => import('./privado/empresa/empresa.component').then(m => m.EmpresaComponent) },
-      { path: 'facturas', loadComponent: () => import('./privado/factura/factura.component').then(m => m.FacturaComponent) },
-      { path: 'reportes', loadComponent: () => import('./privado/reporte/reporte.component').then(m => m.ReporteComponent) }
+      { path: 'dashboard', component: DashboardComponent, data: { roles: ['Admin', 'Contador', 'Vendedor'] } },
+
+      { path: 'documentos', component: DocumentoComponent, data: { roles: ['Admin'] } },
+      { path: 'productos-admin', component: ProductoComponent, data: { roles: ['Admin'] } },
+      { path: 'clientes', component: ClienteComponent, data: { roles: ['Admin', 'Vendedor'] } },
+      { path: 'formas-pago', component: FormapagoComponent, data: { roles: ['Admin'] } },
+      { path: 'empresas', loadComponent: () => import('./privado/empresa/empresa.component').then(m => m.EmpresaComponent), data: { roles: ['Admin'] } },
+      { path: 'usuarios', component: UsuariosComponent, data: { roles: ['Admin'] } },
+
+      { path: 'facturas', loadComponent: () => import('./privado/factura/factura.component').then(m => m.FacturaComponent), data: { roles: ['Admin', 'Vendedor', 'Contador'] } },
+      { path: 'reportes', loadComponent: () => import('./privado/reporte/reporte.component').then(m => m.ReporteComponent), data: { roles: ['Admin', 'Contador'] } }
     ]
   },
   { path: '**', redirectTo: '' }

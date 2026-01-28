@@ -24,6 +24,10 @@ public class UsuarioServicio {
         return usuarioRespositorio.save(usuario);
     }
 
+    public Usuario actualizar(Usuario usuario) {
+        return usuarioRespositorio.save(usuario);
+    }
+
     public List<Usuario> listar() {
         return usuarioRespositorio.findAll();
     }

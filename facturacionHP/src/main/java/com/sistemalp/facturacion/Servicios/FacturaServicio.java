@@ -111,6 +111,21 @@ public class FacturaServicio {
         }
     }
 
+    public void anularFactura(Long id) {
+        Factura factura = facturaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Factura no encontrada"));
+
+        // Solo permitir anular si no está autorizada (estado 3) o si se decide
+        // permitirlo
+        // Generalmente se puede anular una registrada (1) o enviada (2) antes de
+        // autorización.
+        // Si está autorizada, se requiere Nota de Crédito en el mundo real, pero aquí
+        // simplificamos.
+
+        factura.setEstado(0); // Estado 0: Anulada
+        facturaRepository.save(factura);
+    }
+
     @Transactional
     public Factura crearFacturaCompleta(FacturaRequestDTO request) {
         if (request.getDetalles() == null || request.getDetalles().isEmpty())
@@ -126,6 +141,7 @@ public class FacturaServicio {
         Empresa empresa = empresaRepository.findById(request.getEmpresaId())
                 .orElseThrow(() -> new RuntimeException("Empresa no encontrada."));
 
+        // genera el secuencial de la factura que se compone de 9 digitos
         Factura factura = new Factura();
         String rawSeq = request.getSecuencial();
         if (rawSeq != null && rawSeq.contains("-")) {
@@ -145,6 +161,7 @@ public class FacturaServicio {
                 }
             }
         }
+        // rawSeq es el secuencial de la factura
         factura.setSecuencial(rawSeq);
         factura.setFechaEmision(
                 request.getFechaEmision() != null ? request.getFechaEmision() : java.time.LocalDate.now());
@@ -237,7 +254,7 @@ public class FacturaServicio {
                 double tasa = producto.getProductoTasa() != null ? producto.getProductoTasa() : 0.0;
                 imp.setTarifa(tasa);
 
-                // Mapeo Códigos Porcentaje SRI (Ficha Técnica 2.26 - 2025)
+                // Mapeo Códigos Porcentaje SRI (tabla 16)
                 if (tasa == 0.0) {
                     imp.setCodigoPorcentaje("0"); // 0%
                 } else if (tasa == 12.0) {
@@ -356,6 +373,11 @@ public class FacturaServicio {
         return facturaRepository.findAll();
     }
 
+    public List<Factura> listarEnviadas() {
+        return facturaRepository.findByEstado(2);
+    }
+
+    // metodo que genera la clave de acceso de la factura
     public String generarClaveAcceso(Factura factura) {
         String fecha = factura.getFechaEmision()
                 .format(DateTimeFormatter.ofPattern("ddMMyyyy"));
@@ -389,6 +411,7 @@ public class FacturaServicio {
         return String.format("%08d", numero);
     }
 
+    // metodo que calcula el digito verificador de la clave de acceso
     private String calcularDigitoVerificador(String cadena) {
         int factor = 2;
         int suma = 0;
@@ -418,13 +441,16 @@ public class FacturaServicio {
         }
     }
 
+    // Metodo que genera el XML de la factura
     public String generarXMLFactura(Factura factura) {
         try {
+            // se usa DocumentBuilderFactory para crear el XML
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
-            Document doc = builder.newDocument();
+            Document doc = builder.newDocument(); // doc que sirve para crear el XML
             doc.setXmlStandalone(true); // Estándar SRI: standalone="yes"
 
+            // se crea el elemento factura
             Element facturaEl = doc.createElement("factura");
             facturaEl.setAttribute("id", "comprobante");
             facturaEl.setAttribute("version", "1.1.0"); // Versión estándar actual
@@ -528,7 +554,7 @@ public class FacturaServicio {
                     add(doc, "importeTotal", String.format("%.2f", factura.getTotalFactura()).replace(",", ".")));
             infoFac.appendChild(add(doc, "moneda", "DOLAR"));
 
-            // PAGOS
+            // se agrega el pago, forma de pago y total
             Element pagos = doc.createElement("pagos");
             infoFac.appendChild(pagos);
             if (factura.getPagos() != null) {
@@ -546,6 +572,7 @@ public class FacturaServicio {
             }
 
             // ================= DETALLES =================
+            // detalles de cada producto en la factura
             Element detallesEl = doc.createElement("detalles");
             facturaEl.appendChild(detallesEl);
 
@@ -603,6 +630,7 @@ public class FacturaServicio {
                 }
             }
 
+            // Se crea la carpeta donde se guardara el XML
             File carpeta = new File("C:\\facturaSRI");
             if (!carpeta.exists())
                 carpeta.mkdirs();
@@ -619,22 +647,28 @@ public class FacturaServicio {
         }
     }
 
+    // Metodo que agrega un elemento al XML
+    // Recibe el documento, el tag y el valor a agregar
     private Element add(Document doc, String tag, Object value) {
         Element e = doc.createElement(tag);
         e.appendChild(doc.createTextNode(String.valueOf(value)));
         return e;
     }
 
+    // Metodo que obtiene el XML de la factura
     public String obtenerXmlFactura(Long facturaId) {
         if (facturaId == null)
             throw new RuntimeException("El ID de la factura no puede ser nulo.");
 
+        // Busca la factura por ID
         Factura factura = facturaRepository.findById(facturaId)
                 .orElseThrow(() -> new RuntimeException("Factura no encontrada"));
 
+        // se crea la urta para buscar el XML
         String ruta = "C:\\facturaSRI\\factura_" + factura.getClaveAcceso() + ".xml";
         File archivo = new File(ruta);
 
+        // busca el arhivo XML firmado si no existe el XML original
         if (!archivo.exists()) {
             // Intenta buscar el firmado
             String rutaFirmado = "C:\\facturaSRI\\factura_" + factura.getClaveAcceso() + "_signed.xml";

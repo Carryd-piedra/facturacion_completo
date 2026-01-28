@@ -15,6 +15,7 @@ import com.sistemalp.facturacion.Repositorios.ClienteRepositorio;
 import com.sistemalp.facturacion.Repositorios.TipoDocumentoClienteRepositorio;
 import com.sistemalp.facturacion.Repositorios.TipoDocumentoRepositorio;
 
+//capa de servicios del cliente
 @Service
 public class ClienteServicio {
     @Autowired
@@ -26,6 +27,7 @@ public class ClienteServicio {
     @Autowired
     private com.sistemalp.facturacion.Repositorios.FacturaRepositorio facturaRepositorio;
 
+    //metodo que guarda un cliente con sus documentos
     public Cliente guardar(ClienteConDocumentoDto clienteDto) {
         List<DocumentoListaClienteDto> documentos = clienteDto.getDocumentos();
 
@@ -61,6 +63,11 @@ public class ClienteServicio {
                                 "{\"campo\": \"numeroDocumento\", \"motivo\": \"La Cédula debe tener 10 dígitos numéricos\"}");
                     }
                 }
+                //validacion de que el numero de documento no se repita
+                if (tipoDocumentoClienteRepositorio.existsByNumeroDocumentoClienteAndTipoDocumento(numero, tipoDocumento)) {
+                    throw new RuntimeException(
+                            "{\"campo\": \"numeroDocumento\", \"motivo\": \"El número de documento ya existe\"}");
+                }
 
                 tipoDocumentoCliente.setNumeroDocumentoCliente(numero);
                 tipoDocumentoCliente.setTipoDocumento(tipoDocumento);
@@ -75,6 +82,9 @@ public class ClienteServicio {
         return cliente;
     }
 
+    
+    
+
     public List<Cliente> listarAll() {
         return clienteRepositorio.findAll();
     }
@@ -83,6 +93,8 @@ public class ClienteServicio {
         return clienteRepositorio.findById(id).orElse(null);
     }
 
+
+    //metodo que elimina un cliente
     public void eliminar(Long id) {
         Cliente cliente = buscarId(id);
         if (cliente == null) {

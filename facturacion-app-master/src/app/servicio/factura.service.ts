@@ -17,6 +17,10 @@ export class FacturaService {
         return this.http.get<Factura[]>(this.apiUrl);
     }
 
+    listarEnviadas(): Observable<Factura[]> {
+        return this.http.get<Factura[]>(`${this.apiUrl}/enviadas`);
+    }
+
     enviarSRI(id: number): Observable<any> {
         return this.http.post<any>(`${this.apiUrl}/${id}/enviar`, {});
     }
@@ -35,5 +39,9 @@ export class FacturaService {
 
     eliminar(id: number): Observable<any> {
         return this.http.delete(`${this.apiUrl}/${id}`);
+    }
+
+    anular(id: number): Observable<any> {
+        return this.http.put(`${this.apiUrl}/${id}/anular`, {});
     }
 }

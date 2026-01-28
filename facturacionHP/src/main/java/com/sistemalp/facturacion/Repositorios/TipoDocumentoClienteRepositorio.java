@@ -7,7 +7,11 @@ import org.springframework.stereotype.Repository;
 
 import com.sistemalp.facturacion.Entidades.Cliente;
 import com.sistemalp.facturacion.Entidades.TipoDocumentoCliente;
+import com.sistemalp.facturacion.Entidades.TipoDocumento;
+
 @Repository
-public interface TipoDocumentoClienteRepositorio extends JpaRepository<TipoDocumentoCliente,String>{
+public interface TipoDocumentoClienteRepositorio extends JpaRepository<TipoDocumentoCliente, String> {
     List<TipoDocumentoCliente> findByCliente(Cliente cliente);
+
+    boolean existsByNumeroDocumentoClienteAndTipoDocumento(String numeroDocumentoCliente, TipoDocumento tipoDocumento);
 }

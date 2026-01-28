@@ -97,7 +97,8 @@
                         <td>{{ c.clienteMail }}</td>
                         <td><small>{{ c.clienteDirecion }}</small></td>
                         <td class="text-end pe-4">
-                            <div class="d-flex gap-2 justify-content-end">
+                            <div class="d-flex gap-2 justify-content-end"
+                                *ngIf="c.clienteTelefono !== '9999999999999' && c.clienteNombre.toUpperCase() !== 'CONSUMIDOR FINAL'">
                                 <button class="btn-action btn-action-edit" (click)="editar(c)" title="Editar">
                                     <i class="bi bi-pencil-square"></i>
                                 </button>

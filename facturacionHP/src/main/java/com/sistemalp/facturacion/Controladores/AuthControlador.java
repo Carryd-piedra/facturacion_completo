@@ -38,7 +38,8 @@ public class AuthControlador {
 
             User user = (User) authentication.getPrincipal();
             Usuario usuario = usuarioService.findByUsername(user.getUsername());
-            String token = jwtService.generateToken(usuario.getUsername());
+            String role = usuario.getTipoUsuario().getRol();
+            String token = jwtService.generateToken(usuario.getUsername(), role);
 
             return ResponseEntity.ok(new JwtResponse(token, usuario.getUsername()));
 
