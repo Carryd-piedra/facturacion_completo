@@ -1,7 +1,5 @@
 package com.sistemalp.facturacion.Controladores;
 
-
-
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
@@ -38,15 +36,13 @@ public class ProductoControlador {
     @PutMapping("/{id}")
     public ResponseEntity<Producto> actualizar(
             @PathVariable Long id,
-            @RequestBody Producto producto
-    ) {
+            @RequestBody Producto producto) {
         return ResponseEntity.ok(productoService.actualizarProducto(id, producto));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> eliminar(@PathVariable Long id) {
+    public ResponseEntity<?> eliminar(@PathVariable Long id) {
         productoService.eliminarProducto(id);
-        return ResponseEntity.ok("Producto eliminado correctamente");
+        return ResponseEntity.ok(java.util.Collections.singletonMap("mensaje", "Producto eliminado correctamente"));
     }
 }
-

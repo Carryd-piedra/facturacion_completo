@@ -24,19 +24,20 @@
 
               <div class="col-12">
                 <label class="form-label">Nombre del Producto *</label>
-                <input class="form-control" formControlName="productoNombre" placeholder="Ej. Monitor HP 24''">
+                <input class="form-control" formControlName="productoNombre" placeholder="Ej. Monitor HP 24''"
+                  maxlength="40">
               </div>
 
               <div class="col-6">
                 <label class="form-label">Serial *</label>
-                <input class="form-control" formControlName="productoSerial" placeholder="XYZ-123"
+                <input class="form-control" formControlName="productoSerial" placeholder="XYZ-123" maxlength="10"
                   (input)="validarAlfanumerico($event)">
               </div>
 
               <div class="col-6">
                 <label class="form-label">Categoría *</label>
-                <input class="form-control" formControlName="productoCategoria" placeholder="Electrónica"
-                  (input)="validarAlfanumerico($event)">
+                <input class="form-control" formControlName="productoCategoria" placeholder="Electrónica" maxlength="30"
+                  (input)="validarSoloLetras($event)">
               </div>
 
               <div class="col-6">

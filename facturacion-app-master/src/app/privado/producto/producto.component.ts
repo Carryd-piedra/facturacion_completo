@@ -197,4 +197,10 @@ export class ProductoComponent implements OnInit {
     input.value = input.value.replace(/[^a-zA-Z0-9\s-]/g, '');
     this.form.get(input.getAttribute('formControlName')!)?.setValue(input.value);
   }
+
+  validarSoloLetras(event: any) {
+    const input = event.target as HTMLInputElement;
+    input.value = input.value.replace(/[^a-zA-ZñÑáéíóúÁÉÍÓÚ\s]/g, '');
+    this.form.get(input.getAttribute('formControlName')!)?.setValue(input.value);
+  }
 }
